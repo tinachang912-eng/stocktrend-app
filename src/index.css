@@ -1,0 +1,107 @@
+:root {
+  /* 預設：溫暖米白亮色模式 (Warm Light Mode) */
+  --bg-main: #faf6f0;
+  --bg-card: #ffffff;
+  --bg-card-hover: #fcf9f5;
+  --bg-card-subtle: #f7f2ea;
+  --bg-input: #ffffff;
+  --bg-tag: #f5efe6;
+  --primary: #e05638;
+  --primary-hover: #c9462a;
+  --primary-gradient: linear-gradient(135deg, #e05638 0%, #ea580c 50%, #d97706 100%);
+  --warm-amber: #d97706;
+  --warm-terracotta: #c2410c;
+  --warm-peach: #fff7ed;
+  --warm-rose: #be123c;
+  --text-main: #2c2523;
+  --text-muted: #796f6a;
+  --border: #ede4d8;
+  --border-highlight: rgba(224, 86, 56, 0.35);
+  --navbar-bg: rgba(250, 246, 240, 0.92);
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+  --shadow-sm: 0 2px 8px rgba(138, 80, 40, 0.06);
+  --shadow-md: 0 8px 20px rgba(138, 80, 40, 0.08);
+  --shadow-lg: 0 16px 32px rgba(138, 80, 40, 0.1);
+  --radial-1: rgba(224, 86, 56, 0.07);
+  --radial-2: rgba(217, 119, 6, 0.08);
+  --radial-3: rgba(255, 237, 213, 0.4);
+}
+
+[data-theme="dark"] {
+  /* 溫暖暗夜深色模式 (Warm Dark Mode) */
+  --bg-main: #13110f;
+  --bg-card: #1c1916;
+  --bg-card-hover: #26221d;
+  --bg-card-subtle: #221d19;
+  --bg-input: #171412;
+  --bg-tag: #2a231e;
+  --primary: #ea580c;
+  --primary-hover: #f97316;
+  --primary-gradient: linear-gradient(135deg, #ea580c 0%, #f97316 50%, #d97706 100%);
+  --warm-amber: #f59e0b;
+  --warm-terracotta: #fb923c;
+  --warm-peach: #2d2016;
+  --warm-rose: #f43f5e;
+  --text-main: #f5efe8;
+  --text-muted: #a3988e;
+  --border: #332a24;
+  --border-highlight: rgba(234, 88, 12, 0.45);
+  --navbar-bg: rgba(19, 17, 15, 0.92);
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.65);
+  --radial-1: rgba(234, 88, 12, 0.12);
+  --radial-2: rgba(217, 119, 6, 0.1);
+  --radial-3: rgba(45, 32, 22, 0.6);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-image: 
+    radial-gradient(circle at 12% 18%, var(--radial-1) 0%, transparent 40%),
+    radial-gradient(circle at 88% 75%, var(--radial-2) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, var(--radial-3) 0%, transparent 60%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* 滾動條樣式 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}

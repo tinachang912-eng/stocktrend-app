@@ -1,0 +1,11 @@
+﻿id,email,name,phone,status,created_at,updated_at
+1,alice.wang@example.com,王小美,0912-345-678,active,2025-11-10 09:30:00,2026-09-05 06:36:20
+2,bob.chen@example.com,陳大明,0922-888-999,active,2025-11-15 14:20:00,2026-09-05 06:36:20
+3,charlie.lin@example.com,林志強,0933-111-222,active,2025-12-01 11:15:00,2026-09-05 06:36:20
+4,diana.chang@example.com,張淑芬,0955-666-777,active,2025-12-18 16:45:00,2026-09-05 06:36:20
+5,eric.huang@example.com,黃建榮,0966-333-444,active,2026-01-05 10:00:00,2026-09-05 06:36:20
+6,fiona.wu@example.com,吳品妤,0977-222-111,active,2026-01-14 13:50:00,2026-09-05 06:36:20
+7,george.hsu@example.com,許家豪,0988-999-000,active,2026-01-22 17:30:00,2026-09-05 06:36:20
+8,hannah.cheng@example.com,鄭雅婷,0910-555-888,active,2026-02-03 08:20:00,2026-09-05 06:36:20
+9,ian.tsai@example.com,蔡文彬,0920-444-333,inactive,2026-02-12 15:10:00,2026-09-05 06:36:20
+10,julia.chao@example.com,趙心語,0930-777-666,active,2026-02-25 19:40:00,2026-09-05 06:36:20

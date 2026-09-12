@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQLite 資料庫資料檢視報告 | app.db</title>
+    <style>
+        :root {
+            --bg-body: #faf6f0;
+            --bg-card: #ffffff;
+            --bg-header: #f7f2ea;
+            --primary: #e05638;
+            --primary-gradient: linear-gradient(135deg, #e05638 0%, #ea580c 50%, #d97706 100%);
+            --text-main: #2c2523;
+            --text-muted: #796f6a;
+            --border: #ede4d8;
+            --border-highlight: rgba(224, 86, 56, 0.35);
+            --shadow-sm: 0 2px 8px rgba(138, 80, 40, 0.06);
+            --shadow-md: 0 8px 20px rgba(138, 80, 40, 0.08);
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            padding: 2.5rem 1.5rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* 標題區 */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-title h1 {
+            font-size: 2rem;
+            font-weight: 850;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .page-title p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 0.3rem;
+        }
+
+        .file-badge {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            color: #c2410c;
+            padding: 0.35rem 0.9rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        /* KPI 指標卡 */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .kpi-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem 1.8rem;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .kpi-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: #ffedd5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .kpi-info .val {
+            font-size: 1.75rem;
+            font-weight: 850;
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        .kpi-info .lbl {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* 區塊卡片 */
+        .section-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2.8rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.4rem;
+            border-bottom: 2px solid #fed7aa;
+            padding-bottom: 0.8rem;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .table-badge {
+            background: #f5efe6;
+            color: #796f6a;
+            border: 1px solid var(--border);
+            padding: 0.25rem 0.65rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* 表格樣式 */
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92rem;
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: var(--bg-header);
+            color: var(--text-main);
+            font-weight: 700;
+            padding: 0.9rem 1rem;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        .data-table td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid #f0e9df;
+            color: var(--text-main);
+        }
+
+        .data-table tbody tr:hover {
+            background-color: #fdfaf6;
+        }
+
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .font-mono {
+            font-family: Consolas, Monaco, "Courier New", monospace;
+        }
+
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+
+        /* 徽章 Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 9999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .badge-active, .badge-completed {
+            background-color: #ecfdf5;
+            color: #047857;
+            border: 1px solid #a7f3d0;
+        }
+
+        .badge-pending {
+            background-color: #fffbeb;
+            color: #b45309;
+            border: 1px solid #fde68a;
+        }
+
+        .badge-refunded, .badge-suspended, .badge-inactive {
+            background-color: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .null-val {
+            color: #c4b5a5;
+            font-style: italic;
+        }
+
+        /* 頁尾 */
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 頂部資訊條 -->
+    <header class="page-header">
+        <div class="page-title">
+            <h1>📊 SQLite 資料庫內容檢視報告</h1>
+            <p>透過 Python 自 <code>app.db</code> 即時提取並結構化輸出之三張核心資料表全覽</p>
+        </div>
+        <div class="file-badge">
+            📁 資料庫來源：app.db
+        </div>
+    </header>
+
+    <!-- KPI 數據卡片 -->
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-icon">👥</div>
+            <div class="kpi-info">
+                <div class="val">10</div>
+                <div class="lbl">註冊會員總數 (users)</div>
+            </div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-icon">🛍️</div>
+            <div class="kpi-info">
+                <div class="val">10</div>
+                <div class="lbl">上架商品品項 (products)</div>
+            </div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-icon">📦</div>
+            <div class="kpi-info">
+                <div class="val">22</div>
+                <div class="lbl">累積購買紀錄 (user_products)</div>
+            </div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-icon">💰</div>
+            <div class="kpi-info">
+                <div class="val">NT$ 56,350</div>
+                <div class="lbl">已完成總成交額 (Completed)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 表 1：會員資料表 (users) -->
+    <section class="section-card">
+        <div class="section-header">
+            <h2>👤 1. 會員資料表 <code>users</code></h2>
+            <span class="table-badge">共 10 筆資料</span>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="data-table" id="table-users">
+                <thead><tr><th>id</th><th>email</th><th>name</th><th>phone</th><th>status</th><th>created_at</th><th>updated_at</th></tr></thead>
+                <tbody><tr><td class="text-center font-mono">1</td><td>alice.wang@example.com</td><td>王小美</td><td>0912-345-678</td><td><span class="badge badge-active">active</span></td><td>2025-11-10 09:30:00</td><td>2026-09-05 06:36:20</td></tr><tr><td class="text-center font-mono">2</td><td>bob.chen@example.com</td><td>陳大明</td><td>0922-888-999</td><td><span class="badge badge-active">active</span></td><td>2025-11-15 14:20:00</td><td>2026-09-05 06:36:20</td></tr><tr><td class="text-center font-mono">3</td><td>charlie.lin@example.com</td><td>林志強</td><td>0933-111-222</td><td><span class="badge badge-active">active</span></td><td>2025-12-01 11:15:00</td><td>2026-09-05 06:36:20</td></tr><tr><td class="text-center font-mono">4</td><td>diana.chang@example.com</td><td>張淑芬</td><td>0955-666-777</td><td><span class="badge badge-active">active</span></td><td>2025-12-18 16:45:00</td><td>2026-09-05 06:36:20</td></tr><tr><td class="text-center font-mono">5</td><td>eric.huang@example.com</td><td>黃建榮</td><td>0966-333-444</td><td><span class="badge badge-active">active</span></td><td>2026-01-05 10:00:00</td><td>2026-09-05 06:36:20</td></tr><tr><td class="text-center font-mono">6</td><td>fiona.wu@example.com</td><td>吳品妤</td><td>0977-222-111</td><td><span class="badge badge-active">active</span></td><td>2026-01-14 13:50:00</td><td>2026-09-05 06:36:20</td></tr><tr><td class="text-center font-mono">7</td><td>george.hsu@example.com</td><td>許家豪</td><td>0988-999-000</td><td><span class="badge badge-active">active</span></td><td>2026-01-22 17:30:00</td><td>2026-09-05 06:36:20</td></tr><tr><td class="text-center font-mono">8</td><td>hannah.cheng@example.com</td><td>鄭雅婷</td><td>0910-555-888</td><td><span class="badge badge-active">active</span></td><td>2026-02-03 08:20:00</td><td>2026-09-05 06:36:20</td></tr><tr><td class="text-center font-mono">9</td><td>ian.tsai@example.com</td><td>蔡文彬</td><td>0920-444-333</td><td><span class="badge badge-inactive">inactive</span></td><td>2026-02-12 15:10:00</td><td>2026-09-05 06:36:20</td></tr><tr><td class="text-center font-mono">10</td><td>julia.chao@example.com</td><td>趙心語</td><td>0930-777-666</td><td><span class="badge badge-active">active</span></td><td>2026-02-25 19:40:00</td><td>2026-09-05 06:36:20</td></tr></tbody>
+            </table>
+        </div>
+        
+    </section>
+
+    <!-- 表 2：商品資料表 (products) -->
+    <section class="section-card">
+        <div class="section-header">
+            <h2>🏷️ 2. 商品資料表 <code>products</code></h2>
+            <span class="table-badge">共 10 筆資料</span>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="data-table" id="table-products">
+                <thead><tr><th>id</th><th>product_name</th><th>price</th><th>description</th><th>stock</th><th>category</th><th>is_active</th><th>created_at</th></tr></thead>
+                <tbody><tr><td class="text-center font-mono">1</td><td>AI 智慧主動降噪耳機 Pro</td><td class="text-right font-mono">NT$ 3,800.00</td><td>支援 45dB 深度降噪與高解析音質無線傳輸</td><td class="text-center font-mono">45</td><td>3C 數位</td><td class="text-center"><span class='badge badge-active'>上架中</span></td><td>2026-09-05 06:36:20</td></tr><tr><td class="text-center font-mono">2</td><td>客製化熱插拔三模機械鍵盤</td><td class="text-right font-mono">NT$ 2,600.00</td><td>PBT 鍵帽，支援藍牙 5.3、2.4G 與 Type-C 連接</td><td class="text-center font-mono">28</td><td>電腦周邊</td><td class="text-center"><span class='badge badge-active'>上架中</span></td><td>2026-09-05 06:36:20</td></tr><tr><td class="text-center font-mono">3</td><td>4K 27 吋 Type-C 廣色域護眼螢幕</td><td class="text-right font-mono">NT$ 8,990.00</td><td>IPS 面板，具備 90W 反向供電與抗藍光技術</td><td class="text-center font-mono">15</td><td>3C 數位</td><td class="text-center"><span class='badge badge-active'>上架中</span></td><td>2026-09-05 06:36:20</td></tr><tr><td class="text-center font-mono">4</td><td>超輕量抗撕裂雙人鋁合金登山帳</td><td class="text-right font-mono">NT$ 4,500.00</td><td>重量僅 1.6kg，防暴雨級外帳材質</td><td class="text-center font-mono">12</td><td>戶外休閒</td><td class="text-center"><span class='badge badge-active'>上架中</span></td><td>2026-09-05 06:36:20</td></tr><tr><td class="text-center font-mono">5</td><td>耶加雪菲產區精品手沖咖啡豆 250g</td><td class="text-right font-mono">NT$ 480.00</td><td>淺中烘焙，帶有迷人茉莉花香與柑橘果酸</td><td class="text-center font-mono">85</td><td>美食飲品</td><td class="text-center"><span class='badge badge-active'>上架中</span></td><td>2026-09-05 06:36:20</td></tr><tr><td class="text-center font-mono">6</td><td>雙層真空 316 不鏽鋼保溫隨行杯 550ml</td><td class="text-right font-mono">NT$ 750.00</td><td>長效保溫保冷 12 小時，防漏矽膠密封圈</td><td class="text-center font-mono">60</td><td>生活日用</td><td class="text-center"><span class='badge badge-active'>上架中</span></td><td>2026-09-05 06:36:20</td></tr><tr><td class="text-center font-mono">7</td><td>現代全端架構與大模型實戰應用 (精裝書)</td><td class="text-right font-mono">NT$ 680.00</td><td>深入講解 React、FastAPI 與企業級 RAG 落地</td><td class="text-center font-mono">40</td><td>專業書籍</td><td class="text-center"><span class='badge badge-active'>上架中</span></td><td>2026-09-05 06:36:20</td></tr><tr><td class="text-center font-mono">8</td><td>SynapseAI 專業開發者 API 月費訂閱</td><td class="text-right font-mono">NT$ 1,200.00</td><td>提供每月 500 萬 Tokens 推理額度與技術支援</td><td class="text-center font-mono">999</td><td>軟體服務</td><td class="text-center"><span class='badge badge-active'>上架中</span></td><td>2026-09-05 06:36:20</td></tr><tr><td class="text-center font-mono">9</td><td>多功能 10 合 1 鋁合金 USB-C 擴充塢</td><td class="text-right font-mono">NT$ 1,450.00</td><td>支援 4K 60Hz 輸出、PD 100W 快充與千兆網孔</td><td class="text-center font-mono">35</td><td>電腦周邊</td><td class="text-center"><span class='badge badge-active'>上架中</span></td><td>2026-09-05 06:36:20</td></tr><tr><td class="text-center font-mono">10</td><td>高透氣人體工學工藝辦公椅</td><td class="text-right font-mono">NT$ 6,200.00</td><td>全網透氣材質，具備多向腰靠調節與 3D 扶手</td><td class="text-center font-mono">8</td><td>辦公家具</td><td class="text-center"><span class='badge badge-active'>上架中</span></td><td>2026-09-05 06:36:20</td></tr></tbody>
+            </table>
+        </div>
+        
+    </section>
+
+    <!-- 表 3：會員購買關聯表 (user_products 原始資料) -->
+    <section class="section-card">
+        <div class="section-header">
+            <h2>🛒 3. 會員購買關聯表 <code>user_products</code> (原始外鍵關聯)</h2>
+            <span class="table-badge">共 22 筆記錄</span>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="data-table" id="table-user-products">
+                <thead><tr><th>id</th><th>user_id</th><th>product_id</th><th>quantity</th><th>purchase_price</th><th>status</th><th>purchased_at</th></tr></thead>
+                <tbody><tr><td class="text-center font-mono">1</td><td class="text-center font-mono">1</td><td class="text-center font-mono">1</td><td class="text-center font-mono">1</td><td class="text-right font-mono">NT$ 3,800.00</td><td><span class="badge badge-completed">completed</span></td><td>2025-12-05 14:12:00</td></tr><tr><td class="text-center font-mono">2</td><td class="text-center font-mono">1</td><td class="text-center font-mono">5</td><td class="text-center font-mono">2</td><td class="text-right font-mono">NT$ 480.00</td><td><span class="badge badge-completed">completed</span></td><td>2025-12-24 10:30:00</td></tr><tr><td class="text-center font-mono">3</td><td class="text-center font-mono">1</td><td class="text-center font-mono">7</td><td class="text-center font-mono">1</td><td class="text-right font-mono">NT$ 680.00</td><td><span class="badge badge-completed">completed</span></td><td>2026-01-15 09:20:00</td></tr><tr><td class="text-center font-mono">4</td><td class="text-center font-mono">2</td><td class="text-center font-mono">2</td><td class="text-center font-mono">1</td><td class="text-right font-mono">NT$ 2,600.00</td><td><span class="badge badge-completed">completed</span></td><td>2025-12-10 11:45:00</td></tr><tr><td class="text-center font-mono">5</td><td class="text-center font-mono">2</td><td class="text-center font-mono">9</td><td class="text-center font-mono">1</td><td class="text-right font-mono">NT$ 1,450.00</td><td><span class="badge badge-completed">completed</span></td><td>2026-01-08 16:10:00</td></tr><tr><td class="text-center font-mono">6</td><td class="text-center font-mono">3</td><td class="text-center font-mono">4</td><td class="text-center font-mono">1</td><td class="text-right font-mono">NT$ 4,500.00</td><td><span class="badge badge-completed">completed</span></td><td>2026-01-02 20:15:00</td></tr><tr><td class="text-center font-mono">7</td><td class="text-center font-mono">3</td><td class="text-center font-mono">6</td><td class="text-center font-mono">2</td><td class="text-right font-mono">NT$ 750.00</td><td><span class="badge badge-completed">completed</span></td><td>2026-01-20 18:00:00</td></tr><tr><td class="text-center font-mono">8</td><td class="text-center font-mono">4</td><td class="text-center font-mono">3</td><td class="text-center font-mono">1</td><td class="text-right font-mono">NT$ 8,990.00</td><td><span class="badge badge-completed">completed</span></td><td>2026-01-12 15:30:00</td></tr><tr><td class="text-center font-mono">9</td><td class="text-center font-mono">4</td><td class="text-center font-mono">10</td><td class="text-center font-mono">1</td><td class="text-right font-mono">NT$ 6,200.00</td><td><span class="badge badge-completed">completed</span></td><td>2026-02-01 11:20:00</td></tr><tr><td class="text-center font-mono">10</td><td class="text-center font-mono">4</td><td class="text-center font-mono">5</td><td class="text-center font-mono">1</td><td class="text-right font-mono">NT$ 480.00</td><td><span class="badge badge-completed">completed</span></td><td>2026-02-14 14:40:00</td></tr><tr><td class="text-center font-mono">11</td><td class="text-center font-mono">5</td><td class="text-center font-mono">8</td><td class="text-center font-mono">1</td><td class="text-right font-mono">NT$ 1,200.00</td><td><span class="badge badge-completed">completed</span></td><td>2026-01-18 10:05:00</td></tr><tr><td class="text-center font-mono">12</td><td class="text-center font-mono">5</td><td class="text-center font-mono">2</td><td class="text-center font-mono">1</td><td class="text-right font-mono">NT$ 2,600.00</td><td><span class="badge badge-completed">completed</span></td><td>2026-01-25 17:50:00</td></tr><tr><td class="text-center font-mono">13</td><td class="text-center font-mono">6</td><td class="text-center font-mono">1</td><td class="text-center font-mono">1</td><td class="text-right font-mono">NT$ 3,800.00</td><td><span class="badge badge-completed">completed</span></td><td>2026-01-28 12:15:00</td></tr><tr><td class="text-center font-mono">14</td><td class="text-center font-mono">6</td><td class="text-center font-mono">5</td><td class="text-center font-mono">3</td><td class="text-right font-mono">NT$ 480.00</td><td><span class="badge badge-completed">completed</span></td><td>2026-02-10 16:30:00</td></tr><tr><td class="text-center font-mono">15</td><td class="text-center font-mono">6</td><td class="text-center font-mono">7</td><td class="text-center font-mono">1</td><td class="text-right font-mono">NT$ 680.00</td><td><span class="badge badge-completed">completed</span></td><td>2026-02-18 09:10:00</td></tr><tr><td class="text-center font-mono">16</td><td class="text-center font-mono">7</td><td class="text-center font-mono">9</td><td class="text-center font-mono">1</td><td class="text-right font-mono">NT$ 1,450.00</td><td><span class="badge badge-completed">completed</span></td><td>2026-02-05 13:25:00</td></tr><tr><td class="text-center font-mono">17</td><td class="text-center font-mono">7</td><td class="text-center font-mono">6</td><td class="text-center font-mono">1</td><td class="text-right font-mono">NT$ 750.00</td><td><span class="badge badge-refunded">refunded</span></td><td>2026-02-08 19:10:00</td></tr><tr><td class="text-center font-mono">18</td><td class="text-center font-mono">8</td><td class="text-center font-mono">3</td><td class="text-center font-mono">1</td><td class="text-right font-mono">NT$ 8,990.00</td><td><span class="badge badge-completed">completed</span></td><td>2026-02-15 14:00:00</td></tr><tr><td class="text-center font-mono">19</td><td class="text-center font-mono">8</td><td class="text-center font-mono">8</td><td class="text-center font-mono">1</td><td class="text-right font-mono">NT$ 1,200.00</td><td><span class="badge badge-pending">pending</span></td><td>2026-03-01 10:20:00</td></tr><tr><td class="text-center font-mono">20</td><td class="text-center font-mono">10</td><td class="text-center font-mono">1</td><td class="text-center font-mono">1</td><td class="text-right font-mono">NT$ 3,800.00</td><td><span class="badge badge-completed">completed</span></td><td>2026-02-28 15:45:00</td></tr><tr><td class="text-center font-mono">21</td><td class="text-center font-mono">10</td><td class="text-center font-mono">5</td><td class="text-center font-mono">1</td><td class="text-right font-mono">NT$ 480.00</td><td><span class="badge badge-completed">completed</span></td><td>2026-03-02 11:30:00</td></tr><tr><td class="text-center font-mono">22</td><td class="text-center font-mono">10</td><td class="text-center font-mono">6</td><td class="text-center font-mono">1</td><td class="text-right font-mono">NT$ 750.00</td><td><span class="badge badge-completed">completed</span></td><td>2026-03-04 18:20:00</td></tr></tbody>
+            </table>
+        </div>
+        
+    </section>
+
+    <!-- 額外加值檢視：JOIN 完整明細表 (具備會員姓名與商品名稱) -->
+    <section class="section-card">
+        <div class="section-header">
+            <h2>✨ 購買明細 JOIN 視覺化整合檢視 (Enriched View)</h2>
+            <span class="table-badge">包含會員姓名、商品名稱與小計金額</span>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="data-table" id="table-enriched-orders">
+                <thead><tr><th>流水號</th><th>買家會員</th><th>會員信箱</th><th>購買商品</th><th>數量</th><th>成交單價</th><th>小計金額</th><th>狀態</th><th>下單時間</th></tr></thead>
+                <tbody><tr><td>1</td><td>王小美</td><td>alice.wang@example.com</td><td>AI 智慧主動降噪耳機 Pro</td><td>1</td><td>3800.0</td><td>3800.0</td><td>completed</td><td>2025-12-05 14:12:00</td></tr><tr><td>2</td><td>王小美</td><td>alice.wang@example.com</td><td>耶加雪菲產區精品手沖咖啡豆 250g</td><td>2</td><td>480.0</td><td>960.0</td><td>completed</td><td>2025-12-24 10:30:00</td></tr><tr><td>3</td><td>王小美</td><td>alice.wang@example.com</td><td>現代全端架構與大模型實戰應用 (精裝書)</td><td>1</td><td>680.0</td><td>680.0</td><td>completed</td><td>2026-01-15 09:20:00</td></tr><tr><td>4</td><td>陳大明</td><td>bob.chen@example.com</td><td>客製化熱插拔三模機械鍵盤</td><td>1</td><td>2600.0</td><td>2600.0</td><td>completed</td><td>2025-12-10 11:45:00</td></tr><tr><td>5</td><td>陳大明</td><td>bob.chen@example.com</td><td>多功能 10 合 1 鋁合金 USB-C 擴充塢</td><td>1</td><td>1450.0</td><td>1450.0</td><td>completed</td><td>2026-01-08 16:10:00</td></tr><tr><td>6</td><td>林志強</td><td>charlie.lin@example.com</td><td>超輕量抗撕裂雙人鋁合金登山帳</td><td>1</td><td>4500.0</td><td>4500.0</td><td>completed</td><td>2026-01-02 20:15:00</td></tr><tr><td>7</td><td>林志強</td><td>charlie.lin@example.com</td><td>雙層真空 316 不鏽鋼保溫隨行杯 550ml</td><td>2</td><td>750.0</td><td>1500.0</td><td>completed</td><td>2026-01-20 18:00:00</td></tr><tr><td>8</td><td>張淑芬</td><td>diana.chang@example.com</td><td>4K 27 吋 Type-C 廣色域護眼螢幕</td><td>1</td><td>8990.0</td><td>8990.0</td><td>completed</td><td>2026-01-12 15:30:00</td></tr><tr><td>9</td><td>張淑芬</td><td>diana.chang@example.com</td><td>高透氣人體工學工藝辦公椅</td><td>1</td><td>6200.0</td><td>6200.0</td><td>completed</td><td>2026-02-01 11:20:00</td></tr><tr><td>10</td><td>張淑芬</td><td>diana.chang@example.com</td><td>耶加雪菲產區精品手沖咖啡豆 250g</td><td>1</td><td>480.0</td><td>480.0</td><td>completed</td><td>2026-02-14 14:40:00</td></tr><tr><td>11</td><td>黃建榮</td><td>eric.huang@example.com</td><td>SynapseAI 專業開發者 API 月費訂閱</td><td>1</td><td>1200.0</td><td>1200.0</td><td>completed</td><td>2026-01-18 10:05:00</td></tr><tr><td>12</td><td>黃建榮</td><td>eric.huang@example.com</td><td>客製化熱插拔三模機械鍵盤</td><td>1</td><td>2600.0</td><td>2600.0</td><td>completed</td><td>2026-01-25 17:50:00</td></tr><tr><td>13</td><td>吳品妤</td><td>fiona.wu@example.com</td><td>AI 智慧主動降噪耳機 Pro</td><td>1</td><td>3800.0</td><td>3800.0</td><td>completed</td><td>2026-01-28 12:15:00</td></tr><tr><td>14</td><td>吳品妤</td><td>fiona.wu@example.com</td><td>耶加雪菲產區精品手沖咖啡豆 250g</td><td>3</td><td>480.0</td><td>1440.0</td><td>completed</td><td>2026-02-10 16:30:00</td></tr><tr><td>15</td><td>吳品妤</td><td>fiona.wu@example.com</td><td>現代全端架構與大模型實戰應用 (精裝書)</td><td>1</td><td>680.0</td><td>680.0</td><td>completed</td><td>2026-02-18 09:10:00</td></tr><tr><td>16</td><td>許家豪</td><td>george.hsu@example.com</td><td>多功能 10 合 1 鋁合金 USB-C 擴充塢</td><td>1</td><td>1450.0</td><td>1450.0</td><td>completed</td><td>2026-02-05 13:25:00</td></tr><tr><td>17</td><td>許家豪</td><td>george.hsu@example.com</td><td>雙層真空 316 不鏽鋼保溫隨行杯 550ml</td><td>1</td><td>750.0</td><td>750.0</td><td>refunded</td><td>2026-02-08 19:10:00</td></tr><tr><td>18</td><td>鄭雅婷</td><td>hannah.cheng@example.com</td><td>4K 27 吋 Type-C 廣色域護眼螢幕</td><td>1</td><td>8990.0</td><td>8990.0</td><td>completed</td><td>2026-02-15 14:00:00</td></tr><tr><td>19</td><td>鄭雅婷</td><td>hannah.cheng@example.com</td><td>SynapseAI 專業開發者 API 月費訂閱</td><td>1</td><td>1200.0</td><td>1200.0</td><td>pending</td><td>2026-03-01 10:20:00</td></tr><tr><td>20</td><td>趙心語</td><td>julia.chao@example.com</td><td>AI 智慧主動降噪耳機 Pro</td><td>1</td><td>3800.0</td><td>3800.0</td><td>completed</td><td>2026-02-28 15:45:00</td></tr><tr><td>21</td><td>趙心語</td><td>julia.chao@example.com</td><td>耶加雪菲產區精品手沖咖啡豆 250g</td><td>1</td><td>480.0</td><td>480.0</td><td>completed</td><td>2026-03-02 11:30:00</td></tr><tr><td>22</td><td>趙心語</td><td>julia.chao@example.com</td><td>雙層真空 316 不鏽鋼保溫隨行杯 550ml</td><td>1</td><td>750.0</td><td>750.0</td><td>completed</td><td>2026-03-04 18:20:00</td></tr></tbody>
+            </table>
+        </div>
+        
+    </section>
+
+    <footer>
+        資料庫檢視報告由 Python 自動產生 • 來源資料庫：app.db • 生成時間：2026-09-05
+    </footer>
+</div>
+
+</body>
+</html>
