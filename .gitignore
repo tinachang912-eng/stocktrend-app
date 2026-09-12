@@ -1,0 +1,22 @@
+# 相依套件
+node_modules/
+
+# 輸出與建置檔案
+dist/
+build/
+
+# 資料庫與暫存快取
+*.db
+*.sqlite3
+__pycache__/
+*.pyc
+
+# 環境變數與機密資訊
+.env
+.env.local
+
+# 系統與編輯器產生檔
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
