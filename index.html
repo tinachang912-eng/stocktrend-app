@@ -1,13 +1,210 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👨‍💻</text></svg>" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>個人作品集與簡介 | Alex Chen</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>簡約暖色看板 | Minimalist Kanban</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="header-content">
+        <div class="header-title-group">
+          <span class="sub-badge">KANBAN WORKFLOW</span>
+          <h1 class="app-title">待辦看板</h1>
+        </div>
+        <div class="header-meta">
+          <div class="date-badge" id="currentDate">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span id="dateText">載入日期中...</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Task Creation & Filter Panel -->
+    <section class="card input-card">
+      <form id="todoForm" class="todo-form">
+        <div class="input-primary-row">
+          <input 
+            type="text" 
+            id="taskInput" 
+            class="task-input" 
+            placeholder="今天想做些什麼？新增一項任務..." 
+            autocomplete="off" 
+            required
+          />
+        </div>
+
+        <div class="input-secondary-row">
+          <!-- Assignee Input -->
+          <div class="input-group assignee-group">
+            <label for="assigneeInput" class="input-icon-label" title="負責人">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </label>
+            <input 
+              type="text" 
+              id="assigneeInput" 
+              class="assignee-input" 
+              placeholder="負責人 (例如：Tina)" 
+              autocomplete="off"
+            />
+          </div>
+
+          <!-- Category Selector -->
+          <div class="category-selector" title="任務分類">
+            <label class="category-pill">
+              <input type="radio" name="taskCategory" value="work" checked>
+              <span class="pill-badge pill-work">工作</span>
+            </label>
+            <label class="category-pill">
+              <input type="radio" name="taskCategory" value="life">
+              <span class="pill-badge pill-life">生活</span>
+            </label>
+          </div>
+
+          <!-- Priority Selector (High, Medium, Low) -->
+          <div class="priority-selector" title="任務優先程度 (High / Medium / Low)">
+            <label class="priority-pill">
+              <input type="radio" name="taskPriority" value="high">
+              <span class="pill-badge pill-priority pill-high">High</span>
+            </label>
+            <label class="priority-pill">
+              <input type="radio" name="taskPriority" value="medium" checked>
+              <span class="pill-badge pill-priority pill-medium">Medium</span>
+            </label>
+            <label class="priority-pill">
+              <input type="radio" name="taskPriority" value="low">
+              <span class="pill-badge pill-priority pill-low">Low</span>
+            </label>
+          </div>
+
+          <!-- Add Button -->
+          <button type="submit" class="btn btn-add" id="addBtn" aria-label="新增任務至 To-do">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>新增至 To-do</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Category Filter Tabs -->
+      <div class="filter-bar">
+        <div class="filter-label">類別篩選：</div>
+        <div class="filter-nav" aria-label="任務類別篩選">
+          <button type="button" class="filter-btn active" data-filter="all">全部</button>
+          <button type="button" class="filter-btn" data-filter="work">工作</button>
+          <button type="button" class="filter-btn" data-filter="life">生活</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3-Column Kanban Board -->
+    <main class="kanban-board" aria-label="任務看板">
+      
+      <!-- Column 1: To-do -->
+      <section class="kanban-column" data-status="todo" id="col-todo">
+        <div class="column-header">
+          <div class="column-title-group">
+            <span class="status-dot dot-todo"></span>
+            <h2 class="column-title">To-do</h2>
+            <span class="column-badge" id="count-todo">0</span>
+          </div>
+          <span class="column-desc">待辦事項</span>
+        </div>
+        
+        <div class="kanban-dropzone" data-status="todo" id="dropzone-todo">
+          <!-- Task cards dynamically rendered here -->
+        </div>
+
+        <div class="column-empty" id="empty-todo" style="display: none;">
+          <p class="empty-text">尚無待辦事項</p>
+          <span class="empty-hint">可在上方輸入新增，或將卡片拖曳至此</span>
+        </div>
+      </section>
+
+      <!-- Column 2: Process -->
+      <section class="kanban-column" data-status="process" id="col-process">
+        <div class="column-header">
+          <div class="column-title-group">
+            <span class="status-dot dot-process"></span>
+            <h2 class="column-title">Process</h2>
+            <span class="column-badge" id="count-process">0</span>
+          </div>
+          <span class="column-desc">進行中</span>
+        </div>
+
+        <div class="kanban-dropzone" data-status="process" id="dropzone-process">
+          <!-- Task cards dynamically rendered here -->
+        </div>
+
+        <div class="column-empty" id="empty-process" style="display: none;">
+          <p class="empty-text">無進行中事項</p>
+          <span class="empty-hint">拖曳卡片至此開始進行</span>
+        </div>
+      </section>
+
+      <!-- Column 3: Done -->
+      <section class="kanban-column" data-status="done" id="col-done">
+        <div class="column-header">
+          <div class="column-title-group">
+            <span class="status-dot dot-done"></span>
+            <h2 class="column-title">Done</h2>
+            <span class="column-badge" id="count-done">0</span>
+          </div>
+          <div class="column-actions">
+            <button type="button" class="btn-clear-done" id="clearDoneBtn" title="清空已完成項目">
+              清空
+            </button>
+          </div>
+        </div>
+
+        <div class="kanban-dropzone" data-status="done" id="dropzone-done">
+          <!-- Task cards dynamically rendered here -->
+        </div>
+
+        <div class="column-empty" id="empty-done" style="display: none;">
+          <p class="empty-text">尚無完成事項</p>
+          <span class="empty-hint">將已完成的卡片拖曳至此</span>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer Summary Bar -->
+    <footer class="board-footer">
+      <div class="board-stats">
+        <span id="totalSummaryText">共 0 項任務</span>
+      </div>
+      <div class="drag-tip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="5 9 2 12 5 15"></polyline>
+          <polyline points="9 5 12 2 15 5"></polyline>
+          <polyline points="15 19 12 22 9 19"></polyline>
+          <polyline points="19 9 22 12 19 15"></polyline>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <line x1="12" y1="2" x2="12" y2="22"></line>
+        </svg>
+        <span>支援隨意橫向拖曳卡片跨欄流轉</span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
 </html>

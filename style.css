@@ -1,8 +1,829 @@
-/* 專案基本樣式 */
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+/* ==========================================================================
+   簡約暖色調看板 (Minimalist Warm Tone Kanban Board)
+   三欄位：To-do、Process、Done 與拖曳互動
+   ========================================================================== */
+
+:root {
+  /* 暖色調色彩系統 (Warm Palette) */
+  --bg-page: #FAF6F0;
+  --bg-card: #FFFFFF;
+  --bg-column: #F8F4ED;
+  --bg-column-drop: #F3EBDD;
+  --bg-input: #FDFBF8;
+
+  /* 文字與中性色 */
+  --text-main: #3C332A;
+  --text-muted: #827568;
+  --text-placeholder: #B5A99C;
+  --text-light: #C8BEB4;
+
+  /* 暖色邊框與分隔線 */
+  --border-subtle: #EFE8DE;
+  --border-strong: #E2D7C8;
+  --border-focus: #D97736;
+
+  /* 欄位狀態點與識別色 (溫潤暖調) */
+  --color-todo: #D97736;        /* 待辦：溫潤琥珀 */
+  --color-process: #C35334;     /* 進行中：暖陶土橙 */
+  --color-done: #48774E;        /* 已完成：草本鼠尾綠 */
+
+  /* 品牌與按鈕色彩 */
+  --primary: #D96B27;
+  --primary-hover: #C35B1A;
+  --primary-subtle: #FAEEE5;
+  --primary-light-text: #96420F;
+
+  /* 標籤色彩 */
+  --work-bg: #F8ECE2;
+  --work-text: #944D1D;
+  --work-border: #EED7C5;
+
+  --life-bg: #EDF3EC;
+  --life-text: #3D6942;
+  --life-border: #D7E5D5;
+
+  --assignee-bg: #F5EFE6;
+  --assignee-text: #735738;
+  --assignee-border: #E8DDCE;
+
+  --danger: #C85444;
+  --danger-subtle: #FDF2F0;
+
+  /* 優先程度色彩 (High, Medium, Low - 暖調) */
+  --priority-high-bg: #FDF0EE;
+  --priority-high-text: #C44330;
+  --priority-high-border: #F7D6D1;
+
+  --priority-medium-bg: #FDF6EB;
+  --priority-medium-text: #B47318;
+  --priority-medium-border: #F5E3C5;
+
+  --priority-low-bg: #F3EFE9;
+  --priority-low-text: #6E665B;
+  --priority-low-border: #E5DFD5;
+
+  /* 陰影與圓角 */
+  --shadow-sm: 0 2px 6px rgba(120, 86, 50, 0.04);
+  --shadow-card: 0 4px 16px rgba(120, 86, 50, 0.06), 0 1px 2px rgba(120, 86, 50, 0.04);
+  --shadow-hover: 0 8px 24px rgba(120, 86, 50, 0.1);
+  --shadow-drag: 0 16px 36px rgba(120, 86, 50, 0.2);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 9999px;
+
+  --transition-fast: 0.16s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 全域重設 */
+*, *::before, *::after {
+  box-sizing: border-box;
   margin: 0;
-  padding: 20px;
-  background-color: #f8fafc;
-  color: #334155;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 32px 20px 60px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 寬螢幕主容器 */
+.app-wrapper {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* 頁首 Header */
+.app-header {
+  margin-bottom: 20px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 4px;
+}
+
+.header-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.sub-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--primary);
+  text-transform: uppercase;
+}
+
+.app-title {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+}
+
+.date-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background-color: var(--bg-card);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 輸入與篩選卡片 */
+.card {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
+  padding: 20px 24px;
+}
+
+.input-card {
+  margin-bottom: 24px;
+}
+
+.todo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.input-primary-row {
+  width: 100%;
+}
+
+.task-input {
+  width: 100%;
+  font-size: 0.98rem;
+  font-family: inherit;
+  color: var(--text-main);
+  background-color: var(--bg-input);
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 11px 16px;
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+}
+
+.task-input::placeholder {
+  color: var(--text-placeholder);
+}
+
+.task-input:focus {
+  border-color: var(--border-focus);
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(217, 107, 39, 0.12);
+}
+
+.input-secondary-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* 負責人輸入框 */
+.assignee-group {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-input);
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 0 10px;
+  flex: 1;
+  min-width: 170px;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+}
+
+.assignee-group:focus-within {
+  border-color: var(--border-focus);
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(217, 107, 39, 0.12);
+}
+
+.input-icon-label {
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+}
+
+.assignee-input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: inherit;
+  font-size: 0.88rem;
+  color: var(--text-main);
+  padding: 8px 6px;
+  width: 100%;
+}
+
+.assignee-input::placeholder {
+  color: var(--text-placeholder);
+  font-size: 0.84rem;
+}
+
+/* 分類選擇 (Category Pills) */
+.category-selector {
+  display: flex;
+  background-color: var(--bg-page);
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  gap: 3px;
+}
+
+.category-pill {
+  cursor: pointer;
+  margin: 0;
+  display: inline-flex;
+}
+
+.category-pill input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.pill-badge {
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.category-pill input[type="radio"]:checked + .pill-work {
+  background-color: var(--work-bg);
+  color: var(--work-text);
+  box-shadow: 0 1px 4px rgba(148, 77, 29, 0.12);
+}
+
+.category-pill input[type="radio"]:checked + .pill-life {
+  background-color: var(--life-bg);
+  color: var(--life-text);
+  box-shadow: 0 1px 4px rgba(61, 105, 66, 0.12);
+}
+
+/* 優先程度選擇 (Priority Pills) */
+.priority-selector {
+  display: flex;
+  background-color: var(--bg-page);
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  gap: 3px;
+}
+
+.priority-pill {
+  cursor: pointer;
+  margin: 0;
+  display: inline-flex;
+}
+
+.priority-pill input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.priority-pill input[type="radio"]:checked + .pill-high {
+  background-color: var(--priority-high-bg);
+  color: var(--priority-high-text);
+  box-shadow: 0 1px 4px rgba(196, 67, 48, 0.15);
+}
+
+.priority-pill input[type="radio"]:checked + .pill-medium {
+  background-color: var(--priority-medium-bg);
+  color: var(--priority-medium-text);
+  box-shadow: 0 1px 4px rgba(180, 115, 24, 0.15);
+}
+
+.priority-pill input[type="radio"]:checked + .pill-low {
+  background-color: var(--priority-low-bg);
+  color: var(--priority-low-text);
+  box-shadow: 0 1px 4px rgba(110, 102, 91, 0.15);
+}
+
+/* 新增按鈕 */
+.btn {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+}
+
+.btn-add {
+  background-color: var(--primary);
+  color: #FFFFFF;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(217, 107, 39, 0.25);
+  margin-left: auto;
+}
+
+.btn-add:hover {
+  background-color: var(--primary-hover);
+  box-shadow: 0 4px 12px rgba(217, 107, 39, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-add:active {
+  transform: translateY(0);
+}
+
+/* 分類快速篩選列 (Filter Bar) */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 0.85rem;
+}
+
+.filter-label {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.filter-nav {
+  display: flex;
+  gap: 6px;
+}
+
+.filter-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  outline: none;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filter-btn:hover {
+  background-color: var(--bg-page);
+  color: var(--text-main);
+}
+
+.filter-btn.active {
+  background-color: var(--primary-subtle);
+  color: var(--primary-light-text);
+  font-weight: 600;
+  border-color: rgba(217, 107, 39, 0.2);
+}
+
+/* ==========================================================================
+   看板三欄網格佈局 (Kanban Board 3-Columns)
+   ========================================================================== */
+.kanban-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+/* 欄位容器 */
+.kanban-column {
+  background-color: var(--bg-column);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  min-height: 480px;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+/* 欄位頂部 Header */
+.column-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 14px;
+  margin-bottom: 12px;
+  border-bottom: 1.5px solid var(--border-subtle);
+}
+
+.column-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-todo {
+  background-color: var(--color-todo);
+  box-shadow: 0 0 0 3px rgba(217, 119, 54, 0.2);
+}
+
+.dot-process {
+  background-color: var(--color-process);
+  box-shadow: 0 0 0 3px rgba(195, 83, 52, 0.2);
+}
+
+.dot-done {
+  background-color: var(--color-done);
+  box-shadow: 0 0 0 3px rgba(72, 119, 78, 0.2);
+}
+
+.column-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+
+.column-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  background-color: var(--bg-card);
+  color: var(--text-muted);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+}
+
+.column-desc {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.btn-clear-done {
+  background: transparent;
+  border: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.btn-clear-done:hover {
+  background-color: var(--danger-subtle);
+  color: var(--danger);
+}
+
+/* 拖曳放置區域 (Dropzone) */
+.kanban-dropzone {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-height: 380px;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  padding: 4px 2px;
+}
+
+/* 拖曳懸浮時的高亮引導 (Drag-over state) */
+.kanban-dropzone.drag-over {
+  background-color: var(--bg-column-drop);
+  outline: 2px dashed var(--border-focus);
+  outline-offset: 4px;
+}
+
+/* ==========================================================================
+   任務卡片 (Task Card)
+   ========================================================================== */
+.task-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  box-shadow: var(--shadow-card);
+  cursor: grab;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), opacity var(--transition-fast);
+  position: relative;
+}
+
+.task-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.task-card:active {
+  cursor: grabbing;
+}
+
+/* 正在被拖曳中的卡片 (Dragging state) */
+.task-card.dragging {
+  opacity: 0.45;
+  transform: scale(0.97);
+  box-shadow: var(--shadow-drag);
+  border-color: var(--border-focus);
+}
+
+/* 卡片主體內容 */
+.card-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.card-text {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--text-main);
+  line-height: 1.45;
+  word-break: break-word;
+  flex: 1;
+}
+
+.card-grip-icon {
+  color: var(--text-light);
+  flex-shrink: 0;
+  cursor: grab;
+  margin-top: 2px;
+  opacity: 0.6;
+  transition: opacity var(--transition-fast);
+}
+
+.task-card:hover .card-grip-icon {
+  opacity: 1;
+}
+
+/* 標籤群組 (分類 + 負責人) */
+.card-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1.4;
+}
+
+.badge-work {
+  background-color: var(--work-bg);
+  color: var(--work-text);
+  border: 1px solid var(--work-border);
+}
+
+.badge-life {
+  background-color: var(--life-bg);
+  color: var(--life-text);
+  border: 1px solid var(--life-border);
+}
+
+.badge-assignee {
+  background-color: var(--assignee-bg);
+  color: var(--assignee-text);
+  border: 1px solid var(--assignee-border);
+}
+
+.badge-assignee svg {
+  opacity: 0.8;
+}
+
+/* 優先程度徽章 (Priority Badges) */
+.badge-priority-high {
+  background-color: var(--priority-high-bg);
+  color: var(--priority-high-text);
+  border: 1px solid var(--priority-high-border);
+}
+
+.badge-priority-medium {
+  background-color: var(--priority-medium-bg);
+  color: var(--priority-medium-text);
+  border: 1px solid var(--priority-medium-border);
+}
+
+.badge-priority-low {
+  background-color: var(--priority-low-bg);
+  color: var(--priority-low-text);
+  border: 1px solid var(--priority-low-border);
+}
+
+/* 卡片底部操作列 (箭頭微控制 + 刪除) */
+.card-footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  margin-top: 2px;
+  border-top: 1px dashed var(--border-subtle);
+}
+
+.card-nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-move {
+  background-color: var(--bg-page);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  transition: all var(--transition-fast);
+}
+
+.btn-move:hover:not(:disabled) {
+  background-color: var(--primary-subtle);
+  color: var(--primary-light-text);
+  border-color: rgba(217, 107, 39, 0.3);
+}
+
+.btn-move:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+.btn-delete-card {
+  background: transparent;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.task-card:hover .btn-delete-card {
+  color: var(--text-placeholder);
+}
+
+.btn-delete-card:hover {
+  color: var(--danger) !important;
+  background-color: var(--danger-subtle);
+}
+
+/* Done 欄位的特殊卡片視覺風格 */
+.kanban-column[data-status="done"] .task-card {
+  background-color: #FDFBF8;
+  border-color: #ECE5DA;
+}
+
+.kanban-column[data-status="done"] .card-text {
+  color: var(--text-muted);
+}
+
+/* 空狀態提示 */
+.column-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
+  padding: 28px 12px;
+}
+
+.empty-text {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.empty-hint {
+  font-size: 0.75rem;
+  color: var(--text-placeholder);
+  line-height: 1.4;
+}
+
+/* 底部狀態列 (Footer) */
+.board-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 4px 0;
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.drag-tip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--text-placeholder);
+}
+
+/* ==========================================================================
+   響應式設計 (Responsive Breakdown)
+   ========================================================================== */
+@media (max-width: 860px) {
+  body {
+    padding: 20px 14px 40px;
+  }
+
+  .kanban-board {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .kanban-column {
+    min-height: auto;
+  }
+
+  .kanban-dropzone {
+    min-height: 160px;
+  }
+
+  .input-secondary-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .assignee-group {
+    width: 100%;
+  }
+
+  .category-selector {
+    justify-content: center;
+  }
+
+  .category-pill {
+    flex: 1;
+    text-align: center;
+  }
+
+  .pill-badge {
+    display: block;
+    width: 100%;
+  }
+
+  .btn-add {
+    width: 100%;
+    margin-left: 0;
+    padding: 10px;
+  }
 }
