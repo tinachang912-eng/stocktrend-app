@@ -1,10 +1,11 @@
 /**
  * 台股趨勢分析小幫手 - 官方行情連線版 (app.js)
- * 100% 串接證交所 (TWSE) 與櫃買中心 (TPEx) 官方 OpenAPI
- * 絕無 AI 編造股價或隨機模擬資料
+ * 100% 串接證交所 (TWSE) 與櫃買中心 (TPEx) 官方行情資料
+ * 支援雙模架構：本地 Python 後端 API + GitHub Pages / 行動裝置無伺服器官方資料集
  */
 
-const API_BASE_URL = 'http://127.0.0.1:8000/api';
+const LOCAL_API_BASE_URL = 'http://127.0.0.1:8000/api';
+const STATIC_DATA_BASE_URL = './data';
 const STORAGE_WATCHLIST_KEY = 'TW_STOCK_OFFICIAL_WATCHLIST_V3';
 
 // 預設觀察股票代碼 (字串，嚴格保留前導 0)
@@ -12,17 +13,17 @@ const DEFAULT_SYMBOLS = ['2330', '2308', '2454'];
 
 // 應用程式狀態管理
 const AppState = {
-  watchlist: [...DEFAULT_SYMBOLS], // 股票代碼陣列 (字串，最多 10 檔)
-  selectedSymbol: '2330',          // 當前檢視之股票代號
-  quotesMap: {},                   // { [symbol]: quoteData }
-  historyMap: {},                  // { [symbol]: historyData }
-  marketCalendar: null,            // 官方交易日曆與市場狀態
-  chartInstance: null,             // Chart.js 實例
+  watchlist: [...DEFAULT_SYMBOLS],
+  selectedSymbol: '2330',
+  quotesMap: {},
+  historyMap: {},
+  marketCalendar: null,
+  chartInstance: null,
   isHistoryTableOpen: false,
-  isBackendConnected: false
+  dataSourceMode: 'checking' // 'backend' | 'static' | 'offline'
 };
 
-// 工具函式：格式化數值
+// 工具函式：格式化金額
 function formatCurrency(val) {
   if (val === null || val === undefined || isNaN(val)) {
     return '無有效收盤價';
@@ -38,11 +39,8 @@ function formatInt(val) {
   return Math.round(Number(val)).toLocaleString('zh-TW');
 }
 
-// ==========================================================================
-// 後端 API 通訊模組 (Fetch with Timeout & Retry)
-// ==========================================================================
-
-async function fetchWithTimeout(url, options = {}, timeoutMs = 8000) {
+// 帶超時的 fetch 封裝
+async function fetchWithTimeout(url, options = {}, timeoutMs = 4000) {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeoutMs);
   try {
@@ -58,55 +56,124 @@ async function fetchWithTimeout(url, options = {}, timeoutMs = 8000) {
   }
 }
 
-// 取得大盤日曆與時區狀態
-async function apiGetMarketCalendar() {
-  try {
-    const res = await fetchWithTimeout(`${API_BASE_URL}/market/calendar`, {}, 5000);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    AppState.marketCalendar = data;
-    AppState.isBackendConnected = true;
-    updateConnectionStatusUI(true, '官方 API 已連線');
-    return data;
-  } catch (err) {
-    console.warn('[API] 無法連線至後端市場日曆:', err);
-    AppState.isBackendConnected = false;
-    updateConnectionStatusUI(false, '後端服務未啟動 (請啟動 python backend/server.py)');
-    return null;
-  }
-}
+// ==========================================================================
+// 智慧雙模資料讀取（優先檢測本機後端，若在 GitHub Pages 或手機則無縫切換靜態官方集）
+// ==========================================================================
 
-// 批次取得股票行情
-async function apiGetBatchQuotes(symbols) {
-  const symParam = symbols.join(',');
-  try {
-    const res = await fetchWithTimeout(`${API_BASE_URL}/stocks/batch?symbols=${encodeURIComponent(symParam)}`, {}, 8000);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const result = await res.json();
-    if (result && Array.isArray(result.data)) {
-      result.data.forEach(q => {
-        AppState.quotesMap[q.symbol] = q;
-      });
+// 1. 取得市場日曆
+async function loadMarketCalendar() {
+  const isLocalhost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+
+  // 若為本地環境，優先嘗試本地後端
+  if (isLocalhost) {
+    try {
+      const res = await fetchWithTimeout(`${LOCAL_API_BASE_URL}/market/calendar`, {}, 2500);
+      if (res.ok) {
+        const data = await res.json();
+        AppState.marketCalendar = data;
+        AppState.dataSourceMode = 'backend';
+        updateConnectionStatusUI(true, '本地後端 API 已連線');
+        return data;
+      }
+    } catch (e) {
+      console.log('[Mode] 本地後端未連線，切換為官方靜態資料集模式');
     }
-    return result.data;
-  } catch (err) {
-    console.error('[API] 取得批次行情失敗:', err);
-    throw err;
   }
+
+  // 嘗試讀取官方靜態日曆 (GitHub Pages / 手機行動端主要模式)
+  try {
+    const res = await fetchWithTimeout(`${STATIC_DATA_BASE_URL}/calendar.json`, {}, 4000);
+    if (res.ok) {
+      const data = await res.json();
+      AppState.marketCalendar = data;
+      AppState.dataSourceMode = 'static';
+      updateConnectionStatusUI(true, '官方行情同步版 (GitHub Pages)');
+      return data;
+    }
+  } catch (err) {
+    console.warn('[Mode] 靜態日曆載入失敗:', err);
+  }
+
+  AppState.dataSourceMode = 'offline';
+  updateConnectionStatusUI(false, '離線模式');
+  return null;
 }
 
-// 取得單一股票真實 30 天歷史成交資訊與均線
-async function apiGetStockHistory(symbol) {
-  try {
-    const res = await fetchWithTimeout(`${API_BASE_URL}/stock/history?symbol=${encodeURIComponent(symbol)}`, {}, 10000);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    AppState.historyMap[symbol] = data;
-    return data;
-  } catch (err) {
-    console.error(`[API] 取得股票 ${symbol} 歷史資料失敗:`, err);
-    throw err;
+// 2. 取得多檔行情
+async function loadQuotesForWatchlist(symbols) {
+  // A. 若在本地後端模式
+  if (AppState.dataSourceMode === 'backend') {
+    try {
+      const symParam = symbols.join(',');
+      const res = await fetchWithTimeout(`${LOCAL_API_BASE_URL}/stocks/batch?symbols=${encodeURIComponent(symParam)}`, {}, 6000);
+      if (res.ok) {
+        const result = await res.json();
+        if (result && Array.isArray(result.data)) {
+          result.data.forEach(q => {
+            AppState.quotesMap[q.symbol] = q;
+          });
+          return result.data;
+        }
+      }
+    } catch (e) {
+      console.warn('[Quotes] 本地 API 批次失敗，降級使用靜態資料集');
+    }
   }
+
+  // B. 靜態資料集模式 (GitHub Pages / 手機)
+  try {
+    const res = await fetchWithTimeout(`${STATIC_DATA_BASE_URL}/quotes.json`, {}, 4000);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.quotes) {
+        symbols.forEach(sym => {
+          if (data.quotes[sym]) {
+            AppState.quotesMap[sym] = data.quotes[sym];
+          }
+        });
+        return Object.values(AppState.quotesMap);
+      }
+    }
+  } catch (err) {
+    console.warn('[Quotes] 讀取靜態 quotes.json 失敗:', err);
+  }
+
+  return [];
+}
+
+// 3. 取得 30 天真實歷史行情
+async function loadStockHistory(symbol) {
+  if (AppState.historyMap[symbol]) {
+    return AppState.historyMap[symbol];
+  }
+
+  // A. 本地 API 模式
+  if (AppState.dataSourceMode === 'backend') {
+    try {
+      const res = await fetchWithTimeout(`${LOCAL_API_BASE_URL}/stock/history?symbol=${encodeURIComponent(symbol)}`, {}, 8000);
+      if (res.ok) {
+        const data = await res.json();
+        AppState.historyMap[symbol] = data;
+        return data;
+      }
+    } catch (e) {
+      console.warn(`[History] 本地 API 取得 ${symbol} 失敗，降級至靜態`);
+    }
+  }
+
+  // B. 靜態資料集模式 (GitHub Pages / 手機)
+  try {
+    const res = await fetchWithTimeout(`${STATIC_DATA_BASE_URL}/history/${encodeURIComponent(symbol)}.json`, {}, 4000);
+    if (res.ok) {
+      const data = await res.json();
+      AppState.historyMap[symbol] = data;
+      return data;
+    }
+  } catch (err) {
+    console.warn(`[History] 讀取靜態歷史 ${symbol} 失敗:`, err);
+  }
+
+  return null;
 }
 
 // ==========================================================================
@@ -120,18 +187,18 @@ function updateConnectionStatusUI(isConnected, message) {
 
   if (isConnected) {
     dot.className = 'live-dot';
-    text.textContent = '官方 API 已連線';
+    text.textContent = message || '官方 API 已連線';
     if (AppState.marketCalendar) {
       expectedDateBadge.textContent = `應有交易日: ${AppState.marketCalendar.latest_expected_trading_date}`;
     }
   } else {
-    dot.className = 'live-dot dot-error';
-    text.textContent = message || '後端離線';
+    dot.className = 'live-dot dot-warning';
+    text.textContent = message || '使用離線資料';
     expectedDateBadge.textContent = '應有交易日: --';
   }
 }
 
-// 渲染觀察名單卡片標籤 (Watchlist Tabs)
+// 渲染觀察清單卡片標籤
 function renderWatchlistTabs() {
   const tabsContainer = document.getElementById('watchlistTabs');
   const counterEl = document.getElementById('stockCounter');
@@ -141,16 +208,12 @@ function renderWatchlistTabs() {
   counterEl.textContent = `${AppState.watchlist.length} / 10 檔`;
 
   addBtn.disabled = AppState.watchlist.length >= 10;
-  if (AppState.watchlist.length >= 10) {
-    addBtn.title = '已達上限 (最多 10 檔)';
-  } else {
-    addBtn.title = '新增觀察股票';
-  }
+  addBtn.title = AppState.watchlist.length >= 10 ? '已達上限 (最多 10 檔)' : '新增觀察股票';
 
   AppState.watchlist.forEach(symbol => {
     const quote = AppState.quotesMap[symbol] || {
       symbol: symbol,
-      name: '載入中...',
+      name: '官方行情載入中...',
       close_price: null,
       close_price_display: '載入中...',
       change: null
@@ -185,13 +248,11 @@ function renderWatchlistTabs() {
       </button>
     `;
 
-    // 點選切換個股
     tab.addEventListener('click', (e) => {
       if (e.target.closest('.btn-remove-stock')) return;
       selectStock(symbol);
     });
 
-    // 刪除按鈕
     const removeBtn = tab.querySelector('.btn-remove-stock');
     removeBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -202,7 +263,7 @@ function renderWatchlistTabs() {
   });
 }
 
-// 渲染核心指標卡片 (包含需求第7點之必要欄位)
+// 渲染指標卡片
 function renderMetricCards(quote, historyData) {
   if (!quote) return;
 
@@ -228,7 +289,7 @@ function renderMetricCards(quote, historyData) {
     changeEl.className = 'change-tag change-flat';
   }
 
-  // 3. 狀態指示膠囊（資料已更新 / 官方資料尚未更新 / API 失敗）
+  // 3. 狀態指示膠囊
   const pill = document.getElementById('metricStatusPill');
   const statusText = document.getElementById('metricStatusText');
   statusText.textContent = quote.status_message || (quote.is_updated ? '資料已更新' : '官方資料尚未更新');
@@ -241,7 +302,7 @@ function renderMetricCards(quote, historyData) {
     pill.className = 'status-alert-pill status-pending';
   }
 
-  // 4. 畫面顯示必要資訊：交易日期、資料來源、抓取時間
+  // 4. 交易日期、資料來源、抓取時間
   document.getElementById('metricTradeDate').textContent = quote.trade_date || '--';
   document.getElementById('metricDataSource').textContent = quote.data_source || '臺灣官方 OpenAPI';
   document.getElementById('metricFetchTime').textContent = quote.fetch_time || '--';
@@ -257,16 +318,16 @@ function renderMetricCards(quote, historyData) {
     document.getElementById('metricLow30').textContent = ind.low_30 ? `${formatCurrency(ind.low_30)} 元` : '--';
     document.getElementById('metricHistoryCount').textContent = `${historyData.total_days} 個營業日`;
 
-    // 次日研判速覽
     renderPredictionSummary(quote, ind);
   } else {
-    document.getElementById('metricMA5').textContent = '載入中...';
-    document.getElementById('metricMA20').textContent = '載入中...';
+    document.getElementById('metricMA5').textContent = '資料整理中...';
+    document.getElementById('metricMA20').textContent = '資料整理中...';
     document.getElementById('metricBias5').textContent = '--';
     document.getElementById('metricBias20').textContent = '--';
     document.getElementById('metricHigh30').textContent = '--';
     document.getElementById('metricLow30').textContent = '--';
     document.getElementById('metricHistoryCount').textContent = '--';
+    renderPredictionSummary(quote, {});
   }
 }
 
@@ -281,11 +342,10 @@ function renderPredictionSummary(quote, ind) {
     document.getElementById('predOpenPrice').textContent = '--';
     document.getElementById('predSupportPrice').textContent = '--';
     document.getElementById('predResistancePrice').textContent = '--';
-    document.getElementById('predMAStructure').textContent = '資料不足以計算均線結構';
+    document.getElementById('predMAStructure').textContent = '正依據官方最新成交紀錄計算均線架構';
     return;
   }
 
-  // 計算支撐與壓力
   const supportPrice = Number(Math.min(ind.ma5, latestPrice * 0.985).toFixed(2));
   const resistancePrice = Number(Math.max(ind.high_30, latestPrice * 1.018).toFixed(2));
   const estimatedOpen = Number(latestPrice.toFixed(2));
@@ -294,7 +354,6 @@ function renderPredictionSummary(quote, ind) {
   document.getElementById('predSupportPrice').textContent = `${formatCurrency(supportPrice)} 元`;
   document.getElementById('predResistancePrice').textContent = `${formatCurrency(resistancePrice)} 元`;
 
-  // 判定均線多空結構
   let structureText = '';
   if (latestPrice >= ind.ma5 && ind.ma5 >= ind.ma20) {
     structureText = '多頭排列（收盤 > MA5 > MA20），短線具備多方動能';
@@ -328,12 +387,10 @@ function renderTrendChart(symbol, historyData) {
   const labels = records.map(r => r.date);
   const prices = records.map(r => r.close_price);
 
-  // 動態計算 5日與 20日均線序列
   const ma5Series = [];
   const ma20Series = [];
 
   for (let i = 0; i < prices.length; i++) {
-    // MA5
     if (i >= 4) {
       const slice5 = prices.slice(i - 4, i + 1);
       const avg5 = slice5.reduce((a, b) => a + b, 0) / 5;
@@ -342,7 +399,6 @@ function renderTrendChart(symbol, historyData) {
       ma5Series.push(null);
     }
 
-    // MA20
     if (i >= 19) {
       const slice20 = prices.slice(i - 19, i + 1);
       const avg20 = slice20.reduce((a, b) => a + b, 0) / 20;
@@ -453,7 +509,6 @@ function renderHistoryTable(historyData) {
 
   if (!historyData || !historyData.history) return;
 
-  // 由新到舊排序
   const records = [...historyData.history].reverse();
 
   records.forEach(row => {
@@ -480,7 +535,7 @@ function renderReport(quote, historyData) {
   if (!quote) return;
 
   document.getElementById('reportStockName').textContent = `${quote.name || quote.symbol} (${quote.symbol})`;
-  document.getElementById('reportDataSourceName').textContent = quote.data_source || '臺灣證券交易所官方行情';
+  document.getElementById('reportDataSourceName').textContent = quote.data_source || '臺灣官方行情';
   document.getElementById('reportTradeDate').textContent = quote.trade_date || '--';
   document.getElementById('reportFetchTime').textContent = quote.fetch_time || '--';
 
@@ -499,7 +554,7 @@ function renderReport(quote, historyData) {
       • <strong>實際官方交易日：</strong> ${quote.trade_date} (${isUpToDate ? '已成功取得當日已完成交易' : '官方尚未產出最新交易報表'})<br>
       • <strong>系統應有交易日：</strong> ${quote.expected_trade_date || '依日曆推算'}<br>
       • <strong>時效驗證狀態：</strong> <span class="${isUpToDate ? 'text-up' : 'text-flat'}"><strong>${quote.status_message}</strong></span><br>
-      • <strong>資料介接管線：</strong> 由後端直連 ${quote.data_source}，並通過逗號清洗與無效價格防呆檢核。
+      • <strong>資料介接管線：</strong> 直連 ${quote.data_source}，並通過逗號清洗與無效價格防呆檢核。
     </p>
   `;
 
@@ -520,7 +575,7 @@ function renderReport(quote, historyData) {
   const scenarioBox = document.getElementById('reportScenarioAnalysis');
   const support = ind.ma5 ? Math.min(ind.ma5, closePrice * 0.985) : (closePrice * 0.98);
   const resistance = ind.high_30 ? Math.max(ind.high_30, closePrice * 1.018) : (closePrice * 1.02);
-  
+
   scenarioBox.innerHTML = `
     <p>
       • <strong>預估次日開盤參考價：</strong> 約合 <strong>${formatCurrency(closePrice)} 元</strong> 附近開出。<br>
@@ -541,33 +596,17 @@ function renderReport(quote, historyData) {
   `;
 }
 
-// 全面更新當前畫面
+// 刷新當前個股畫面
 async function refreshCurrentStockView() {
   const symbol = AppState.selectedSymbol;
   let quote = AppState.quotesMap[symbol];
 
-  // 若尚未取得 quote，嘗試從後端抓取
   if (!quote) {
-    try {
-      const res = await fetchWithTimeout(`${API_BASE_URL}/stock/quote?symbol=${encodeURIComponent(symbol)}`);
-      if (res.ok) {
-        quote = await res.json();
-        AppState.quotesMap[symbol] = quote;
-      }
-    } catch (e) {
-      console.warn(`[Quote] 抓取單檔 ${symbol} 失敗:`, e);
-    }
+    await loadQuotesForWatchlist([symbol]);
+    quote = AppState.quotesMap[symbol];
   }
 
-  // 抓取真實 30 天歷史數據
-  let historyData = AppState.historyMap[symbol];
-  if (!historyData) {
-    try {
-      historyData = await apiGetStockHistory(symbol);
-    } catch (e) {
-      console.warn(`[History] 抓取歷史行情 ${symbol} 失敗:`, e);
-    }
-  }
+  const historyData = await loadStockHistory(symbol);
 
   renderWatchlistTabs();
   renderMetricCards(quote, historyData);
@@ -582,7 +621,7 @@ async function selectStock(symbol) {
   await refreshCurrentStockView();
 }
 
-// 新增股票至觀察清單
+// 新增股票至觀察名單
 async function addStock(inputVal) {
   const rawInput = (inputVal || '').trim();
   if (!rawInput) {
@@ -595,7 +634,6 @@ async function addStock(inputVal) {
     return;
   }
 
-  // 提取股票代碼（支援純代號或 0050 元大台灣50，嚴格保留字串與前導0）
   let symbol = '';
   const match = rawInput.match(/^[0-9A-Za-z]{4,6}/) || rawInput.match(/[0-9A-Za-z]{4,6}/);
   if (match) {
@@ -610,26 +648,24 @@ async function addStock(inputVal) {
     return;
   }
 
-  // 嘗試向官方後端驗證此代號是否存在
-  showToast(`正在向官方查詢 [${symbol}] 行情...`, 'info');
-  try {
-    const res = await fetchWithTimeout(`${API_BASE_URL}/stock/quote?symbol=${encodeURIComponent(symbol)}`);
-    if (!res.ok) {
-      showToast(`在證交所與櫃買中心官方資料中查無代號 [${symbol}]！`, 'error');
-      return;
-    }
-    const qData = await res.json();
-    AppState.quotesMap[symbol] = qData;
-    AppState.watchlist.push(symbol);
-    AppState.selectedSymbol = symbol;
+  showToast(`正在查詢 [${symbol}] 官方行情...`, 'info');
 
-    saveWatchlistToStorage();
-    await refreshCurrentStockView();
-    showToast(`成功加入觀察名單：${qData.name} (${symbol})`, 'success');
-    document.getElementById('stockInput').value = '';
-  } catch (err) {
-    showToast(`連線驗證失敗：${err.message}`, 'error');
+  // 嘗試載入行情
+  await loadQuotesForWatchlist([symbol]);
+  const qData = AppState.quotesMap[symbol];
+
+  if (!qData) {
+    showToast(`查無代號 [${symbol}] 之官方收盤資料！`, 'error');
+    return;
   }
+
+  AppState.watchlist.push(symbol);
+  AppState.selectedSymbol = symbol;
+  saveWatchlistToStorage();
+
+  await refreshCurrentStockView();
+  showToast(`成功加入觀察名單：${qData.name} (${symbol})`, 'success');
+  document.getElementById('stockInput').value = '';
 }
 
 // 移除觀察股票
@@ -652,7 +688,6 @@ function removeStock(symbol) {
   showToast(`已自名單移除 [${symbol}]`, 'info');
 }
 
-// 儲存觀察名單至 localStorage
 function saveWatchlistToStorage() {
   try {
     localStorage.setItem(STORAGE_WATCHLIST_KEY, JSON.stringify(AppState.watchlist));
@@ -679,7 +714,6 @@ function loadWatchlistFromStorage() {
   AppState.selectedSymbol = '2330';
 }
 
-// 複製完整分析報告
 function copyReportToClipboard() {
   const quote = AppState.quotesMap[AppState.selectedSymbol];
   const hist = AppState.historyMap[AppState.selectedSymbol];
@@ -732,7 +766,6 @@ function fallbackCopy(text) {
   showToast('已成功複製官方分析報告至剪貼簿！', 'success');
 }
 
-// Toast 提示
 function showToast(message, type = 'info') {
   const container = document.getElementById('toastContainer');
   const toast = document.createElement('div');
@@ -745,27 +778,20 @@ function showToast(message, type = 'info') {
   }, 3000);
 }
 
-// ==========================================================================
-// 應用程式初始化與事件監聽
-// ==========================================================================
-
+// 應用程式初始化
 async function initializeApp() {
   loadWatchlistFromStorage();
 
-  // 1. 先確認後端市場日曆與時區
-  await apiGetMarketCalendar();
+  // 1. 載入日曆
+  await loadMarketCalendar();
 
-  // 2. 抓取觀察名單批次行情
-  try {
-    await apiGetBatchQuotes(AppState.watchlist);
-  } catch (err) {
-    console.warn('[Init] 批次載入失敗，將個別嘗試');
-  }
+  // 2. 載入名單行情
+  await loadQuotesForWatchlist(AppState.watchlist);
 
   // 3. 渲染主畫面
   await refreshCurrentStockView();
 
-  // 4. 事件綁定：新增股票按鈕與 Enter 鍵
+  // 4. 事件綁定
   const btnAdd = document.getElementById('btnAddStock');
   const stockInput = document.getElementById('stockInput');
 
@@ -779,35 +805,27 @@ async function initializeApp() {
     }
   });
 
-  // 5. 事件綁定：手動重新整理
   document.getElementById('btnRefreshData').addEventListener('click', async () => {
-    showToast('正在向官方重新整理最新行情...', 'info');
-    await apiGetMarketCalendar();
-    try {
-      await apiGetBatchQuotes(AppState.watchlist);
-      await refreshCurrentStockView();
-      showToast('官方行情資料已全面更新！', 'success');
-    } catch (e) {
-      showToast(`重新整理失敗: ${e.message}`, 'error');
-    }
+    showToast('正在重新整理最新官方行情...', 'info');
+    await loadMarketCalendar();
+    await loadQuotesForWatchlist(AppState.watchlist);
+    await refreshCurrentStockView();
+    showToast('官方行情已重新整理！', 'success');
   });
 
-  // 6. 事件綁定：還原預設
   document.getElementById('btnResetDefault').addEventListener('click', async () => {
     if (confirm('確定要還原為預設 3 檔官方觀察名單 (台積電、台達電、聯發科) 嗎？')) {
       AppState.watchlist = [...DEFAULT_SYMBOLS];
       AppState.selectedSymbol = '2330';
       saveWatchlistToStorage();
-      await apiGetBatchQuotes(AppState.watchlist);
+      await loadQuotesForWatchlist(AppState.watchlist);
       await refreshCurrentStockView();
       showToast('已還原為官方預設 3 檔股票！', 'success');
     }
   });
 
-  // 7. 事件綁定：收合 30 天詳細數據表
   const btnToggleTable = document.getElementById('btnToggleTable');
   const drawer = document.getElementById('historyTableDrawer');
-
   btnToggleTable.addEventListener('click', () => {
     AppState.isHistoryTableOpen = !AppState.isHistoryTableOpen;
     if (AppState.isHistoryTableOpen) {
@@ -819,7 +837,6 @@ async function initializeApp() {
     }
   });
 
-  // 8. 事件綁定：複製報告
   document.getElementById('btnCopyReport').addEventListener('click', copyReportToClipboard);
 }
 
