@@ -288,7 +288,13 @@ class OfficialStockClient:
             twse_dict = self._twse_cache
 
         quote_data = twse_dict.get(clean_sym)
-        is_twse = quote_data is not None
+        
+        # 若上市代號找不到，嘗試比對上市股票名稱 (例如 "聯電", "台積電")
+        if not quote_data:
+            for item in twse_dict.values():
+                if item.get("name") == clean_sym or (len(clean_sym) >= 2 and clean_sym in item.get("name", "")):
+                    quote_data = item
+                    break
 
         # 2. 若上市找不到，搜尋上櫃
         if not quote_data:
@@ -297,6 +303,11 @@ class OfficialStockClient:
             except Exception:
                 tpex_dict = self._tpex_cache
             quote_data = tpex_dict.get(clean_sym)
+            if not quote_data:
+                for item in tpex_dict.values():
+                    if item.get("name") == clean_sym or (len(clean_sym) >= 2 and clean_sym in item.get("name", "")):
+                        quote_data = item
+                        break
 
         if not quote_data:
             return None

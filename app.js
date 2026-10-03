@@ -122,13 +122,23 @@ async function loadQuotesForWatchlist(symbols) {
 
   // B. 靜態資料集模式 (GitHub Pages / 手機)
   try {
-    const res = await fetchWithTimeout(`${STATIC_DATA_BASE_URL}/quotes.json`, {}, 4000);
+    const res = await fetchWithTimeout(`${STATIC_DATA_BASE_URL}/quotes.json`, {}, 5000);
     if (res.ok) {
       const data = await res.json();
       if (data && data.quotes) {
         symbols.forEach(sym => {
+          // 1. 精確代碼匹配 (如 "2303")
           if (data.quotes[sym]) {
             AppState.quotesMap[sym] = data.quotes[sym];
+          } else {
+            // 2. 名稱反查 (如 "聯電", "鴻海")
+            for (const item of Object.values(data.quotes)) {
+              if (item.name === sym || (sym.length >= 2 && item.name && item.name.includes(sym))) {
+                AppState.quotesMap[sym] = item;
+                AppState.quotesMap[item.symbol] = item;
+                break;
+              }
+            }
           }
         });
         return Object.values(AppState.quotesMap);
@@ -639,23 +649,28 @@ async function addStock(inputVal) {
   if (match) {
     symbol = match[0].toUpperCase();
   } else {
-    symbol = rawInput.split(' ')[0].trim().toUpperCase();
+    symbol = rawInput.trim();
   }
 
-  if (AppState.watchlist.includes(symbol)) {
-    showToast(`股票 [${symbol}] 已經在觀察名單中！`, 'warn');
-    selectStock(symbol);
-    return;
-  }
-
-  showToast(`正在查詢 [${symbol}] 官方行情...`, 'info');
+  showToast(`正在查詢 [${rawInput}] 官方行情...`, 'info');
 
   // 嘗試載入行情
   await loadQuotesForWatchlist([symbol]);
-  const qData = AppState.quotesMap[symbol];
+  let qData = AppState.quotesMap[symbol];
+
+  // 若以名稱搜尋成功，校正為該股票代碼
+  if (qData && qData.symbol) {
+    symbol = qData.symbol;
+  }
 
   if (!qData) {
-    showToast(`查無代號 [${symbol}] 之官方收盤資料！`, 'error');
+    showToast(`查無 [${rawInput}] 之官方收盤資料！`, 'error');
+    return;
+  }
+
+  if (AppState.watchlist.includes(symbol)) {
+    showToast(`股票 [${qData.name || symbol}] 已經在觀察名單中！`, 'warn');
+    selectStock(symbol);
     return;
   }
 

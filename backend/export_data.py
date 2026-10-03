@@ -65,15 +65,29 @@ def export_all():
         json.dump(calendar_data, f, ensure_ascii=False, indent=2)
     print("  [V] 匯出 data/calendar.json 完成")
 
-    # 2. 抓取並匯出最新各檔股票收盤行情
+    # 2. 抓取並匯出全市場最新各檔股票收盤行情 (TWSE 全部 1380 檔 + TPEx 全部 1013 檔)
     quotes_dict = {}
-    for sym in TARGET_SYMBOLS:
-        q = official_client.get_stock_quote(sym)
-        if q:
-            quotes_dict[sym] = q
-            print(f"  [V] 收盤行情: {sym} {q['name']} -> {q['close_price_display']} 元 ({q['trade_date']})")
-        else:
-            print(f"  [X] 找不到行情: {sym}")
+    twse_all = official_client.fetch_twse_quotes()
+    for code, item in twse_all.items():
+        q = dict(item)
+        is_updated, actual_iso, expected_iso, status_msg = calendar_service.compare_with_api_date(q.get("raw_date", ""), now)
+        q["is_updated"] = is_updated
+        q["trade_date"] = actual_iso
+        q["expected_trade_date"] = expected_iso
+        q["status_message"] = status_msg
+        quotes_dict[code] = q
+
+    tpex_all = official_client.fetch_tpex_quotes()
+    for code, item in tpex_all.items():
+        q = dict(item)
+        is_updated, actual_iso, expected_iso, status_msg = calendar_service.compare_with_api_date(q.get("raw_date", ""), now)
+        q["is_updated"] = is_updated
+        q["trade_date"] = actual_iso
+        q["expected_trade_date"] = expected_iso
+        q["status_message"] = status_msg
+        quotes_dict[code] = q
+
+    print(f"  [V] 已成功彙整全市場 {len(quotes_dict)} 檔官方股票與 ETF 收盤行情！")
 
     quotes_payload = {
         "generated_at": now.strftime("%Y-%m-%d %H:%M:%S"),
@@ -82,11 +96,12 @@ def export_all():
     }
 
     with open(os.path.join(DATA_DIR, "quotes.json"), "w", encoding="utf-8") as f:
-        json.dump(quotes_payload, f, ensure_ascii=False, indent=2)
+        json.dump(quotes_payload, f, ensure_ascii=False)
     print("  [V] 匯出 data/quotes.json 完成")
 
-    # 3. 匯出預設三檔與常用股票真實 30 天歷史數據與均線
-    for sym in TARGET_SYMBOLS[:10] + ["0050", "6488", "3293", "00679B"]:
+    # 3. 匯出預設三檔與常用股票真實 30 天歷史數據與均線 (包含 2303 聯電)
+    history_targets = TARGET_SYMBOLS + ["2303", "3034", "00878", "00919"]
+    for sym in history_targets:
         try:
             records = official_client.fetch_stock_history_30days(sym)
             if records:
