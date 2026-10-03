@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>台股趨勢分析小幫手 | 智慧夜盤連動與次日走勢預測</title>
+  <title>台股趨勢分析小幫手 | 官方行情連線版</title>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,27 +25,25 @@
         </div>
         <div class="brand-text">
           <h1>台股趨勢分析小幫手</h1>
-          <p class="subtitle">台指期夜盤連動對比 &bull; 30日歷史軌跡 &bull; 次日走勢智慧預測報告</p>
+          <p class="subtitle">官方行情直連 &bull; TWSE / TPEx OpenAPI &bull; 真實交易日曆與歷史趨勢</p>
         </div>
       </div>
 
-      <!-- 台指期夜盤即時看板 -->
-      <div class="market-bar" id="marketNightBar">
+      <!-- 官方資料來源連線與狀態看板 -->
+      <div class="market-bar">
         <div class="market-badge">
-          <span class="live-dot"></span>
-          <span class="badge-title">台指期夜盤 (TX)</span>
-        </div>
-        <div class="market-data">
-          <span class="night-price" id="headerNightPrice">23,150</span>
-          <span class="night-change change-up" id="headerNightChange">+125 (+0.54%)</span>
+          <span class="live-dot" id="serverStatusDot"></span>
+          <span class="badge-title" id="serverStatusText">官方 API 連線中</span>
         </div>
         <div class="market-meta">
-          <span id="marketSessionTime">夜盤時段 15:00~05:00</span>
-          <button id="btnSimulateNight" class="btn-sm btn-ghost" title="更新/模擬最新夜盤行情與波動">
+          <span id="marketTimezone">時區: Asia/Taipei</span>
+          <span class="divider">|</span>
+          <span id="expectedTradeDateBadge">應有交易日: 查詢中</span>
+          <button id="btnRefreshData" class="btn-sm btn-ghost" title="手動重新整理官方行情資料">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
             </svg>
-            模擬夜盤行情
+            重新整理
           </button>
         </div>
       </div>
@@ -65,21 +63,21 @@
             <input 
               type="text" 
               id="stockInput" 
-              placeholder="輸入股票代碼或名稱 (例如: 2317、鴻海、2603、長榮...)" 
+              placeholder="輸入股票代號（例如: 0050、2330、6488、00679B，保留前導0）" 
               autocomplete="off"
               list="stockSuggestions"
             >
             <datalist id="stockSuggestions">
-              <option value="2317 鴻海"></option>
-              <option value="2603 長榮"></option>
-              <option value="2382 廣達"></option>
-              <option value="2881 富邦金"></option>
-              <option value="2882 國泰金"></option>
-              <option value="3008 大立光"></option>
-              <option value="2357 華碩"></option>
-              <option value="3231 緯創"></option>
-              <option value="2609 陽明"></option>
-              <option value="0050 元大台灣50"></option>
+              <option value="2330 台積電 (上市)"></option>
+              <option value="2308 台達電 (上市)"></option>
+              <option value="2454 聯發科 (上市)"></option>
+              <option value="0050 元大台灣50 (上市ETF)"></option>
+              <option value="0056 元大高股息 (上市ETF)"></option>
+              <option value="2317 鴻海 (上市)"></option>
+              <option value="6488 環球晶 (上櫃)"></option>
+              <option value="3293 鈊象 (上櫃)"></option>
+              <option value="8069 元太 (上櫃)"></option>
+              <option value="00679B 元大美債20年 (上櫃ETF)"></option>
             </datalist>
           </div>
           <button id="btnAddStock" class="btn-primary">
@@ -99,26 +97,27 @@
         </div>
       </div>
 
-      <!-- 股票分頁按鈕清單 -->
+      <!-- 股票標籤卡片列 -->
       <div class="watchlist-scroll-container">
         <div class="watchlist-tabs" id="watchlistTabs">
-          <!-- 動態渲染股票卡片標籤 -->
+          <!-- 動態載入官方即時報價標籤 -->
         </div>
       </div>
     </section>
 
     <!-- 當前選定個股核心儀表板 -->
     <div class="dashboard-grid">
-      <!-- 左側/上方：指標卡片列 -->
+      <!-- 指標卡片列 -->
       <section class="overview-cards">
-        <!-- 卡片 1：最新個股收盤價 -->
+        <!-- 卡片 1：最近交易日收盤價 (標題嚴格依需求第7點命名) -->
         <div class="metric-card" id="cardStockPrice">
           <div class="card-header">
             <div class="card-title-group">
               <span class="stock-badge" id="currentStockSymbol">2330</span>
               <h2 id="currentStockName">台積電</h2>
+              <span class="market-tag" id="currentStockMarket">TWSE 上市</span>
             </div>
-            <span class="tag-status">最近交易日收盤</span>
+            <h3 class="card-section-title">最近交易日收盤價</h3>
           </div>
           <div class="card-body">
             <div class="primary-metric">
@@ -128,108 +127,116 @@
             <div class="change-tag" id="metricStockChange">
               <span>--</span>
             </div>
+            <div class="status-alert-pill" id="metricStatusPill">
+              <span class="status-indicator-dot"></span>
+              <span id="metricStatusText">載入官方行情中...</span>
+            </div>
           </div>
-          <div class="card-footer">
-            <div class="stat-item">
-              <span class="label">30日最高</span>
-              <span class="val" id="metricStockHigh">--</span>
+          <div class="card-footer-grid">
+            <div class="stat-cell">
+              <span class="lbl">官方交易日期</span>
+              <span class="val highlight-val" id="metricTradeDate">--</span>
             </div>
-            <div class="stat-item">
-              <span class="label">30日最低</span>
-              <span class="val" id="metricStockLow">--</span>
+            <div class="stat-cell">
+              <span class="lbl">官方資料來源</span>
+              <span class="val" id="metricDataSource">臺灣證券交易所 (TWSE)</span>
             </div>
-            <div class="stat-item">
-              <span class="label">日成交量</span>
-              <span class="val" id="metricStockVol">--</span>
+            <div class="stat-cell">
+              <span class="lbl">系統抓取時間</span>
+              <span class="val" id="metricFetchTime">--</span>
             </div>
           </div>
         </div>
 
-        <!-- 卡片 2：台指期夜盤最新價格與連動比對 -->
-        <div class="metric-card" id="cardNightFutures">
+        <!-- 卡片 2：真實技術指標 (來自官方歷史行情) -->
+        <div class="metric-card" id="cardTechMetrics">
           <div class="card-header">
             <div class="card-title-group">
-              <span class="stock-badge badge-futures">TX</span>
-              <h2>台指期夜盤行情</h2>
+              <span class="stock-badge badge-tech">TECH</span>
+              <h2>官方歷史真實均線與區間</h2>
             </div>
-            <span class="tag-status pulse-status">即時/最近收盤</span>
+            <span class="tag-status">30個營業日統計</span>
           </div>
           <div class="card-body">
-            <div class="primary-metric">
-              <span class="price-val" id="metricNightPrice">--</span>
-              <span class="currency">點</span>
-            </div>
-            <div class="change-tag" id="metricNightChange">
-              <span>--</span>
+            <div class="tech-grid">
+              <div class="tech-box">
+                <span class="tech-lbl">5日短期均線 (MA5)</span>
+                <span class="tech-num" id="metricMA5">--</span>
+              </div>
+              <div class="tech-box">
+                <span class="tech-lbl">20日月均線 (MA20)</span>
+                <span class="tech-num" id="metricMA20">--</span>
+              </div>
+              <div class="tech-box">
+                <span class="tech-lbl">5日乖離率 (BIAS)</span>
+                <span class="tech-num" id="metricBias5">--</span>
+              </div>
+              <div class="tech-box">
+                <span class="tech-lbl">20日乖離率 (BIAS)</span>
+                <span class="tech-num" id="metricBias20">--</span>
+              </div>
             </div>
           </div>
-          <div class="card-footer">
-            <div class="stat-item">
-              <span class="label">日盤結算點數</span>
-              <span class="val" id="metricDayClose">--</span>
+          <div class="card-footer-grid">
+            <div class="stat-cell">
+              <span class="lbl">30日最高收盤價</span>
+              <span class="val text-up" id="metricHigh30">--</span>
             </div>
-            <div class="stat-item">
-              <span class="label">期貨夜盤價差</span>
-              <span class="val" id="metricFuturesSpread">--</span>
+            <div class="stat-cell">
+              <span class="lbl">30日最低收盤價</span>
+              <span class="val text-down" id="metricLow30">--</span>
             </div>
-            <div class="stat-item">
-              <span class="label">大盤連動度 (Beta)</span>
-              <span class="val" id="metricStockBeta">--</span>
+            <div class="stat-cell">
+              <span class="lbl">歷史行情數據筆數</span>
+              <span class="val" id="metricHistoryCount">--</span>
             </div>
           </div>
         </div>
 
-        <!-- 卡片 3：次日預期衝擊結論 -->
+        <!-- 卡片 3：次日走勢客觀研判 (由真實數據推算) -->
         <div class="metric-card highlight-card" id="cardPredictionSummary">
           <div class="card-header">
             <div class="card-title-group">
               <span class="icon-sparkle">✦</span>
-              <h2>次日走勢研判速覽</h2>
+              <h2>真實行情次日多空綜判</h2>
             </div>
-            <span class="prediction-pill" id="quickPredictionBadge">研判中...</span>
+            <span class="prediction-pill" id="quickPredictionBadge">分析中...</span>
           </div>
           <div class="card-body">
-            <div class="pred-price-forecast">
-              <div class="forecast-range-box">
-                <span class="range-label">預估次日開盤參考價</span>
-                <span class="range-val" id="predOpenPrice">--</span>
+            <div class="forecast-range-box">
+              <span class="range-label">預估次日開盤參考價位</span>
+              <span class="range-val" id="predOpenPrice">--</span>
+            </div>
+            <div class="forecast-range-details">
+              <div class="pred-item">
+                <span class="p-lbl">下檔第一支撐位</span>
+                <span class="p-num text-down" id="predSupportPrice">--</span>
               </div>
-              <div class="forecast-range-details">
-                <div class="pred-item">
-                  <span class="p-lbl">預估支撐 (下檔)</span>
-                  <span class="p-num text-down" id="predSupportPrice">--</span>
-                </div>
-                <div class="pred-item">
-                  <span class="p-lbl">預估壓力 (上檔)</span>
-                  <span class="p-num text-up" id="predResistancePrice">--</span>
-                </div>
+              <div class="pred-item">
+                <span class="p-lbl">上檔第一壓力位</span>
+                <span class="p-num text-up" id="predResistancePrice">--</span>
               </div>
             </div>
           </div>
-          <div class="card-footer">
-            <span class="sentiment-bar-label">次日多空信心指數</span>
-            <div class="sentiment-track">
-              <div class="sentiment-fill" id="sentimentBar" style="width: 50%;"></div>
+          <div class="card-footer-grid">
+            <div class="stat-cell full-width">
+              <span class="lbl">均線架構現況</span>
+              <span class="val" id="predMAStructure">--</span>
             </div>
-            <span class="sentiment-val" id="sentimentText">50% 中性</span>
           </div>
         </div>
       </section>
 
-      <!-- 中間：圖表區域與趨勢比對 -->
+      <!-- 中間：30 天官方歷史趨勢圖 -->
       <section class="chart-section">
         <div class="chart-header">
           <div class="chart-title-area">
-            <h3>30 天歷史價格趨勢與夜盤對比圖</h3>
+            <h3>真實 30 個營業日官方歷史收盤與 MA5 / MA20 均線趨勢圖</h3>
             <p class="chart-subtitle" id="chartSubtitleDesc">
-              同時呈現個股收盤價與台指期夜盤走勢，掌握價格連動與領先落後關係
+              100% 串接證交所 (TWSE) 與櫃買中心 (TPEx) 官方真實成交紀錄，無任何 AI 編造
             </p>
           </div>
           <div class="chart-controls">
-            <div class="view-toggle">
-              <button class="toggle-btn active" id="btnModeDual" data-mode="dual">雙軸價格對比</button>
-              <button class="toggle-btn" id="btnModePercent" data-mode="percent">漲跌幅相對表現 (%)</button>
-            </div>
             <button class="btn-sm btn-outline" id="btnToggleTable">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -237,7 +244,7 @@
                 <line x1="3" y1="15" x2="21" y2="15"></line>
                 <line x1="9" y1="3" x2="9" y2="21"></line>
               </svg>
-              檢視 30 天詳細數據表
+              檢視 30 天官方歷史明細表
             </button>
           </div>
         </div>
@@ -246,34 +253,32 @@
           <canvas id="trendChart"></canvas>
         </div>
 
-        <!-- 30天數據表格（可展開收合） -->
+        <!-- 30天數據表格 -->
         <div class="table-drawer collapsed" id="historyTableDrawer">
           <div class="table-drawer-header">
-            <h4>最近 30 個交易日詳細紀錄</h4>
-            <span class="note">依交易日遞減排序</span>
+            <h4>最近 30 個營業日官方成交紀錄</h4>
+            <span class="note">依交易日期由新至舊排序</span>
           </div>
           <div class="table-responsive">
             <table class="history-table">
               <thead>
                 <tr>
                   <th>交易日期</th>
-                  <th>個股收盤價</th>
-                  <th>個股單日漲跌</th>
-                  <th>台指期收盤/夜盤</th>
-                  <th>夜盤漲跌點數</th>
-                  <th>期現貨價差估算</th>
-                  <th>個股成交量</th>
+                  <th>官方收盤價</th>
+                  <th>漲跌價差</th>
+                  <th>日成交量 (股/張)</th>
+                  <th>資料驗證狀態</th>
                 </tr>
               </thead>
               <tbody id="historyTableBody">
-                <!-- 動態注入表格資料 -->
+                <!-- 動態注入真實歷史表格 -->
               </tbody>
             </table>
           </div>
         </div>
       </section>
 
-      <!-- 下方：次一交易日預測分析詳細報告 -->
+      <!-- 下方：次一交易日走勢分析報告 (依真實資料客觀生成) -->
       <section class="report-section">
         <div class="report-container">
           <div class="report-header">
@@ -284,7 +289,6 @@
                   <polyline points="14 2 14 8 20 8"></polyline>
                   <line x1="16" y1="13" x2="8" y2="13"></line>
                   <line x1="16" y1="17" x2="8" y2="17"></line>
-                  <polyline points="10 9 9 9 8 9"></polyline>
                 </svg>
               </div>
               <div>
@@ -292,7 +296,11 @@
                   次一交易日股價走勢預測分析報告
                   <span class="report-stock-name" id="reportStockName">台積電 (2330)</span>
                 </h3>
-                <p class="report-time">分析報告生成日期：<span id="reportGenDate">2026/10/03</span> &bull; 評估資料依據：最近交易日收盤與最新台指期夜盤連動</p>
+                <p class="report-time">
+                  報告依據：<span id="reportDataSourceName">TWSE 官方行情</span> &bull; 
+                  實際交易日期：<span id="reportTradeDate">--</span> &bull; 
+                  資料抓取時間：<span id="reportFetchTime">--</span>
+                </p>
               </div>
             </div>
 
@@ -302,61 +310,46 @@
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                 </svg>
-                複製完整分析報告
+                複製完整官方分析報告
               </button>
             </div>
           </div>
 
           <div class="report-content-grid" id="reportContent">
-            <!-- 區塊 1: 夜盤連動推演 -->
+            <!-- 區塊 1: 官方交易日曆與更新比對 -->
             <div class="report-block">
               <div class="block-badge badge-blue">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="12" y1="6" x2="12" y2="12"></line>
-                  <line x1="12" y1="12" x2="16" y2="14"></line>
-                </svg>
-                一、台指期夜盤連動分析
+                一、官方交易日曆與行情時效判定
               </div>
-              <div class="block-body" id="reportNightAnalysis">
+              <div class="block-body" id="reportCalendarAnalysis">
                 <!-- 動態注入 -->
               </div>
             </div>
 
-            <!-- 區塊 2: 技術均線與指標 -->
+            <!-- 區塊 2: 30天真實技術指標分析 -->
             <div class="report-block">
               <div class="block-badge badge-purple">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M3 3v18h18"></path>
-                  <path d="m19 9-5 5-4-4-3 3"></path>
-                </svg>
-                二、個股 30 日技術型態與籌碼
+                二、真實 30 天均線排列與乖離率 (BIAS)
               </div>
               <div class="block-body" id="reportTechAnalysis">
                 <!-- 動態注入 -->
               </div>
             </div>
 
-            <!-- 區塊 3: 次日走勢情境推演 -->
+            <!-- 區塊 3: 次日走勢推演 -->
             <div class="report-block">
               <div class="block-badge badge-orange">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                </svg>
-                三、次日多空走勢與開盤預測
+                三、次一交易日支撐/壓力與走勢情境
               </div>
               <div class="block-body" id="reportScenarioAnalysis">
                 <!-- 動態注入 -->
               </div>
             </div>
 
-            <!-- 區塊 4: 操作建議與風險控制 -->
+            <!-- 區塊 4: 操作建議與防守紀律 -->
             <div class="report-block">
               <div class="block-badge badge-green">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                </svg>
-                四、交易員操作策略與風控指引
+                四、交易操作策略與風控指引
               </div>
               <div class="block-body" id="reportActionStrategy">
                 <!-- 動態注入 -->
@@ -370,14 +363,14 @@
               <line x1="12" y1="8" x2="12" y2="12"></line>
               <line x1="12" y1="16" x2="12.01" y2="16"></line>
             </svg>
-            免責聲明：本系統所有股價預測及分析數據係由量化演算法、台指期夜盤連動模型與 30 日歷史指標推算之模擬報告，僅供研究參考交流，不構成任何投資買賣建議。投資人進行交易時應獨立審慎評估風險。
+            官方資料宣告：本系統股價直接串接臺灣證券交易所 (TWSE) 與證券櫃檯買賣中心 (TPEx) 官方 OpenAPI。預測與均線均根據官方真實歷史成交數據量化運算，無任何 AI 編造股價。投資具有風險，本分析僅供研究交流，不構成買賣投資建議。
           </div>
         </div>
       </section>
     </div>
   </main>
 
-  <!-- 提示訊息 Toast 容器 -->
+  <!-- Toast 提示容器 -->
   <div class="toast-container" id="toastContainer"></div>
 
   <script src="app.js"></script>
