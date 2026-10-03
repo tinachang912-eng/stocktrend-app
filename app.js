@@ -460,19 +460,19 @@ function renderTrendChart(symbol, historyData) {
       plugins: {
         legend: {
           labels: {
-            color: '#f3f4f6',
-            font: { size: 12, weight: '500' },
+            color: '#0f172a',
+            font: { size: 12, weight: '600' },
             boxWidth: 14,
             usePointStyle: true
           }
         },
         tooltip: {
-          backgroundColor: 'rgba(15, 23, 42, 0.92)',
-          borderColor: 'rgba(255, 255, 255, 0.15)',
+          backgroundColor: '#0f172a',
+          borderColor: '#334155',
           borderWidth: 1,
           padding: 10,
-          titleColor: '#93c5fd',
-          bodyColor: '#f3f4f6',
+          titleColor: '#60a5fa',
+          bodyColor: '#ffffff',
           callbacks: {
             label: function(context) {
               if (context.parsed.y === null) return `${context.dataset.label}: --`;
@@ -483,13 +483,13 @@ function renderTrendChart(symbol, historyData) {
       },
       scales: {
         x: {
-          grid: { color: 'rgba(255, 255, 255, 0.05)' },
-          ticks: { color: '#9ca3af', maxRotation: 45, maxTicksLimit: 12 }
+          grid: { color: 'rgba(0, 0, 0, 0.04)' },
+          ticks: { color: '#64748b', maxRotation: 45, maxTicksLimit: 12 }
         },
         y: {
-          grid: { color: 'rgba(255, 255, 255, 0.06)' },
+          grid: { color: 'rgba(0, 0, 0, 0.05)' },
           ticks: {
-            color: '#93c5fd',
+            color: '#1d4ed8',
             callback: value => `${value} 元`
           }
         }
