@@ -1,0 +1,152 @@
+{
+  "symbol": "8069",
+  "total_days": 23,
+  "history": [
+    {
+      "date": "2026-09-01",
+      "close_price": 158.0,
+      "change": 1.5,
+      "volume": 8329.0
+    },
+    {
+      "date": "2026-09-02",
+      "close_price": 154.5,
+      "change": -3.5,
+      "volume": 4967.0
+    },
+    {
+      "date": "2026-09-03",
+      "close_price": 147.0,
+      "change": -7.5,
+      "volume": 9632.0
+    },
+    {
+      "date": "2026-09-04",
+      "close_price": 148.5,
+      "change": 1.5,
+      "volume": 5361.0
+    },
+    {
+      "date": "2026-09-07",
+      "close_price": 150.5,
+      "change": 2.0,
+      "volume": 4603.0
+    },
+    {
+      "date": "2026-09-08",
+      "close_price": 147.0,
+      "change": -3.5,
+      "volume": 5283.0
+    },
+    {
+      "date": "2026-09-09",
+      "close_price": 149.5,
+      "change": 2.5,
+      "volume": 5643.0
+    },
+    {
+      "date": "2026-09-10",
+      "close_price": 147.0,
+      "change": -2.5,
+      "volume": 4280.0
+    },
+    {
+      "date": "2026-09-11",
+      "close_price": 146.0,
+      "change": -1.0,
+      "volume": 3528.0
+    },
+    {
+      "date": "2026-09-14",
+      "close_price": 145.5,
+      "change": -0.5,
+      "volume": 4039.0
+    },
+    {
+      "date": "2026-09-15",
+      "close_price": 146.0,
+      "change": 0.5,
+      "volume": 3779.0
+    },
+    {
+      "date": "2026-09-16",
+      "close_price": 148.0,
+      "change": 2.0,
+      "volume": 3921.0
+    },
+    {
+      "date": "2026-09-17",
+      "close_price": 145.5,
+      "change": -2.5,
+      "volume": 5128.0
+    },
+    {
+      "date": "2026-09-18",
+      "close_price": 146.5,
+      "change": 1.0,
+      "volume": 10229.0
+    },
+    {
+      "date": "2026-09-21",
+      "close_price": 144.5,
+      "change": -2.0,
+      "volume": 5339.0
+    },
+    {
+      "date": "2026-09-22",
+      "close_price": 145.0,
+      "change": 0.5,
+      "volume": 5676.0
+    },
+    {
+      "date": "2026-09-23",
+      "close_price": 144.0,
+      "change": -1.0,
+      "volume": 5797.0
+    },
+    {
+      "date": "2026-09-24",
+      "close_price": 146.0,
+      "change": 2.0,
+      "volume": 5440.0
+    },
+    {
+      "date": "2026-09-29",
+      "close_price": 142.5,
+      "change": -3.5,
+      "volume": 8505.0
+    },
+    {
+      "date": "2026-09-30",
+      "close_price": 144.0,
+      "change": 1.5,
+      "volume": 5454.0
+    },
+    {
+      "date": "2026-10-01",
+      "close_price": 144.0,
+      "change": 0.0,
+      "volume": 4089.0
+    },
+    {
+      "date": "2026-10-02",
+      "close_price": 143.5,
+      "change": -0.5,
+      "volume": 5802.0
+    },
+    {
+      "date": "2026-10-05",
+      "close_price": 146.5,
+      "change": 3.0,
+      "volume": 7480.0
+    }
+  ],
+  "indicators": {
+    "ma5": 144.1,
+    "ma20": 146.0,
+    "high_30": 158.0,
+    "low_30": 142.5,
+    "bias_5": 1.67,
+    "bias_20": 0.34
+  }
+}

@@ -1,6 +1,6 @@
 {
   "symbol": "2603",
-  "total_days": 22,
+  "total_days": 23,
   "history": [
     {
       "date": "2026-09-01",
@@ -133,14 +133,20 @@
       "close_price": 240.0,
       "change": 2.0,
       "volume": 5621086.0
+    },
+    {
+      "date": "2026-10-05",
+      "close_price": 234.5,
+      "change": -5.5,
+      "volume": 9022467.0
     }
   ],
   "indicators": {
-    "ma5": 239.7,
-    "ma20": 237.6,
+    "ma5": 238.0,
+    "ma20": 237.38,
     "high_30": 243.0,
     "low_30": 229.0,
-    "bias_5": 0.13,
-    "bias_20": 1.01
+    "bias_5": -1.47,
+    "bias_20": -1.21
   }
 }
