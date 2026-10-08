@@ -1,6 +1,6 @@
 {
   "symbol": "00679B",
-  "total_days": 25,
+  "total_days": 26,
   "history": [
     {
       "date": "2026-09-01",
@@ -151,14 +151,20 @@
       "close_price": 24.3,
       "change": -0.03,
       "volume": 16304.0
+    },
+    {
+      "date": "2026-10-08",
+      "close_price": 24.35,
+      "change": 0.05,
+      "volume": 16795.0
     }
   ],
   "indicators": {
-    "ma5": 24.48,
-    "ma20": 25.16,
+    "ma5": 24.42,
+    "ma20": 25.09,
     "high_30": 25.78,
     "low_30": 24.3,
-    "bias_5": -0.74,
-    "bias_20": -3.42
+    "bias_5": -0.29,
+    "bias_20": -2.95
   }
 }
