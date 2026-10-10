@@ -1,262 +1,119 @@
 ---
 name: vibe-coding-frontend-builder
-description: 當使用者希望透過自然語言描述氛圍（Vibe）、設計風格或互動理念，極速建構、重構或美化現代化前端應用（如 Kanban 看板、科技感 Landing Page、CMS 儀表板、個人作品集或互動卡片等）時使用。此 Skill 提供從氛圍萃取、Design Token 變數設計、語意化響應式排版、拖曳與微互動反饋，到雙色主題與 UX/a11y 防呆驗收的標準化流程。
+description: 當需要從自然語言直覺快速建構、重構、除錯或擴充現代化前端應用，並將開發過程沈澱為可重複運行的工程規範（Rules）與品質驗收閘門（Workflows）時使用。此 Skill 涵蓋從探索認知、全鏈治本、水平擴展到規則固化與 UX 驗收的標準閉環。
 ---
 
-# VibeCoding 前端極速建構流程規範 (Vibe-Coding Frontend Builder)
+# VibeCoding 前端應用開發 Skill
 
-> **定位**：將模糊的視覺直覺（Vibe）、美感風格與功能訴求，極速轉化為具備高美學質感、響應式自適應、細膩微互動且可維護的生產級前端介面。  
-> **適用範疇**：原生前端 (HTML5 + CSS Variables + ES6 JavaScript) 及現代元件化 SPA (React 18 + Vite / Vue 3 / Tailwind CSS)。  
-> **關聯規範**：[`dev-guidelines.md`](file:///c:/Users/TINA/Documents/antigravity/practice/.agents/rules/dev-guidelines.md) | [`ux-check`](file:///c:/Users/TINA/Documents/antigravity/practice/.agents/skills/ux-check/SKILL.md)
-
----
-
-## 1. VibeCoding 核心精神與開發心法 (Philosophy & Core Principles)
-
-VibeCoding 不僅僅是「寫出能運行的程式碼」，而是以**直覺美學為先導、工程規格為底座**的高敏捷開發模式：
-
-1. **Token First (變數先導，嚴禁寫死色碼)**：
-   - 任何介面組件動工前，第一要務是萃取並定義 **Design Tokens (CSS Variables)**。
-   - 涵蓋畫布背景、文字階層、主強調色、邊框強弱、圓角尺度、立體陰影與過渡動效。
-2. **Feedback Driven (操作必有反饋，杜絕視覺死角)**：
-   - 任何可互動元素（按鈕、卡片、選單、拖曳區）必須涵蓋完整的狀態生命週期：`Default`、`Hover`、`Active`、`Focus-Visible`、`Disabled` 與非同步 `Loading`。
-   - 所有異動（新增、更新、刪除、拖曳完成）必須具備清晰即時的浮動提示（Toast）或微動畫反饋。
-3. **Dual-Input Accessibility (鍵盤與行動端降級兼顧)**：
-   - 具備滑鼠拖曳（Drag & Drop）的卡片或項目，必須同步提供**微控制按鈕（如向左/向右移動箭頭）**，確保觸控螢幕、鍵盤導航與無障礙讀屏者皆能無痛操作。
-4. **Resilient Boundaries (優雅防呆與邊界狀態)**：
-   - 預設考量空狀態（Empty State）、超長文字折行（`word-break: break-word`）、文字溢出截斷（`text-overflow: ellipsis`）與高頻操作防抖（Debounce）。
+> **定位**：將使用者的高階直覺（Vibe）、業務需求與偶發性 Bug，轉化為具備「雙模韌性、優雅防呆、水平可擴展性與自動化驗收閘門」的生產級前端應用。
 
 ---
 
-## 2. 標準五階段 VibeCoding 開發管線 (The 5-Phase Pipeline)
+## 適用情境
 
-```mermaid
-graph TD
-    A[階段 1: 氛圍解析與 Design Tokens] --> B[階段 2: 語意骨架與自適應佈局]
-    B --> C[階段 3: 狀態機與靈動微互動]
-    C --> D[階段 4: 雙模式主題與美學拋光]
-    D --> E[階段 5: UX/a11y 驗收與交付自檢]
-    E -- 發現視覺或互動瑕疵 --> C
-    E -- 通過檢核清單 --> F([高質感成品交付])
-```
+本開發流程適用於以下各類現代前端應用架構：
 
----
-
-### 階段 1：氛圍解析與 Design Tokens 奠基 (Vibe Extraction & Palette Design)
-
-當收到使用者的視覺描述或功能要求時，先定調視覺主題（Vibe Palette）：
-
-#### 1.1 常見 Vibe 風格與色彩語意對照
-- **簡約暖陶土風 (Warm Minimalist)**：米白畫布 (`#FAF6F0`)、焦糖琥珀主色 (`#D97736`)、暖灰文字 (`#3C332A`)、草本鼠尾綠 (`#48774E`)。
-- **深邃賽博科技風 (Cyber Tech Glow)**：深藍黑背景 (`#090D16`)、霓虹靛藍 (`#6366F1`)、螢光青青 (`#06B6D4`)、玻璃毛玻璃 (`rgba(255,255,255,0.08)`)。
-- **現代清新企業風 (Modern Clean SaaS)**：冷白畫布 (`#F8FAFC`)、經典曜藍 (`#2563EB`)、石板深灰 (`#0F172A`)、翡翠綠成功色 (`#10B981`)。
-
-#### 1.2 宣告標準 Design Tokens 範本 (`:root`)
-在 CSS 檔頭或全域樣式中定義完整變數：
-
-```css
-:root {
-  /* 背景層次 */
-  --bg-page: #FAF6F0;
-  --bg-card: #FFFFFF;
-  --bg-column: #F8F4ED;
-  --bg-dropzone-hover: #F3EBDD;
-  --bg-input: #FDFBF8;
-
-  /* 文字階層 (WCAG AA 4.5:1+) */
-  --text-main: #3C332A;
-  --text-muted: #827568;
-  --text-light: #B5A99C;
-
-  /* 邊框與分隔線 */
-  --border-subtle: #EFE8DE;
-  --border-strong: #E2D7C8;
-  --border-focus: #D97736;
-
-  /* 主題色與互動微色調 */
-  --primary: #D96B27;
-  --primary-hover: #C35B1A;
-  --primary-subtle: #FAEEE5;
-  --primary-text: #96420F;
-
-  /* 功能語意色 */
-  --status-todo: #D97736;
-  --status-process: #C35334;
-  --status-done: #48774E;
-  --danger: #C85444;
-  --danger-subtle: #FDF2F0;
-
-  /* 圓角、陰影與過渡曲線 */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --shadow-sm: 0 1px 3px rgba(60, 51, 42, 0.05);
-  --shadow-card: 0 2px 8px rgba(60, 51, 42, 0.06);
-  --shadow-hover: 0 8px 20px rgba(60, 51, 42, 0.12);
-  --shadow-drag: 0 14px 28px rgba(217, 107, 39, 0.22);
-  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-```
+1. **數據儀表板與視覺化工具 (Fintech & Data Dashboards)**：
+   股票/加密貨幣即時看板、BI 數據大屏、IoT 物聯網監控、各類統計趨勢折線/柱狀圖表應用。
+2. **無伺服器與靜態展示型應用 (Serverless JAMstack Apps)**：
+   託管於 GitHub Pages、Vercel、Cloudflare Pages 之免後端工具站、產品型錄、開放資料彙整平台。
+3. **檢索、過濾與管理型單頁應用 (Search & Aggregator SPAs)**：
+   看板管理（Kanban）、書籤收藏夾、資源導航站、具備本地儲存（`localStorage`）之個人生產力工具。
+4. **AI 協同敏捷工程 (Agentic Coding Workspaces)**：
+   需要透過自然語言快速迭代、排查邊界 Bug，並將踩坑經驗固化為系統規則與工作流程的軟體專案。
 
 ---
 
-### 階段 2：語意骨架與自適應佈局 (Semantic Layout & Responsive Grid)
+## 核心方法論（四心法）
 
-1. **嚴格語意化標籤**：
-   - 頂部導覽／標題群組：`<header>` 與 `<nav>`
-   - 核心互動區：`<main>`、`<section>`
-   - 獨立卡片：`<article class="task-card">`
-   - 控制項與按鈕：一律使用具備型別的 `<button type="button">` 或 `<button type="submit">`，禁止用無語意的 `<div onclick>`。
-2. **多斷點響應式規則 (Responsive Breakdown)**：
-   - **桌面端 (> 1024px)**：寬螢幕多欄排版（如看板 3 欄等寬、側邊欄固定寬度）。
-   - **平板端 (640px ~ 1024px)**：彈性縮放欄寬、卡片文字自適應折行。
-   - **行動端 (< 640px)**：
-     - 單欄流式佈局（`grid-template-columns: 1fr`）。
-     - 按鈕全寬置底（Full-width touch actions）。
-     - 最小觸控目標面積：所有可點擊區域 **≥ 44 × 44 px**。
-     - 水平防溢出：根節點或父容器設定 `overflow-x: hidden`。
+1. **直覺探索，邊界自明 (Intuition First, Boundary Aware)**：以自然語言引導對話啟動開發，並在動態切換中主動探勘無後端、CORS 與空資料邊界。
+2. **全鏈治本，雙模防禦 (Root Cause Fix, Dual-Mode Resilient)**：除錯不只修補 UI 表面，同步打通靜態快照與動態 API 雙模退避，杜絕記憶體與畫布殘留。
+3. **單點驗證，水平擴展 (Verify Once, Scale Horizontally)**：建立最小可行修復路徑後，透過增量實例驗證管線之可重現性與擴充性。
+4. **經驗固化，閘門守護 (Codify Rules, Guard with Gates)**：拒絕隱性經驗遺忘，將踩坑知識寫入 Rules，並透過 Workflows 建立驗收品管閘門。
 
 ---
 
-### 階段 3：狀態機與靈動微互動 (Interactive States & Micro-interactions)
+## 步驟序列
 
-#### 3.1 完整互動狀態樣式
-為所有按鈕與卡片配置標準五態過渡：
-```css
-/* 卡片懸浮景深提升 */
-.interactive-card {
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
-}
-.interactive-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--border-strong);
-}
+標準 VibeCoding 工程閉環包含以下六個步驟：
 
-/* 鍵盤聚焦環 (a11y) */
-button:focus-visible, input:focus-visible {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 2px;
-}
-```
+### 步驟 1：專案資產與邊界探索 (Asset & Boundary Discovery)
+- **目的**：快速盤點專案全貌、介面展示入口、既有架構約束與開發規範存放位置，避免盲目重造輪子。
+- **Prompt 模板**：
+  > 「我寫的 [應用名稱/功能模組] 哪裡可以查看 [核心產出/展示頁面]？另外專案既有的 [規範/規則/rules] 存放在哪邊？」
+- **成功判斷標準**：
+  - 確認主要前端渲染入口（如 `index.html`、`src/App.jsx`）。
+  - 定位既有規範目錄（如 `.agent/rules/`）與部署工作流（如 `.github/workflows/`）。
+  - 釐清前端與資料來源的通訊協議或本地快照機制。
 
-#### 3.2 雙軌拖曳與降級控制 (Dual-Track Drag & Drop)
-- **原生拖曳支援**：為卡片設置 `draggable="true"`，綁定 `dragstart`, `dragend`, `dragover`, `dragleave`, `drop` 事件。
-  - 拖曳中樣式：設置 `.dragging` 類別，半透明化並加上邊界聚焦色。
-  - 放置目標區：懸停時標記 `.drag-over`，變更虛線外框與底色引導。
-- **無障礙降級按鈕 (Micro Navigation)**：
-  - 在卡片底部配置 `<button class="btn-move" title="移至下一階段">`。
-  - 當使用者處於行動端（不便拖曳）或使用純鍵盤操作時，能直接點擊前進/後退狀態。
+### 步驟 2：線上異常診斷與根因剖析 (Diagnosis & Root Cause Discovery)
+- **目的**：鎖定生產或展示環境中「表面正常但局部凍結/跑版/無反應」的深層架構與邊界 Bug。
+- **Prompt 模板**：
+  > 「在 [線上網址/測試環境]，我如果在 [操作區域] 切換了 [操作目標/參數]，例如由 [預設值 A] 改成 [非預設值 B]，但在 [關聯區域/圖表/數值] 都不會異動或卡住，請幫我分析原因。」
+- **成功判斷標準**：
+  - 精確定位問題本質（例如：非單純 CSS 跑版，而是靜態資料檔 404、CORS 阻斷、Canvas 舊實例未銷毀、或型別自動轉換失真）。
+  - 明確區分前端渲染問題與資料管線問題，產出具體治本方案。
 
-#### 3.3 非同步回饋與 Toast 提示系統
-- 操作完成時（如新增卡片、移動狀態、刪除卡片），透過全域輕量 Toast 給予 2~3 秒視覺反饋：
-```javascript
-function showToast(message, type = 'info') {
-  const toast = document.createElement('div');
-  toast.className = `toast-pill toast-${type}`;
-  toast.textContent = message;
-  document.body.appendChild(toast);
-  requestAnimationFrame(() => toast.classList.add('show'));
-  setTimeout(() => {
-    toast.classList.remove('show');
-    setTimeout(() => toast.remove(), 300);
-  }, 2500);
-}
-```
+### 步驟 3：全鏈治本與雙模防禦 (Remediation & Resilient Patching)
+- **目的**：授權落地完整修復鏈條（資料源補齊 + 元件實例銷毀 + 友善空狀態提示 + 遠端部署發布）。
+- **Prompt 模板**：
+  > 「好，請幫我執行修復：包含補充 [目標項目] 的數據/資源、修復 [圖表/元件] 的銷毀與空狀態防呆，並同步更新至 [部署平台/遠端儲存庫]。」
+- **成功判斷標準**：
+  - 目標項目的數據與圖表能正常載入並呈現動態互動。
+  - 切換至缺少資料之項目時，舊圖表主動銷毀，畫布清空並呈現友善說明，不殘留前一項目。
+  - 成功 Commit 並 Push 至遠端儲存庫，線上部署重新生效。
 
-#### 3.4 輸入防抖處理 (Debounce)
-- 即時搜尋與篩選輸入框，必須加入 300ms 防抖處理：
-```javascript
-function debounce(fn, delay = 300) {
-  let timer = null;
-  return function (...args) {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn.apply(this, args), delay);
-  };
-}
-```
+### 步驟 4：水平規模擴充與重複性驗證 (Horizontal Scaling & Verification)
+- **目的**：利用剛建立之修復管線，快速追加新項目或新功能，驗證流程之可重現度與架構擴展性。
+- **Prompt 模板**：
+  > 「請依據剛才建立的管線，為我多加入 [新增項目名稱/代號/資源 A] 以及 [新增項目名稱/代號/資源 B]，並更新搜尋建議與自動同步排程。」
+- **成功判斷標準**：
+  - 新增項目之資料/資源檔案正確生成且指標計算無誤。
+  - 前端下拉建議選單（Datalist/Select）同步收錄新選項。
+  - 自動化排程清單納入新項目，自動化測試套件 100% 通過。
 
----
+### 步驟 5：隱性經驗固化為系統規則 (Rule Codification & Knowledge Asset)
+- **目的**：將除錯與擴充過程中的隱性工程知識（型別保護、快取破壞、雙模機制）固化進 `rules`，成為日後 AI 與團隊開發的底層約束。
+- **Prompt 模板**：
+  > 「依照現有的專案狀態與踩坑經驗，請撰寫全端開發與發布規範進 rules 裡面，包含 [資料清洗型別/雙模架構/圖表銷毀/CI-CD SOP] 等約束。」
+- **成功判斷標準**：
+  - 在 `.agent/rules/` 建立或更新權威開發指南（如 `dev-guidelines.md`）。
+  - 規範包含明確的架構 Mermaid 圖、不可觸碰之防呆紅線與增量擴充 SOP。
+  - 規範檔案納入版本控制並推播至儲存庫。
 
-### 階段 4：雙模式主題與美學拋光 (Themes & Visual Polish)
-
-1. **深淺色雙模式支援 (Dark / Light Dual Mode)**：
-   - 透過 `[data-theme="dark"]` 屬性覆寫 CSS 變數，維持元件 class 不變。
-   - 預設讀取 `localStorage.getItem('theme')` 或 `window.matchMedia('(prefers-color-scheme: dark)')`。
-2. **WCAG 2.1 AA 色彩對比規範**：
-   - 一般文字與背景對比度必須 **≥ 4.5:1**。
-   - 大字體與重要邊框對比度必須 **≥ 3.0:1**。
-   - 絕對禁止在深色模式下出現白底或文字隱形問題。
-3. **景深與微光暈 (Depth & Glow)**：
-   - 深色模式採用 Subtle Borders (`rgba(255,255,255,0.1)`) 取代純黑硬陰影。
-   - 科技風格加入外光暈（`box-shadow: 0 0 15px var(--primary-glow)`）。
+### 步驟 6：品管閘門建立與全面體驗走查 (Quality Gate & Automated UX Audit)
+- **目的**：將零散的人工驗收標準化為 Workflows 檔案，並依循 SOP 執行全方位 UX/UI/a11y/RWD 品質查核。
+- **Prompt 模板**：
+  > 「在專案目錄底下建立 Workflows 檔案 .agents/workflows/[檢核名稱如 ux-check].md，並為我執行一次全方位的 [/檢核指令] 介面品質驗收。」
+- **成功判斷標準**：
+  - 建立可重複觸發之 Markdown 工作流程文件（定義八大面向與評分標準）。
+  - 產出標準化檢核報告（包含 P0/P1/P2 缺陷評級與即時修補明細）。
+  - 通過上線前 10 項黃金指標驗收（零橫向滾動、鍵盤 a11y 支援、快取版號已遞增）。
 
 ---
 
-### 階段 5：UX/a11y 驗收與交付自檢 (UX Verification & Delivery Checklist)
+## 常見問題處理
 
-在將成果交付給使用者前，執行以下 10 項黃金指標檢查：
+### 問題 1：靜態展示環境無後端 API，導致動態請求失敗或跨域報錯 (CORS / 404)
+- **成因**：GitHub Pages / 靜態主機無法運行 Python/Node.js 後端服務，且瀏覽器同源政策阻止直接存取第三方開放 API。
+- **解法**：
+  1. 建立**雙模切換狀態機（Dual-Mode Detection）**：前端偵測 `hostname`，若是 `localhost` 則請求本機 API，若是線上靜態環境則自動降級讀取 `./data/` 靜態快照。
+  2. 建立 **CI/CD 自動化快照排程**：透過 GitHub Actions 每天定時執行匯出腳本抓取最新數據，自動 Commit & Push 刷新靜態資料庫。
 
-| 檢核項目 | 標準要求 | 自檢結果 |
-| :--- | :--- | :---: |
-| 1. **全站 Token 化** | 無任何寫死之 Hex/RGB 顏色，100% 透過 `var(--...)` 調用 | [ ] |
-| 2. **雙模式正常** | 切換 Dark / Light 主題時無文字隱形或殘留背景區塊 | [ ] |
-| 3. **無水平溢出** | 行動裝置視窗 (375px) 下無意外之橫向滾動條 (`overflow-x`) | [ ] |
-| 4. **觸控友善** | 行動端按鈕與點擊目標面積均 ≥ 44 × 44 px | [ ] |
-| 5. **互動狀態五態完整** | 按鈕與卡片均具備 Default / Hover / Active / Focus / Disabled | [ ] |
-| 6. **雙軌操作可用** | 拖曳功能具備點擊式替代控制按鈕，無滑鼠亦可操作 | [ ] |
-| 7. **操作即時回饋** | 新增、修改、刪除操作均有 Toast 或動畫即時確認 | [ ] |
-| 8. **高頻輸入防抖** | 搜尋、過濾或即時保存輸入具備 300ms ~ 500ms Debounce | [ ] |
-| 9. **邊界空狀態防呆** | 清單無項目時呈現友善空狀態圖示與提示，而非死白區塊 | [ ] |
-| 10. **鍵盤可操作性** | 支援 Tab 聚焦導航、Enter 提交與 Esc 關閉彈窗 | [ ] |
+### 問題 2：資料切換時視覺元件「舊內容殘留」或畫面凍結 (Instance Residual Bug)
+- **成因**：圖表（Chart.js、ECharts、Leaflet）或複雜 DOM 在更新時，若新資料為空或異常，程式提早 `return`，未銷毀舊實例。
+- **解法**：
+  1. 實作**嚴格生命週期銷毀（Lifecycle Cleanup）**：在渲染前或偵測到無資料時，先執行 `instance.destroy()` 並賦值為 `null`。
+  2. 提供**防呆空狀態容器（Empty State Fallback）**：清空畫布後，在副標題或表格顯示明確提示，引導使用者理解原因。
 
----
+### 問題 3：型別自動隱性轉換導致精確度或核心標識遺失 (Type Mutation Bug)
+- **成因**：代碼或字串包含前導零（如 `0050`、`01`）被 JavaScript/Python 自動解析為數字 `50`；或是空值被轉換為數字 `0`。
+- **解法**：
+  1. **型別守門**：標識符一律強制鎖死為 `string`，接收輸入時透過正規表達式過濾保留原樣。
+  2. **非零防禦**：缺漏數值或休市無行情時，一律回傳 `null` / `None`，**嚴禁預設轉為 `0`**，避免破壞平均值計算或引發商業邏輯誤判。
 
-## 3. 快速啟動範例程式碼 (Quick Reference Snippets)
-
-### 3.1 友善空狀態結構 (Empty State Template)
-```html
-<div class="empty-state-box">
-  <div class="empty-icon-wrap">
-    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-      <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
-      <rect x="9" y="3" width="6" height="4" rx="1" />
-      <path d="M9 14l2 2 4-4" />
-    </svg>
-  </div>
-  <p class="empty-title">目前尚無任何任務</p>
-  <p class="empty-subtitle">從上方輸入框輸入事項，快速新增你的第一個任務！</p>
-</div>
-```
-
-### 3.2 HTML5 拖曳卡片核心邏輯 (Drag & Drop Logic)
-```javascript
-// 綁定拖曳起始與結束
-function bindCardDragEvents(cardEl) {
-  cardEl.setAttribute('draggable', 'true');
-  cardEl.addEventListener('dragstart', (e) => {
-    e.dataTransfer.setData('text/plain', cardEl.dataset.taskId);
-    cardEl.classList.add('dragging');
-  });
-  cardEl.addEventListener('dragend', () => {
-    cardEl.classList.remove('dragging');
-  });
-}
-
-// 放置區監聽
-dropzones.forEach(zone => {
-  zone.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    zone.classList.add('drag-over');
-  });
-  zone.addEventListener('dragleave', () => {
-    zone.classList.remove('drag-over');
-  });
-  zone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    zone.classList.remove('drag-over');
-    const taskId = e.dataTransfer.getData('text/plain');
-    moveTaskToColumn(taskId, zone.dataset.status);
-  });
-});
-```
+### 問題 4：靜態託管平台強快取導致更新「看似未生效」 (Aggressive Browser Caching)
+- **成因**：CDN 或使用者瀏覽器對 `.js` / `.css` 檔案具有長效快取，即便 Git 推送成功，使用者重新整理仍看到舊邏輯。
+- **解法**：
+  1. **Cache Busting 版本標籤**：每次修改核心腳本時，必須在 HTML 引入處遞增查詢參數（如 `<script src="app.js?v=YYYYMMDD_vX"></script>`）。
+  2. 將「更新快取版號」列入步驟 6 上線前 10 項黃金檢驗清單之硬性要求。
