@@ -272,6 +272,31 @@ button {
   font-size: 0.78rem;
 }
 
+/* 全域焦點可見性 (WCAG 2.1 a11y 鍵盤導航) */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+.stock-tab:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* 按鈕微互動狀態 */
+.btn-success-state {
+  border-color: #10b981 !important;
+  color: #10b981 !important;
+  background: rgba(16, 185, 129, 0.12) !important;
+}
+
+@keyframes spin-anim {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.btn-spinning svg {
+  animation: spin-anim 0.8s linear infinite;
+}
+
 /* 主版面 */
 .main-layout {
   max-width: 1400px;
@@ -455,7 +480,7 @@ button {
 
 .overview-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
   gap: 1.25rem;
 }
 

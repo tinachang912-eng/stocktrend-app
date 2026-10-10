@@ -237,6 +237,10 @@ function renderWatchlistTabs() {
     const tab = document.createElement('div');
     tab.className = `stock-tab ${isSelected ? 'active' : ''}`;
     tab.dataset.symbol = symbol;
+    tab.setAttribute('role', 'tab');
+    tab.setAttribute('tabindex', '0');
+    tab.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+    tab.setAttribute('aria-label', `${quote.name || symbol}，代號 ${symbol}，最新收盤價 ${quote.close_price !== null ? quote.close_price : '無收盤價'}`);
 
     tab.innerHTML = `
       <div class="stock-tab-info">
@@ -253,7 +257,7 @@ function renderWatchlistTabs() {
           ` : ''}
         </div>
       </div>
-      <button class="btn-remove-stock" data-symbol="${symbol}" title="自名單移除 ${symbol}">
+      <button class="btn-remove-stock" data-symbol="${symbol}" title="自名單移除 ${symbol}" aria-label="自觀察名單移除 ${quote.name || symbol}">
         &times;
       </button>
     `;
@@ -261,6 +265,14 @@ function renderWatchlistTabs() {
     tab.addEventListener('click', (e) => {
       if (e.target.closest('.btn-remove-stock')) return;
       selectStock(symbol);
+    });
+
+    tab.addEventListener('keydown', (e) => {
+      if (e.target.closest('.btn-remove-stock')) return;
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        selectStock(symbol);
+      }
     });
 
     const removeBtn = tab.querySelector('.btn-remove-stock');
@@ -790,23 +802,47 @@ function copyReportToClipboard() {
 本報告直接串接證交所 (TWSE) 與櫃買中心 (TPEx) 官方 OpenAPI，非投資買賣建議。
 `.trim();
 
+  const btn = document.getElementById('btnCopyReport');
+  const originalHtml = btn ? btn.innerHTML : '';
+
+  const onCopied = () => {
+    showToast('已成功複製官方分析報告至剪貼簿！', 'success');
+    if (btn) {
+      btn.classList.add('btn-success-state');
+      btn.innerHTML = `
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        已複製報告！
+      `;
+      setTimeout(() => {
+        btn.classList.remove('btn-success-state');
+        btn.innerHTML = originalHtml;
+      }, 2000);
+    }
+  };
+
   if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(() => {
-      showToast('已成功複製官方分析報告至剪貼簿！', 'success');
-    }).catch(() => fallbackCopy(text));
+    navigator.clipboard.writeText(text).then(onCopied).catch(() => {
+      fallbackCopy(text);
+      onCopied();
+    });
   } else {
     fallbackCopy(text);
+    onCopied();
   }
 }
 
 function fallbackCopy(text) {
   const ta = document.createElement('textarea');
   ta.value = text;
+  ta.setAttribute('readonly', '');
+  ta.style.position = 'absolute';
+  ta.style.left = '-9999px';
   document.body.appendChild(ta);
   ta.select();
   document.execCommand('copy');
   document.body.removeChild(ta);
-  showToast('已成功複製官方分析報告至剪貼簿！', 'success');
 }
 
 function showToast(message, type = 'info') {
@@ -848,12 +884,23 @@ async function initializeApp() {
     }
   });
 
-  document.getElementById('btnRefreshData').addEventListener('click', async () => {
+  const refreshBtn = document.getElementById('btnRefreshData');
+  refreshBtn.addEventListener('click', async () => {
+    if (refreshBtn.disabled) return;
+    refreshBtn.disabled = true;
+    refreshBtn.classList.add('btn-spinning');
     showToast('正在重新整理最新官方行情...', 'info');
-    await loadMarketCalendar();
-    await loadQuotesForWatchlist(AppState.watchlist);
-    await refreshCurrentStockView();
-    showToast('官方行情已重新整理！', 'success');
+    try {
+      await loadMarketCalendar();
+      await loadQuotesForWatchlist(AppState.watchlist);
+      await refreshCurrentStockView();
+      showToast('官方行情已重新整理！', 'success');
+    } catch (e) {
+      showToast('行情重新整理失敗，請稍候再試', 'error');
+    } finally {
+      refreshBtn.disabled = false;
+      refreshBtn.classList.remove('btn-spinning');
+    }
   });
 
   document.getElementById('btnResetDefault').addEventListener('click', async () => {
@@ -871,12 +918,20 @@ async function initializeApp() {
   const drawer = document.getElementById('historyTableDrawer');
   btnToggleTable.addEventListener('click', () => {
     AppState.isHistoryTableOpen = !AppState.isHistoryTableOpen;
+    const tableIcon = `
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="3" y1="9" x2="21" y2="9"></line>
+        <line x1="3" y1="15" x2="21" y2="15"></line>
+        <line x1="9" y1="3" x2="9" y2="21"></line>
+      </svg>
+    `;
     if (AppState.isHistoryTableOpen) {
       drawer.classList.remove('collapsed');
-      btnToggleTable.innerHTML = '收合 30 天官方歷史明細表';
+      btnToggleTable.innerHTML = `${tableIcon} 收合 30 天官方歷史明細表`;
     } else {
       drawer.classList.add('collapsed');
-      btnToggleTable.innerHTML = '檢視 30 天官方歷史明細表';
+      btnToggleTable.innerHTML = `${tableIcon} 檢視 30 天官方歷史明細表`;
     }
   });
 
