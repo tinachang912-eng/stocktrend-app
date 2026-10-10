@@ -1,6 +1,6 @@
 {
   "symbol": "3034",
-  "total_days": 26,
+  "total_days": 22,
   "history": [
     {
       "date": "2026-09-01",
@@ -133,38 +133,14 @@
       "close_price": 537.0,
       "change": -10.0,
       "volume": 2855910.0
-    },
-    {
-      "date": "2026-10-05",
-      "close_price": 543.0,
-      "change": 6.0,
-      "volume": 2406418.0
-    },
-    {
-      "date": "2026-10-06",
-      "close_price": 537.0,
-      "change": -6.0,
-      "volume": 1672438.0
-    },
-    {
-      "date": "2026-10-07",
-      "close_price": 529.0,
-      "change": -8.0,
-      "volume": 2030575.0
-    },
-    {
-      "date": "2026-10-08",
-      "close_price": 531.0,
-      "change": 2.0,
-      "volume": 2274331.0
     }
   ],
   "indicators": {
-    "ma5": 535.4,
-    "ma20": 544.3,
+    "ma5": 542.6,
+    "ma20": 543.55,
     "high_30": 558.0,
     "low_30": 524.0,
-    "bias_5": -0.82,
-    "bias_20": -2.44
+    "bias_5": -1.03,
+    "bias_20": -1.21
   }
 }

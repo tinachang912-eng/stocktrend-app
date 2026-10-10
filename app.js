@@ -388,9 +388,21 @@ function renderPredictionSummary(quote, ind) {
 // 渲染 Chart.js 真實歷史走勢圖與均線
 function renderTrendChart(symbol, historyData) {
   const ctx = document.getElementById('trendChart').getContext('2d');
+  const subtitleEl = document.getElementById('chartSubtitleDesc');
 
   if (!historyData || !historyData.history || historyData.history.length === 0) {
+    if (AppState.chartInstance) {
+      AppState.chartInstance.destroy();
+      AppState.chartInstance = null;
+    }
+    if (subtitleEl) {
+      subtitleEl.innerHTML = `<span style="color:#f59e0b;font-weight:600;">【提示】靜態展示版尚未收錄 [${symbol}] 之 30 天歷史走勢檔（僅呈現最新收盤行情）。</span><br><span style="color:#9ca3af;font-size:12px;">如需全市場任意股票即時 30 天歷史走勢，可在本機執行 <code>python backend/server.py</code> 即時查詢。</span>`;
+    }
     return;
+  }
+
+  if (subtitleEl) {
+    subtitleEl.textContent = '100% 串接證交所 (TWSE) 與櫃買中心 (TPEx) 官方真實成交紀錄，無任何 AI 編造';
   }
 
   const records = historyData.history;
@@ -517,7 +529,12 @@ function renderHistoryTable(historyData) {
   const tbody = document.getElementById('historyTableBody');
   tbody.innerHTML = '';
 
-  if (!historyData || !historyData.history) return;
+  if (!historyData || !historyData.history || historyData.history.length === 0) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td colspan="5" style="text-align:center;color:#9ca3af;padding:28px 16px;">尚無此檔 30 天歷史明細資料（可於本機執行後端服務即時抓取）</td>`;
+    tbody.appendChild(tr);
+    return;
+  }
 
   const records = [...historyData.history].reverse();
 
@@ -549,7 +566,8 @@ function renderReport(quote, historyData) {
   document.getElementById('reportTradeDate').textContent = quote.trade_date || '--';
   document.getElementById('reportFetchTime').textContent = quote.fetch_time || '--';
 
-  const ind = historyData ? historyData.indicators : {};
+  const ind = historyData ? (historyData.indicators || {}) : {};
+  const hasHistory = !!(historyData && historyData.indicators && ind.ma5);
   const ma5 = ind.ma5 || '--';
   const ma20 = ind.ma20 || '--';
   const bias5 = ind.bias_5 !== undefined ? ind.bias_5 : '--';
@@ -570,16 +588,26 @@ function renderReport(quote, historyData) {
 
   // 2. 均線排列
   const techBox = document.getElementById('reportTechAnalysis');
-  techBox.innerHTML = `
-    <p>
-      基於官方最近 30 個營業日真實成交紀錄量化計算：<br>
-      • <strong>5日均線 (MA5)：</strong> ${formatCurrency(ma5)} 元<br>
-      • <strong>20日月均線 (MA20)：</strong> ${formatCurrency(ma20)} 元<br>
-      • <strong>5日乖離率 (BIAS)：</strong> ${bias5}% (${Math.abs(bias5) > 4 ? '短線乖離擴大，提防技術性修正' : '處於常態運行範圍'})<br>
-      • <strong>20日乖離率 (BIAS)：</strong> ${bias20}%<br>
-      • <strong>30日波動區間：</strong> 上檔峰值 ${formatCurrency(ind.high_30)} 元，下檔低點 ${formatCurrency(ind.low_30)} 元。
-    </p>
-  `;
+  if (!hasHistory) {
+    techBox.innerHTML = `
+      <p style="color:#f59e0b;">
+        • <strong>歷史數據狀態：</strong> 靜態展示版尚未收錄此檔 30 天歷史數據。<br>
+        • <strong>均線與乖離率：</strong> 缺少足夠交易天數，暫無法計算 MA5 / MA20 / BIAS 指標。<br>
+        • <strong>建議方案：</strong> 可於本機啟動 <code>python backend/server.py</code> 即時連線官方 OpenAPI 計算，或於後端匯出清單中擴充此檔股票。
+      </p>
+    `;
+  } else {
+    techBox.innerHTML = `
+      <p>
+        基於官方最近 30 個營業日真實成交紀錄量化計算：<br>
+        • <strong>5日均線 (MA5)：</strong> ${formatCurrency(ma5)} 元<br>
+        • <strong>20日月均線 (MA20)：</strong> ${formatCurrency(ma20)} 元<br>
+        • <strong>5日乖離率 (BIAS)：</strong> ${bias5}% (${Math.abs(bias5) > 4 ? '短線乖離擴大，提防技術性修正' : '處於常態運行範圍'})<br>
+        • <strong>20日乖離率 (BIAS)：</strong> ${bias20}%<br>
+        • <strong>30日波動區間：</strong> 上檔峰值 ${formatCurrency(ind.high_30)} 元，下檔低點 ${formatCurrency(ind.low_30)} 元。
+      </p>
+    `;
+  }
 
   // 3. 次日情境
   const scenarioBox = document.getElementById('reportScenarioAnalysis');
