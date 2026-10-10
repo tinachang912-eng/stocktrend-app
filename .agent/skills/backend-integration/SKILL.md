@@ -1,194 +1,136 @@
 ---
 name: backend-integration
-description: 當進行前後端 API 通訊串接、FastAPI 後端端點實作與擴充、HTTP 請求封裝（Fetch/Axios）、JWT 認證與 Bearer Token 傳遞、Multipart 檔案上傳管線、錯誤處理與資料型別驗證（Pydantic/TypeScript）時使用此 Skill。
+description: 當進行前後端 API 通訊串接、FastAPI 後端端點實作與擴充、第三方金融 OpenAPI 介接（TWSE / TPEx）、HTTP 請求防護（超時/重試/降級快取）、資料清洗防呆（保留前導零/非零價格守門）與批次資料管線開發時使用此 Skill。
 ---
 
 # 全端 API 整合與通訊規範 (Backend Integration Guidelines)
 
-> **定位**：規範前後端通訊協定、RESTful 介面契約、JWT 鑑權傳遞、二進制多媒體檔案管線以及強固的非同步錯誤防護。  
-> **適用技術棧**：FastAPI (Python)、Pydantic v2、原生 Fetch API / Axios、Pillow 影像處理。  
+> **定位**：規範前後端通訊協定、RESTful 端點介面契約、外部官方金融 OpenAPI 介接、逾時重試防護與強固的數值清洗管線。  
+> **適用技術棧**：Python FastAPI、Uvicorn、`urllib.request` / `requests`、`pytz`、Pydantic、原生 Fetch API。  
 > **關聯規範**：[`dev-guidelines.md`](file:///c:/Users/TINA/Documents/antigravity/practice/.agents/rules/dev-guidelines.md) | [`architecture`](file:///c:/Users/TINA/Documents/antigravity/practice/.agents/skills/architecture/SKILL.md)
 
 ---
 
-## 1. 通訊核心協議與契約規範 (API Contract & Protocols)
+## 1. 通訊核心架構與序列流程 (Communication Architecture)
 
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Client as 前端 (React API Client)
-    participant Guard as 守衛層 (FastAPI auth.py)
-    participant Route as 路由層 (main.py)
-    participant Service as 服務管線 (media_pipeline.py)
-    participant DB as 資料庫 (SQLite cms.db)
+    participant UI as 前端 (app.js)
+    participant API as FastAPI (backend/server.py)
+    participant Client as 官方客戶端 (twse_tpex_client.py)
+    participant Cache as 本地快取 (backend/cache/)
+    participant Remote as 證交所/櫃買 OpenAPI
 
-    Client->>Guard: HTTP 請求 (帶有 Authorization: Bearer <token>)
-    alt 權杖失效或角色不足
-        Guard-->>Client: 401 Unauthorized / 403 Forbidden
-    else 驗證通過
-        Guard->>Route: 注入 current_user (字典)
-        Route->>Service: 呼叫業務方法 (帶參數與使用者上下文)
-        Service->>DB: 參數化 SQL 查詢 / 交易操作
-        DB-->>Service: 返回查詢資料
-        Service-->>Route: 業務資料物件
-        Route-->>Client: 標準 JSON 回應 { code: 200, message: "...", data: {...} }
+    UI->>API: GET /api/stock/quote?symbol=2330
+    API->>Client: get_stock_quote("2330")
+    
+    alt 記憶體/磁碟快取仍在有效期內
+        Client->>Cache: 讀取快取行情
+        Cache-->>Client: 回傳乾淨行情資料
+    else 快取過期或未命中
+        Client->>Remote: 發起 HTTP GET (帶 8s 超時 & 重試)
+        alt 遠端連線成功
+            Remote-->>Client: 官方原始報表 (JSON/CSV)
+            Client->>Client: 數值清洗 (去逗號、非零防呆、保留前導0)
+            Client->>Cache: 更新磁碟快取 (market_quotes_cache.json)
+        else 連線失敗或逾時
+            Client->>Cache: 優雅降級讀取最近一次有效快取
+        end
     end
+
+    Client-->>API: 正規化行情字典
+    API-->>UI: 標準 JSON 回應 (含時效比對 status_message)
 ```
-
-### 1.1 路由前綴與命名
-- 所有 API 端點一律以 `/api/v1` 為起點。
-- 採用名詞複數與 RESTful 標準動詞：
-  - `GET /api/v1/articles`：分頁查詢文章清單
-  - `POST /api/v1/articles`：建立新文章
-  - `GET /api/v1/articles/{id}`：獲取指定文章詳情
-  - `PATCH /api/v1/articles/{id}`：局部更新文章欄位
-  - `DELETE /api/v1/articles/{id}`：刪除（或軟刪除）文章
-
-### 1.2 統一回應資料格式
-1. **成功回應（HTTP 200 / 201）**：
-   ```json
-   {
-     "code": 200,
-     "message": "文章已成功更新",
-     "data": {
-       "id": 42,
-       "title": "深度剖析現代全端架構",
-       "status": "published",
-       "updated_at": "2026-09-12T10:00:00Z"
-     }
-   }
-   ```
-2. **錯誤回應（HTTP 4xx / 5xx）**：
-   ```json
-   {
-     "code": 404,
-     "error": "RESOURCE_NOT_FOUND",
-     "message": "查無指定的媒體檔案或您無權限檢視"
-   }
-   ```
 
 ---
 
-## 2. 前端通訊層封裝 (Frontend Client Architecture)
+## 2. API 端點契約規格 (RESTful Endpoints)
 
-前端應封裝單一 `apiClient` 模組，統一處理驗證標頭與錯誤攔截：
+所有後端商業 API 一律以 `/api` 為前綴，提供以下核心端點：
 
-```javascript
-// src/api/client.js
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+### 2.1 服務健康狀態
+- **`GET /`**：
+  回傳服務連線狀態與 `Asia/Taipei` 當前時間，供前端即時檢測後端在線狀態。
 
-export async function request(endpoint, options = {}) {
-  const token = localStorage.getItem('auth_token');
-  const headers = {
-    'Content-Type': 'application/json',
-    ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
-    ...options.headers,
-  };
+### 2.2 單檔即時行情查詢
+- **`GET /api/stock/quote?symbol={code}`**：
+  - **參數**：`symbol`（字串，必填，如 `"0050"`, `"2330"`, `"00679B"`）。
+  - **回應**：代碼、名稱、收盤價、漲跌價差、成交量、資料來源、實際交易日與日曆比對狀態。
 
-  // 若為 FormData (如檔案上傳)，移除 Content-Type 讓瀏覽器自動填寫 boundary
-  if (options.body instanceof FormData) {
-    delete headers['Content-Type'];
-  }
+### 2.3 批次行情查詢
+- **`GET /api/stocks/batch?symbols={code1,code2,...}`**：
+  - **參數**：`symbols`（以逗點分隔的股票代碼字串）。
+  - **回應**：`{ data: [ Quote, Quote, ... ] }`。
 
-  const config = {
-    ...options,
-    headers,
-  };
-
-  try {
-    const res = await fetch(`${API_BASE_URL}${endpoint}`, config);
-    const result = await res.json().catch(() => ({}));
-
-    if (!res.ok) {
-      if (res.status === 401) {
-        localStorage.removeItem('auth_token');
-        window.dispatchEvent(new CustomEvent('auth:expired'));
+### 2.4 30 個營業日真實歷史與指標
+- **`GET /api/stock/history?symbol={code}`**：
+  - **回應**：
+    ```json
+    {
+      "symbol": "2330",
+      "total_days": 26,
+      "history": [ { "date": "2026-09-01", "close_price": 234.5, "change": -8.0, "volume": 129835537 } ],
+      "indicators": {
+        "ma5": 2559.0,
+        "ma20": 2480.5,
+        "high_30": 2600.0,
+        "low_30": 2320.0,
+        "bias_5": -0.35,
+        "bias_20": 2.80
       }
-      throw new Error(result.message || `請求失敗 (${res.status})`);
     }
+    ```
 
-    return result.data;
-  } catch (err) {
-    console.error(`[API Error] ${endpoint}:`, err);
-    throw err;
-  }
-}
+### 2.5 官方市場交易日曆
+- **`GET /api/market/calendar`**：
+  回傳今日是否為營業日、應有最新交易日（考慮 13:30 收盤時段）與國定假日清單。
+
+---
+
+## 3. 數據清洗與強固防呆規範 (Data Cleaning Guidelines)
+
+> [!IMPORTANT]
+> 外部資料不可信，所有進入系統之字串與價格必須通過以下防呆函式處理：
+
+```python
+def clean_price_val(val: Any) -> Optional[float]:
+    """
+    清洗收盤價格字串：
+    1. 去除千分位逗號 ',' 與前後空白
+    2. 若值為 None, '--', '-', 'null', '' 則必須回傳 None
+    3. 成交價 <= 0 且成交量為 0 時，回傳 None（嚴禁轉為 0.0！）
+    """
+    if val is None:
+        return None
+    s = str(val).strip().replace(",", "")
+    if not s or s in ("--", "-", "null", "None", ""):
+        return None
+    try:
+        f = float(s)
+        if f <= 0:
+            return None
+        return round(f, 2)
+    except (ValueError, TypeError):
+        return None
 ```
 
 ---
 
-## 3. 後端端點實作規範 (FastAPI Standards)
+## 4. 外部連線韌性與防護準則 (Connection Resilience)
 
-### 3.1 Pydantic 模型驗證與防禦
-```python
-from pydantic import BaseModel, Field, HttpUrl
-from typing import Optional, List
-
-class ArticleCreateRequest(BaseModel):
-    title: str = Field(..., min_length=2, max_length=150, description="文章標題")
-    slug: str = Field(..., pattern=r'^[a-z0-9-]+$', description="URL 友好代稱")
-    summary: Optional[str] = Field(None, max_length=500)
-    content: str = Field(..., min_length=1, description="正文內容")
-    category_id: Optional[int] = None
-    tag_ids: List[int] = Field(default_factory=list)
-```
-
-### 3.2 參數化查詢與資料脫敏 (Sanitization)
-```python
-@router.get("/api/v1/users/me")
-def get_current_user_profile(user: dict = Depends(get_current_user)):
-    # 嚴格確保 password_hash 不會回傳
-    safe_user = {k: v for k, v in user.items() if k != "password_hash"}
-    return {
-        "code": 200,
-        "message": "取得個人資訊成功",
-        "data": safe_user
-    }
-```
+1. **嚴格配置逾時（Timeout）**：任何外部 HTTP 請求必須設定 `timeout = 8` 秒，嚴禁無限制等待導致執行緒卡死。
+2. **指數退避重試（Retry）**：配置最多 3 次重試，每次間隔具備抖動（Jitter）。
+3. **離線快取防線（Local Cache Fallback）**：
+   - 抓取成功時將結果寫入 `backend/cache/market_quotes_cache.json`。
+   - 若官方 API 連線中斷或遭遇 HTTP 429 / 503，自動讀取本地快取並標記 `is_cached = True`，維持系統可用性。
+4. **CORS 全面放行（Development）**：配置 `CORSMiddleware` 允許本地 `http://localhost:*` 與靜態預覽請求。
 
 ---
 
-## 4. 媒體檔案上傳管線 (Multipart Pipeline)
+## 5. 後端整合檢核清單 (Backend Integration Checklist)
 
-上傳檔案絕不可依賴副檔名或客戶端宣告的 `Content-Type`，必須檢核 Magic Number：
-
-```python
-# 支援的魔術前導位元組 (Magic Bytes)
-MAGIC_SIGNATURES = {
-    b'\xFF\xD8\xFF': 'image/jpeg',
-    b'\x89PNG\r\n\x1a\n': 'image/png',
-    b'RIFF': 'image/webp',
-    b'GIF87a': 'image/gif',
-    b'GIF89a': 'image/gif',
-}
-
-def validate_magic_bytes(file_bytes: bytes) -> str:
-    for magic, mime in MAGIC_SIGNATURES.items():
-        if file_bytes.startswith(magic):
-            return mime
-    raise HTTPException(
-        status_code=400,
-        detail={"code": 400, "error": "INVALID_FILE_TYPE", "message": "檔案格式不合法或被偽造"}
-    )
-```
-
-### 影像管線處理步驟：
-1. **大小檢驗**：單檔限制 ≤ 20MB。
-2. **Magic Bytes 檢核**：通過才進入 Pillow 處理。
-3. **EXIF 轉向校正**：執行 `ImageOps.exif_transpose(img)` 修正手機翻轉問題。
-4. **自動產生 WebP 衍生檔**：
-   - 原圖備份：`raw_<uuid>.<ext>`
-   - 主圖：品質 85% WebP
-   - 中圖：寬度最高 1200px 之 WebP
-   - 縮圖：400x400 正方形裁切之 WebP
-
----
-
-## 5. 整合與串接檢核清單 (Integration Checklist)
-
-- [ ] 所有請求標頭在已登入狀態下是否均帶有 `Authorization: Bearer <token>`？
-- [ ] 遭遇 `401 Unauthorized` 時，前端是否能優雅清除 Token 並跳轉至登入視圖？
-- [ ] 後端所有端點是否均使用 Pydantic 進行輸入參數與型別驗證？
-- [ ] 後端 SQL 查詢是否 100% 採用 `?` 佔位符，杜絕 SQL 注入？
-- [ ] 檔案上傳是否具備 Magic Bytes 驗證與 20MB 大小上限防護？
-- [ ] 任何回傳使用者資訊的 API 是否均徹底移除 `password_hash`？
+- [ ] **代碼保留前導零**：所有 API 參數與回傳結構中，`symbol` 均以 `str` 傳遞。
+- [ ] **非零價格守門**：遇到休市或無成交時，收盤價回傳 `None` 而非 `0`。
+- [ ] **時區標準一致**：所有交易日判定與抓取時間均帶有 `Asia/Taipei` 時區標註。
+- [ ] **單元測試通過**：`py backend/test_suite.py` 8 項端對端連線測試 100% 通過。
