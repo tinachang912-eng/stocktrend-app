@@ -1,6 +1,6 @@
 {
   "symbol": "00878",
-  "total_days": 22,
+  "total_days": 26,
   "history": [
     {
       "date": "2026-09-01",
@@ -243,31 +243,75 @@
       "dealers": -182,
       "institutional_total": 182,
       "ma60": 34.46
+    },
+    {
+      "date": "2026-10-05",
+      "close_price": 35.11,
+      "change": 0.22,
+      "volume": 29467642.0,
+      "foreign_investors": 1711,
+      "investment_trust": -372,
+      "dealers": 52,
+      "institutional_total": 1391,
+      "ma60": 34.49
+    },
+    {
+      "date": "2026-10-06",
+      "close_price": 35.17,
+      "change": 0.06,
+      "volume": 22872109.0,
+      "foreign_investors": -265,
+      "investment_trust": 419,
+      "dealers": -129,
+      "institutional_total": 25,
+      "ma60": 34.52
+    },
+    {
+      "date": "2026-10-07",
+      "close_price": 35.22,
+      "change": 0.05,
+      "volume": 17698542.0,
+      "foreign_investors": 1371,
+      "investment_trust": -98,
+      "dealers": 472,
+      "institutional_total": 1745,
+      "ma60": 34.54
+    },
+    {
+      "date": "2026-10-08",
+      "close_price": 34.99,
+      "change": -0.23,
+      "volume": 39641789.0,
+      "foreign_investors": -1249,
+      "investment_trust": -10,
+      "dealers": -678,
+      "institutional_total": -1937,
+      "ma60": 34.56
     }
   ],
   "indicators": {
-    "ma5": 34.88,
-    "ma20": 34.53,
-    "high_30": 35.21,
+    "ma5": 35.08,
+    "ma20": 34.75,
+    "ma60": 34.56,
+    "high_30": 35.22,
     "low_30": 33.58,
-    "bias_5": 0.03,
-    "bias_20": 1.04,
-    "ma60": 34.46,
-    "bias_60": 1.25
+    "bias_5": -0.26,
+    "bias_20": 0.69,
+    "bias_60": 1.24
   },
   "institutional": {
-    "foreign_30d_net": 12041,
-    "trust_30d_net": 1238,
-    "dealers_30d_net": 7757,
-    "total_30d_net": 21036,
-    "foreign_consecutive_days": 5,
-    "trust_consecutive_days": -1,
+    "foreign_30d_net": 13609,
+    "trust_30d_net": 1177,
+    "dealers_30d_net": 7474,
+    "total_30d_net": 22260,
+    "foreign_consecutive_days": -1,
+    "trust_consecutive_days": -2,
     "dealers_consecutive_days": -1,
-    "foreign_latest_net": 489,
-    "trust_latest_net": -125,
-    "dealers_latest_net": -182,
-    "total_latest_net": 182,
-    "institutional_sentiment": "外資主導回補（投信高檔獲利調節）",
-    "analysis": "外資近 30 個營業日累計淨買超 12,041 張，最新單日呈現連續 5 日買超 (489 張)。本土投信近 30 日累計淨買超 1,238 張，最新呈現連續 1 日賣超 (125 張)。三大法人近 30 日合計淨買超 21,036 張（自營商累計淨額 +7,757 張）。法人買賣力道互有消長，籌碼集中度適中，預期股價維持於均線區間震盪整理。"
+    "foreign_latest_net": -1249,
+    "trust_latest_net": -10,
+    "dealers_latest_net": -678,
+    "total_latest_net": -1937,
+    "institutional_sentiment": "三大法人同步賣超（短線沉重調節）",
+    "analysis": "外資近 30 個營業日累計淨買超 13,609 張，最新單日呈現連續 1 日賣超 (1,249 張)。本土投信近 30 日累計淨買超 1,177 張，最新呈現連續 2 日賣超 (10 張)。三大法人近 30 日合計淨買超 22,260 張（自營商累計淨額 +7,474 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
   }
 }
