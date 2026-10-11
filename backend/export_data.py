@@ -12,7 +12,7 @@ from datetime import datetime
 sys.path.insert(0, os.path.dirname(__file__))
 
 from calendar_service import calendar_service, TAIPEI_TZ
-from twse_tpex_client import official_client
+from twse_tpex_client import official_client, compute_institutional_summary
 
 ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
 DATA_DIR = os.path.join(ROOT_DIR, "data")
@@ -122,6 +122,8 @@ def export_all():
                 bias_5 = round(((latest_p - ma5) / ma5) * 100, 2) if (latest_p and ma5) else 0.0
                 bias_20 = round(((latest_p - ma20) / ma20) * 100, 2) if (latest_p and ma20) else 0.0
 
+                institutional_summary = compute_institutional_summary(sym, records)
+
                 hist_payload = {
                     "symbol": sym,
                     "total_days": len(records),
@@ -133,7 +135,8 @@ def export_all():
                         "low_30": low_30,
                         "bias_5": bias_5,
                         "bias_20": bias_20
-                    }
+                    },
+                    "institutional": institutional_summary
                 }
 
                 out_path = os.path.join(HISTORY_DIR, f"{sym}.json")

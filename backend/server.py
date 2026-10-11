@@ -18,7 +18,7 @@ from fastapi.responses import JSONResponse
 sys.path.insert(0, os.path.dirname(__file__))
 
 from calendar_service import calendar_service, TAIPEI_TZ
-from twse_tpex_client import official_client
+from twse_tpex_client import official_client, compute_institutional_summary
 
 app = FastAPI(
     title="台股趨勢分析官方行情 API",
@@ -117,6 +117,9 @@ def get_history(symbol: str = Query(..., description="股票代號")):
     bias_5 = round(((latest_price - ma5) / ma5) * 100, 2) if (latest_price and ma5) else 0.0
     bias_20 = round(((latest_price - ma20) / ma20) * 100, 2) if (latest_price and ma20) else 0.0
 
+    # 計算三大法人 30 天籌碼面指標與分析
+    institutional_summary = compute_institutional_summary(clean_symbol, records)
+
     return {
         "symbol": clean_symbol,
         "total_days": len(records),
@@ -128,7 +131,32 @@ def get_history(symbol: str = Query(..., description="股票代號")):
             "low_30": low_30,
             "bias_5": bias_5,
             "bias_20": bias_20
-        }
+        },
+        "institutional": institutional_summary
+    }
+
+
+@app.get("/api/stock/institutional")
+def get_institutional(symbol: str = Query(..., description="股票代號")):
+    """
+    取得個股最近 30 天三大法人（外資、投信、自營商）買賣超數據與籌碼面量化分析
+    """
+    clean_symbol = str(symbol).strip()
+    records = official_client.fetch_stock_history_30days(clean_symbol)
+
+    if not records:
+        raise HTTPException(
+            status_code=404,
+            detail=f"無法取得代號 [{clean_symbol}] 之三大法人籌碼歷史資料"
+        )
+
+    inst_summary = compute_institutional_summary(clean_symbol, records)
+
+    return {
+        "symbol": clean_symbol,
+        "total_days": len(records),
+        "history": records,
+        "summary": inst_summary
     }
 
 

@@ -6,157 +6,261 @@
       "date": "2026-09-01",
       "close_price": 12.31,
       "change": 0.49,
-      "volume": 350087875.0
+      "volume": 350087875.0,
+      "foreign_investors": 38924,
+      "investment_trust": 1097,
+      "dealers": 4823,
+      "institutional_total": 44844
     },
     {
       "date": "2026-09-02",
       "close_price": 11.89,
       "change": -0.42,
-      "volume": 263568299.0
+      "volume": 263568299.0,
+      "foreign_investors": -32043,
+      "investment_trust": -10167,
+      "dealers": -2582,
+      "institutional_total": -44792
     },
     {
       "date": "2026-09-03",
       "close_price": 11.69,
       "change": -0.2,
-      "volume": 179920274.0
+      "volume": 179920274.0,
+      "foreign_investors": -13791,
+      "investment_trust": -5029,
+      "dealers": -1786,
+      "institutional_total": -20606
     },
     {
       "date": "2026-09-04",
       "close_price": 12.13,
       "change": 0.44,
-      "volume": 211518705.0
+      "volume": 211518705.0,
+      "foreign_investors": 40527,
+      "investment_trust": 11760,
+      "dealers": 501,
+      "institutional_total": 52788
     },
     {
       "date": "2026-09-07",
       "close_price": 12.52,
       "change": 0.39,
-      "volume": 301014748.0
+      "volume": 301014748.0,
+      "foreign_investors": 49504,
+      "investment_trust": 12174,
+      "dealers": 1896,
+      "institutional_total": 63574
     },
     {
       "date": "2026-09-08",
       "close_price": 12.35,
       "change": -0.17,
-      "volume": 159664310.0
+      "volume": 159664310.0,
+      "foreign_investors": -6516,
+      "investment_trust": -3065,
+      "dealers": 1369,
+      "institutional_total": -8212
     },
     {
       "date": "2026-09-09",
       "close_price": 12.39,
       "change": 0.04,
-      "volume": 154934988.0
+      "volume": 154934988.0,
+      "foreign_investors": -3474,
+      "investment_trust": -1420,
+      "dealers": -2447,
+      "institutional_total": -7341
     },
     {
       "date": "2026-09-10",
       "close_price": 12.26,
       "change": -0.13,
-      "volume": 170390966.0
+      "volume": 170390966.0,
+      "foreign_investors": -11891,
+      "investment_trust": -412,
+      "dealers": 3531,
+      "institutional_total": -8772
     },
     {
       "date": "2026-09-11",
       "close_price": 11.84,
       "change": -0.42,
-      "volume": 395907712.0
+      "volume": 395907712.0,
+      "foreign_investors": -27524,
+      "investment_trust": -14415,
+      "dealers": -10226,
+      "institutional_total": -52165
     },
     {
       "date": "2026-09-14",
       "close_price": 11.68,
       "change": -0.16,
-      "volume": 214692879.0
+      "volume": 214692879.0,
+      "foreign_investors": -12685,
+      "investment_trust": -5605,
+      "dealers": -1603,
+      "institutional_total": -19893
     },
     {
       "date": "2026-09-15",
       "close_price": 11.55,
       "change": -0.13,
-      "volume": 142156318.0
+      "volume": 142156318.0,
+      "foreign_investors": -3964,
+      "investment_trust": -2115,
+      "dealers": -1473,
+      "institutional_total": -7552
     },
     {
       "date": "2026-09-16",
       "close_price": 11.73,
       "change": 0.18,
-      "volume": 110449849.0
+      "volume": 110449849.0,
+      "foreign_investors": 4826,
+      "investment_trust": -651,
+      "dealers": 2157,
+      "institutional_total": 6332
     },
     {
       "date": "2026-09-17",
       "close_price": 11.98,
       "change": 0.25,
-      "volume": 248983442.0
+      "volume": 248983442.0,
+      "foreign_investors": 31978,
+      "investment_trust": 4597,
+      "dealers": -1876,
+      "institutional_total": 34699
     },
     {
       "date": "2026-09-18",
       "close_price": 12.42,
       "change": 0.44,
-      "volume": 266450607.0
+      "volume": 266450607.0,
+      "foreign_investors": 52608,
+      "investment_trust": 3953,
+      "dealers": 3485,
+      "institutional_total": 60046
     },
     {
       "date": "2026-09-21",
       "close_price": 12.71,
       "change": 0.29,
-      "volume": 247810120.0
+      "volume": 247810120.0,
+      "foreign_investors": 15549,
+      "investment_trust": 10644,
+      "dealers": -274,
+      "institutional_total": 25919
     },
     {
       "date": "2026-09-22",
       "close_price": 12.77,
       "change": 0.06,
-      "volume": 277228713.0
+      "volume": 277228713.0,
+      "foreign_investors": 5427,
+      "investment_trust": 7041,
+      "dealers": -3833,
+      "institutional_total": 8635
     },
     {
       "date": "2026-09-23",
       "close_price": 12.89,
       "change": 0.12,
-      "volume": 154231115.0
+      "volume": 154231115.0,
+      "foreign_investors": 10587,
+      "investment_trust": 6263,
+      "dealers": -1779,
+      "institutional_total": 15071
     },
     {
       "date": "2026-09-24",
       "close_price": 12.87,
       "change": -0.02,
-      "volume": 136663568.0
+      "volume": 136663568.0,
+      "foreign_investors": 6959,
+      "investment_trust": 3628,
+      "dealers": -1968,
+      "institutional_total": 8619
     },
     {
       "date": "2026-09-29",
       "close_price": 12.64,
       "change": -0.23,
-      "volume": 171560342.0
+      "volume": 171560342.0,
+      "foreign_investors": -7479,
+      "investment_trust": -1756,
+      "dealers": 2987,
+      "institutional_total": -6248
     },
     {
       "date": "2026-09-30",
       "close_price": 12.91,
       "change": 0.27,
-      "volume": 176435813.0
+      "volume": 176435813.0,
+      "foreign_investors": 8168,
+      "investment_trust": 3368,
+      "dealers": 5499,
+      "institutional_total": 17035
     },
     {
       "date": "2026-10-01",
       "close_price": 13.1,
       "change": 0.19,
-      "volume": 123358626.0
+      "volume": 123358626.0,
+      "foreign_investors": 8016,
+      "investment_trust": -810,
+      "dealers": -1592,
+      "institutional_total": 5614
     },
     {
       "date": "2026-10-02",
       "close_price": 13.12,
       "change": 0.02,
-      "volume": 133566588.0
+      "volume": 133566588.0,
+      "foreign_investors": 7286,
+      "investment_trust": 1180,
+      "dealers": -1855,
+      "institutional_total": 6611
     },
     {
       "date": "2026-10-05",
       "close_price": 13.76,
       "change": 0.64,
-      "volume": 267547775.0
+      "volume": 267547775.0,
+      "foreign_investors": 51968,
+      "investment_trust": 20087,
+      "dealers": 205,
+      "institutional_total": 72260
     },
     {
       "date": "2026-10-06",
       "close_price": 13.87,
       "change": 0.11,
-      "volume": 162931718.0
+      "volume": 162931718.0,
+      "foreign_investors": 17049,
+      "investment_trust": 177,
+      "dealers": 436,
+      "institutional_total": 17662
     },
     {
       "date": "2026-10-07",
       "close_price": 13.84,
       "change": -0.03,
-      "volume": 131352492.0
+      "volume": 131352492.0,
+      "foreign_investors": -6657,
+      "investment_trust": 3022,
+      "dealers": -1765,
+      "institutional_total": -5400
     },
     {
       "date": "2026-10-08",
       "close_price": 13.53,
       "change": -0.31,
-      "volume": 238502144.0
+      "volume": 238502144.0,
+      "foreign_investors": -15106,
+      "investment_trust": 3027,
+      "dealers": 1436,
+      "institutional_total": -10643
     }
   ],
   "indicators": {
@@ -166,5 +270,20 @@
     "low_30": 11.55,
     "bias_5": -0.66,
     "bias_20": 6.62
+  },
+  "institutional": {
+    "foreign_30d_net": 208246,
+    "trust_30d_net": 46573,
+    "dealers_30d_net": -6734,
+    "total_30d_net": 248085,
+    "foreign_consecutive_days": -2,
+    "trust_consecutive_days": 5,
+    "dealers_consecutive_days": 1,
+    "foreign_latest_net": -15106,
+    "trust_latest_net": 3027,
+    "dealers_latest_net": 1436,
+    "total_latest_net": -10643,
+    "institutional_sentiment": "土洋對作（投信積極護盤承接）",
+    "analysis": "外資近 30 個營業日累計淨買超 208,246 張，最新單日呈現連續 2 日賣超 (15,106 張)。本土投信近 30 日累計淨買超 46,573 張，最新呈現連續 5 日買超 (3,027 張)。三大法人近 30 日合計淨買超 248,085 張（自營商累計淨額 -6,734 張）。呈現典型「土洋對作」格局，外資調節賣壓由內資投信逢低承接，短線震盪劇烈，宜以月線作為關鍵防守點。"
   }
 }

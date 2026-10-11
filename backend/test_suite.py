@@ -12,7 +12,8 @@ from calendar_service import TradingCalendarService, TAIPEI_TZ
 from twse_tpex_client import (
     OfficialStockClient,
     clean_price_val,
-    clean_number_val
+    clean_number_val,
+    compute_institutional_summary
 )
 
 
@@ -161,6 +162,39 @@ class TestOfficialStockService(unittest.TestCase):
         self.assertIn("更新失敗", q["status_message"])
         self.assertEqual(q["close_price"], 2500.0)
         print("  [V] 測試 8 通過: API 失敗時標記更新失敗，回傳真實歷史快取，絕不偽造模擬價格")
+
+    def test_09_institutional_investors_analysis(self):
+        """測試 9: 三大法人（外資、投信、自營商）30 天買賣超數字、累計淨額、連買連賣與量化分析"""
+        hist = self.client.fetch_stock_history_30days("2330")
+        self.assertGreater(len(hist), 0)
+
+        # 檢驗每筆記錄皆包含三大法人欄位且數學一致 (外資 + 投信 + 自營商 == 合計)
+        for r in hist:
+            self.assertIn("foreign_investors", r)
+            self.assertIn("investment_trust", r)
+            self.assertIn("dealers", r)
+            self.assertIn("institutional_total", r)
+            self.assertEqual(
+                r["foreign_investors"] + r["investment_trust"] + r["dealers"],
+                r["institutional_total"],
+                "三大法人買賣超加總應等於 institutional_total"
+            )
+
+        # 檢驗 30 天籌碼面綜合統計指標
+        summary = compute_institutional_summary("2330", hist)
+        self.assertEqual(summary["foreign_30d_net"], sum(r["foreign_investors"] for r in hist))
+        self.assertEqual(summary["trust_30d_net"], sum(r["investment_trust"] for r in hist))
+        self.assertEqual(summary["dealers_30d_net"], sum(r["dealers"] for r in hist))
+        self.assertEqual(summary["total_30d_net"], sum(r["institutional_total"] for r in hist))
+
+        # 檢驗連續天數、多空標籤與文字分析
+        self.assertIsInstance(summary["foreign_consecutive_days"], int)
+        self.assertIsInstance(summary["trust_consecutive_days"], int)
+        self.assertTrue(len(summary["institutional_sentiment"]) > 0)
+        self.assertTrue("外資" in summary["analysis"])
+        self.assertTrue("投信" in summary["analysis"])
+        self.assertTrue("張" in summary["analysis"])
+        print(f"  [V] 測試 9 通過: 三大法人籌碼檢驗成功 - 外資30日淨額: {summary['foreign_30d_net']:+,} 張 | 投信: {summary['trust_30d_net']:+,} 張 | 綜評: {summary['institutional_sentiment']}")
 
 
 if __name__ == "__main__":

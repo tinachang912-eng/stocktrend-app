@@ -234,18 +234,79 @@
             </div>
           </div>
         </div>
+
+        <!-- 卡片 4：三大法人 30 天籌碼動能 (外資 / 投信 / 自營商) -->
+        <div class="metric-card" id="cardInstitutional">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="stock-badge badge-chip">CHIP</span>
+              <h2>三大法人 30 天籌碼動向</h2>
+            </div>
+            <span class="tag-status" id="chipSentimentBadge">籌碼分析中...</span>
+          </div>
+          <div class="card-body">
+            <div class="chip-metric-grid">
+              <div class="chip-box">
+                <div class="chip-title-row">
+                  <span class="chip-lbl chip-foreign">外資 (30日累計)</span>
+                  <span class="chip-streak" id="chipForeignStreak">--</span>
+                </div>
+                <span class="chip-num" id="chipForeign30">--</span>
+              </div>
+              <div class="chip-box">
+                <div class="chip-title-row">
+                  <span class="chip-lbl chip-trust">投信 (30日累計)</span>
+                  <span class="chip-streak" id="chipTrustStreak">--</span>
+                </div>
+                <span class="chip-num" id="chipTrust30">--</span>
+              </div>
+              <div class="chip-box">
+                <div class="chip-title-row">
+                  <span class="chip-lbl chip-dealers">自營商 (30日累計)</span>
+                  <span class="chip-streak" id="chipDealersStreak">--</span>
+                </div>
+                <span class="chip-num" id="chipDealers30">--</span>
+              </div>
+              <div class="chip-box">
+                <div class="chip-title-row">
+                  <span class="chip-lbl chip-total">三大法人合計 (30日)</span>
+                </div>
+                <span class="chip-num" id="chipTotal30">--</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer-grid">
+            <div class="stat-cell">
+              <span class="lbl">外資最新單日</span>
+              <span class="val" id="chipForeignLatest">--</span>
+            </div>
+            <div class="stat-cell">
+              <span class="lbl">投信最新單日</span>
+              <span class="val" id="chipTrustLatest">--</span>
+            </div>
+            <div class="stat-cell">
+              <span class="lbl">法人最新單日合計</span>
+              <span class="val" id="chipTotalLatest">--</span>
+            </div>
+          </div>
+        </div>
       </section>
 
-      <!-- 中間：30 天官方歷史趨勢圖 -->
+      <!-- 中間：30 天官方歷史走勢與三大法人籌碼圖表 -->
       <section class="chart-section">
         <div class="chart-header">
           <div class="chart-title-area">
-            <h3>真實 30 個營業日官方歷史收盤與 MA5 / MA20 均線趨勢圖</h3>
+            <h3>真實 30 個營業日官方歷史收盤均線與三大法人籌碼動向圖</h3>
             <p class="chart-subtitle" id="chartSubtitleDesc">
-              100% 串接證交所 (TWSE) 與櫃買中心 (TPEx) 官方真實成交紀錄，無任何 AI 編造
+              100% 串接證交所 (TWSE) 與櫃買中心 (TPEx) 官方真實成交紀錄與外資、投信、自營商買賣超，無任何 AI 編造
             </p>
           </div>
           <div class="chart-controls">
+            <div class="chart-view-group" role="tablist" aria-label="圖表檢視切換">
+              <button class="btn-sm btn-chart-tab active" id="btnViewBoth" data-view="both">雙圖對照</button>
+              <button class="btn-sm btn-chart-tab" id="btnViewPrice" data-view="price">僅股價均線</button>
+              <button class="btn-sm btn-chart-tab" id="btnViewChip" data-view="chip">僅法人籌碼</button>
+            </div>
             <button class="btn-sm btn-outline" id="btnToggleTable">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -253,20 +314,43 @@
                 <line x1="3" y1="15" x2="21" y2="15"></line>
                 <line x1="9" y1="3" x2="9" y2="21"></line>
               </svg>
-              檢視 30 天官方歷史明細表
+              檢視 30 天歷史明細表
             </button>
           </div>
         </div>
 
-        <div class="chart-wrapper">
-          <canvas id="trendChart"></canvas>
+        <div class="charts-stack">
+          <!-- 圖表 1: 股價均線走勢圖 -->
+          <div class="chart-block" id="blockPriceChart">
+            <div class="chart-block-header">
+              <span class="chart-block-title">📈 官方歷史收盤價與 MA5 / MA20 均線趨勢</span>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="trendChart"></canvas>
+            </div>
+          </div>
+
+          <!-- 圖表 2: 三大法人 30 天每日買賣超柱狀圖 -->
+          <div class="chart-block" id="blockChipChart">
+            <div class="chart-block-header">
+              <span class="chart-block-title">🏛️ 三大法人 30 天每日買賣超柱狀圖 (外資 / 投信 / 自營商，單位: 張)</span>
+              <div class="chip-legend-pills">
+                <span class="legend-pill"><span class="leg-dot leg-foreign"></span>外資</span>
+                <span class="legend-pill"><span class="leg-dot leg-trust"></span>投信</span>
+                <span class="legend-pill"><span class="leg-dot leg-dealers"></span>自營商</span>
+              </div>
+            </div>
+            <div class="chart-wrapper chart-wrapper-sub">
+              <canvas id="chipChart"></canvas>
+            </div>
+          </div>
         </div>
 
         <!-- 30天數據表格 -->
         <div class="table-drawer collapsed" id="historyTableDrawer">
           <div class="table-drawer-header">
-            <h4>最近 30 個營業日官方成交紀錄</h4>
-            <span class="note">依交易日期由新至舊排序</span>
+            <h4>最近 30 個營業日官方成交紀錄與三大法人籌碼明細</h4>
+            <span class="note">依交易日期由新至舊排序（買賣超單位：張）</span>
           </div>
           <div class="table-responsive">
             <table class="history-table">
@@ -275,8 +359,11 @@
                   <th>交易日期</th>
                   <th>官方收盤價</th>
                   <th>漲跌價差</th>
-                  <th>日成交量 (股/張)</th>
-                  <th>資料驗證狀態</th>
+                  <th>日成交量</th>
+                  <th>外資買賣超 (張)</th>
+                  <th>投信買賣超 (張)</th>
+                  <th>自營商 (張)</th>
+                  <th>三大法人合計 (張)</th>
                 </tr>
               </thead>
               <tbody id="historyTableBody">
@@ -364,6 +451,16 @@
                 <!-- 動態注入 -->
               </div>
             </div>
+
+            <!-- 區塊 5: 三大法人 30 天籌碼面深度解讀與法人動向 -->
+            <div class="report-block">
+              <div class="block-badge badge-teal">
+                五、三大法人 30 天籌碼面深度解讀與法人動向
+              </div>
+              <div class="block-body" id="reportChipAnalysis">
+                <!-- 動態注入 -->
+              </div>
+            </div>
           </div>
 
           <div class="report-disclaimer">
@@ -382,6 +479,6 @@
   <!-- Toast 提示容器 -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <script src="app.js?v=20261010_v8"></script>
+  <script src="app.js?v=20261011_chip_v1"></script>
 </body>
 </html>

@@ -19,6 +19,8 @@ const AppState = {
   historyMap: {},
   marketCalendar: null,
   chartInstance: null,
+  chipChartInstance: null,
+  chartViewMode: 'both', // 'both' | 'price' | 'chip'
   isHistoryTableOpen: false,
   dataSourceMode: 'checking' // 'backend' | 'static' | 'offline'
 };
@@ -37,6 +39,16 @@ function formatCurrency(val) {
 function formatInt(val) {
   if (val === null || val === undefined || isNaN(val)) return '--';
   return Math.round(Number(val)).toLocaleString('zh-TW');
+}
+
+function formatLots(val, withSign = true) {
+  if (val === null || val === undefined || isNaN(val)) return '--';
+  const num = Math.round(Number(val));
+  const formatted = Math.abs(num).toLocaleString('zh-TW');
+  if (!withSign) return formatted;
+  if (num > 0) return `+${formatted}`;
+  if (num < 0) return `-${formatted}`;
+  return '0';
 }
 
 // 帶超時的 fetch 封裝
@@ -397,6 +409,151 @@ function renderPredictionSummary(quote, ind) {
   document.getElementById('predMAStructure').textContent = structureText;
 }
 
+// 計算或取得籌碼面綜合統計
+function getInstitutionalSummary(symbol, historyData) {
+  if (historyData && historyData.institutional) {
+    return historyData.institutional;
+  }
+  if (!historyData || !historyData.history || historyData.history.length === 0) {
+    return null;
+  }
+  const records = historyData.history;
+  const f_30d = records.reduce((sum, r) => sum + (r.foreign_investors || 0), 0);
+  const t_30d = records.reduce((sum, r) => sum + (r.investment_trust || 0), 0);
+  const d_30d = records.reduce((sum, r) => sum + (r.dealers || 0), 0);
+  const total_30d = records.reduce((sum, r) => sum + (r.institutional_total !== undefined ? r.institutional_total : ((r.foreign_investors || 0) + (r.investment_trust || 0) + (r.dealers || 0))), 0);
+
+  const latest = records[records.length - 1] || {};
+  const f_latest = latest.foreign_investors !== undefined ? latest.foreign_investors : 0;
+  const t_latest = latest.investment_trust !== undefined ? latest.investment_trust : 0;
+  const d_latest = latest.dealers !== undefined ? latest.dealers : 0;
+  const total_latest = latest.institutional_total !== undefined ? latest.institutional_total : (f_latest + t_latest + d_latest);
+
+  function calcStreak(field) {
+    const rev = [...records].reverse();
+    const first = rev[0] ? (rev[0][field] || 0) : 0;
+    if (first === 0) return 0;
+    const isBuy = first > 0;
+    let streak = 0;
+    for (const r of rev) {
+      const val = r[field] || 0;
+      if (isBuy && val > 0) streak++;
+      else if (!isBuy && val < 0) streak--;
+      else break;
+    }
+    return streak;
+  }
+
+  const f_streak = calcStreak('foreign_investors');
+  const t_streak = calcStreak('investment_trust');
+  const d_streak = calcStreak('dealers');
+
+  let sentiment = '主力籌碼多空分歧（震盪洗盤）';
+  if (f_latest > 0 && t_latest > 0 && d_latest > 0) sentiment = '三大法人同步買超（多方強烈共識）';
+  else if (f_latest < 0 && t_latest < 0 && d_latest < 0) sentiment = '三大法人同步賣超（短線沉重調節）';
+  else if (f_latest < 0 && t_latest > 0) sentiment = '土洋對作（投信積極護盤承接）';
+  else if (f_latest > 0 && t_latest < 0) sentiment = '外資主導回補（投信高檔獲利調節）';
+  else if (f_30d > 0 && t_30d > 0) sentiment = '波段主力持續偏多布局';
+  else if (f_30d < 0 && t_30d < 0) sentiment = '波段主力籌碼持續外流';
+
+  return {
+    foreign_30d_net: f_30d,
+    trust_30d_net: t_30d,
+    dealers_30d_net: d_30d,
+    total_30d_net: total_30d,
+    foreign_consecutive_days: f_streak,
+    trust_consecutive_days: t_streak,
+    dealers_consecutive_days: d_streak,
+    foreign_latest_net: f_latest,
+    trust_latest_net: t_latest,
+    dealers_latest_net: d_latest,
+    total_latest_net: total_latest,
+    institutional_sentiment: sentiment
+  };
+}
+
+// 渲染三大法人 30 天籌碼指標卡片
+function renderInstitutionalCard(quote, historyData) {
+  const badgeEl = document.getElementById('chipSentimentBadge');
+  const fStreakEl = document.getElementById('chipForeignStreak');
+  const tStreakEl = document.getElementById('chipTrustStreak');
+  const dStreakEl = document.getElementById('chipDealersStreak');
+  const f30El = document.getElementById('chipForeign30');
+  const t30El = document.getElementById('chipTrust30');
+  const d30El = document.getElementById('chipDealers30');
+  const tot30El = document.getElementById('chipTotal30');
+  const fLatestEl = document.getElementById('chipForeignLatest');
+  const tLatestEl = document.getElementById('chipTrustLatest');
+  const totLatestEl = document.getElementById('chipTotalLatest');
+
+  const summary = getInstitutionalSummary(quote ? quote.symbol : '', historyData);
+
+  if (!summary) {
+    if (badgeEl) badgeEl.textContent = '暫無籌碼數據';
+    if (fStreakEl) fStreakEl.textContent = '--';
+    if (tStreakEl) tStreakEl.textContent = '--';
+    if (dStreakEl) dStreakEl.textContent = '--';
+    if (f30El) f30El.textContent = '--';
+    if (t30El) t30El.textContent = '--';
+    if (d30El) d30El.textContent = '--';
+    if (tot30El) tot30El.textContent = '--';
+    if (fLatestEl) fLatestEl.textContent = '--';
+    if (tLatestEl) tLatestEl.textContent = '--';
+    if (totLatestEl) totLatestEl.textContent = '--';
+    return;
+  }
+
+  function setStreakTag(el, streak) {
+    if (!el) return;
+    if (streak > 0) {
+      el.textContent = `連 ${streak} 買`;
+      el.className = 'chip-streak streak-buy';
+    } else if (streak < 0) {
+      el.textContent = `連 ${Math.abs(streak)} 賣`;
+      el.className = 'chip-streak streak-sell';
+    } else {
+      el.textContent = '平';
+      el.className = 'chip-streak';
+    }
+  }
+
+  function setSignedText(el, val) {
+    if (!el) return;
+    el.textContent = `${formatLots(val)} 張`;
+    if (val > 0) el.className = 'chip-num text-up';
+    else if (val < 0) el.className = 'chip-num text-down';
+    else el.className = 'chip-num text-flat';
+  }
+
+  function setSignedLatestText(el, val) {
+    if (!el) return;
+    el.textContent = `${formatLots(val)} 張`;
+    if (val > 0) el.className = 'val text-up';
+    else if (val < 0) el.className = 'val text-down';
+    else el.className = 'val text-flat';
+  }
+
+  if (badgeEl) {
+    badgeEl.textContent = summary.institutional_sentiment || '籌碼分析完成';
+    if (summary.total_latest_net > 0) badgeEl.className = 'tag-status change-up';
+    else if (summary.total_latest_net < 0) badgeEl.className = 'tag-status change-down';
+    else badgeEl.className = 'tag-status';
+  }
+
+  setStreakTag(fStreakEl, summary.foreign_consecutive_days);
+  setStreakTag(tStreakEl, summary.trust_consecutive_days);
+  setStreakTag(dStreakEl, summary.dealers_consecutive_days);
+
+  setSignedText(f30El, summary.foreign_30d_net);
+  setSignedText(t30El, summary.trust_30d_net);
+  setSignedText(d30El, summary.dealers_30d_net);
+  setSignedText(tot30El, summary.total_30d_net);
+
+  setSignedLatestText(fLatestEl, summary.foreign_latest_net);
+  setSignedLatestText(tLatestEl, summary.trust_latest_net);
+  setSignedLatestText(totLatestEl, summary.total_latest_net);
+}
+
 // 渲染 Chart.js 真實歷史走勢圖與均線
 function renderTrendChart(symbol, historyData) {
   const ctx = document.getElementById('trendChart').getContext('2d');
@@ -536,14 +693,155 @@ function roundDec(num, d = 2) {
   return Number(Math.round(num + 'e' + d) + 'e-' + d);
 }
 
-// 渲染 30 天歷史明細表格
+// 渲染三大法人 30 天每日買賣超柱狀圖
+function renderInstitutionalChart(symbol, historyData) {
+  const canvas = document.getElementById('chipChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  if (!historyData || !historyData.history || historyData.history.length === 0) {
+    if (AppState.chipChartInstance) {
+      AppState.chipChartInstance.destroy();
+      AppState.chipChartInstance = null;
+    }
+    return;
+  }
+
+  const records = historyData.history;
+  const labels = records.map(r => r.date);
+  const foreignData = records.map(r => r.foreign_investors !== undefined ? r.foreign_investors : 0);
+  const trustData = records.map(r => r.investment_trust !== undefined ? r.investment_trust : 0);
+  const dealersData = records.map(r => r.dealers !== undefined ? r.dealers : 0);
+
+  if (AppState.chipChartInstance) {
+    AppState.chipChartInstance.destroy();
+  }
+
+  AppState.chipChartInstance = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: '外資 (張)',
+          data: foreignData,
+          backgroundColor: 'rgba(56, 189, 248, 0.75)',
+          borderColor: '#38bdf8',
+          borderWidth: 1,
+          borderRadius: 2
+        },
+        {
+          label: '投信 (張)',
+          data: trustData,
+          backgroundColor: 'rgba(251, 146, 60, 0.75)',
+          borderColor: '#fb923c',
+          borderWidth: 1,
+          borderRadius: 2
+        },
+        {
+          label: '自營商 (張)',
+          data: dealersData,
+          backgroundColor: 'rgba(192, 132, 252, 0.75)',
+          borderColor: '#c084fc',
+          borderWidth: 1,
+          borderRadius: 2
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: 'index',
+        intersect: false
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          backgroundColor: 'rgba(15, 23, 42, 0.94)',
+          borderColor: 'rgba(255, 255, 255, 0.15)',
+          borderWidth: 1,
+          padding: 10,
+          titleColor: '#93c5fd',
+          bodyColor: '#f3f4f6',
+          callbacks: {
+            label: function(context) {
+              const val = context.parsed.y;
+              const sign = val > 0 ? '+' : '';
+              return `${context.dataset.label}: ${sign}${val.toLocaleString('zh-TW')} 張`;
+            },
+            footer: function(tooltipItems) {
+              let sum = 0;
+              tooltipItems.forEach(item => { sum += item.parsed.y; });
+              const sign = sum > 0 ? '+' : '';
+              return `三大法人合計: ${sign}${sum.toLocaleString('zh-TW')} 張`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255, 255, 255, 0.05)' },
+          ticks: { color: '#9ca3af', maxRotation: 45, maxTicksLimit: 12 }
+        },
+        y: {
+          grid: {
+            color: context => context.tick.value === 0 ? 'rgba(255, 255, 255, 0.25)' : 'rgba(255, 255, 255, 0.05)',
+            lineWidth: context => context.tick.value === 0 ? 1.5 : 1
+          },
+          ticks: {
+            color: '#9ca3af',
+            callback: value => `${value > 0 ? '+' : ''}${value.toLocaleString('zh-TW')} 張`
+          }
+        }
+      }
+    }
+  });
+}
+
+// 切換圖表檢視模式
+function updateChartView(mode) {
+  AppState.chartViewMode = mode;
+  const bothBtn = document.getElementById('btnViewBoth');
+  const priceBtn = document.getElementById('btnViewPrice');
+  const chipBtn = document.getElementById('btnViewChip');
+  const priceBlock = document.getElementById('blockPriceChart');
+  const chipBlock = document.getElementById('blockChipChart');
+
+  [bothBtn, priceBtn, chipBtn].forEach(b => {
+    if (b) b.classList.remove('active');
+  });
+
+  if (mode === 'both') {
+    if (bothBtn) bothBtn.classList.add('active');
+    if (priceBlock) priceBlock.classList.remove('is-hidden');
+    if (chipBlock) chipBlock.classList.remove('is-hidden');
+  } else if (mode === 'price') {
+    if (priceBtn) priceBtn.classList.add('active');
+    if (priceBlock) priceBlock.classList.remove('is-hidden');
+    if (chipBlock) chipBlock.classList.add('is-hidden');
+  } else if (mode === 'chip') {
+    if (chipBtn) chipBtn.classList.add('active');
+    if (priceBlock) priceBlock.classList.add('is-hidden');
+    if (chipBlock) chipBlock.classList.remove('is-hidden');
+  }
+
+  setTimeout(() => {
+    if (AppState.chartInstance) AppState.chartInstance.resize();
+    if (AppState.chipChartInstance) AppState.chipChartInstance.resize();
+  }, 50);
+}
+
+// 渲染 30 天歷史明細表格 (包含三大法人買賣超)
 function renderHistoryTable(historyData) {
   const tbody = document.getElementById('historyTableBody');
   tbody.innerHTML = '';
 
   if (!historyData || !historyData.history || historyData.history.length === 0) {
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td colspan="5" style="text-align:center;color:#9ca3af;padding:28px 16px;">尚無此檔 30 天歷史明細資料（可於本機執行後端服務即時抓取）</td>`;
+    tr.innerHTML = `<td colspan="8" style="text-align:center;color:#9ca3af;padding:28px 16px;">尚無此檔 30 天歷史明細資料（可於本機執行後端服務即時抓取）</td>`;
     tbody.appendChild(tr);
     return;
   }
@@ -556,6 +854,17 @@ function renderHistoryTable(historyData) {
     const isDown = row.change < 0;
     const sign = isUp ? '+' : '';
 
+    const fLots = row.foreign_investors !== undefined ? row.foreign_investors : 0;
+    const tLots = row.investment_trust !== undefined ? row.investment_trust : 0;
+    const dLots = row.dealers !== undefined ? row.dealers : 0;
+    const totLots = row.institutional_total !== undefined ? row.institutional_total : (fLots + tLots + dLots);
+
+    function lotClass(val) {
+      if (val > 0) return 'text-up';
+      if (val < 0) return 'text-down';
+      return 'text-flat';
+    }
+
     tr.innerHTML = `
       <td><strong>${row.date}</strong></td>
       <td>${formatCurrency(row.close_price)} 元</td>
@@ -563,7 +872,10 @@ function renderHistoryTable(historyData) {
         ${sign}${formatCurrency(row.change)} 元
       </td>
       <td>${formatInt(row.volume)}</td>
-      <td><span class="status-indicator-dot" style="display:inline-block;margin-right:4px;"></span> 官方驗證成交</td>
+      <td class="${lotClass(fLots)}">${formatLots(fLots)}</td>
+      <td class="${lotClass(tLots)}">${formatLots(tLots)}</td>
+      <td class="${lotClass(dLots)}">${formatLots(dLots)}</td>
+      <td class="${lotClass(totLots)}"><strong>${formatLots(totLots)}</strong></td>
     `;
     tbody.appendChild(tr);
   });
@@ -644,6 +956,43 @@ function renderReport(quote, historyData) {
       • <strong>嚴守紀律：</strong> 建議停損防守線設定於 <strong>${formatCurrency(support * 0.985)} 元</strong>，嚴控曝險比率。
     </p>
   `;
+
+  // 5. 三大法人籌碼分析
+  const chipBox = document.getElementById('reportChipAnalysis');
+  const chipSummary = getInstitutionalSummary(quote.symbol, historyData);
+
+  if (!chipSummary || !historyData || !historyData.history || historyData.history.length === 0) {
+    if (chipBox) {
+      chipBox.innerHTML = `
+        <p style="color:#f59e0b;">
+          • <strong>籌碼資料狀態：</strong> 靜態展示版尚未收錄此檔 30 天三大法人買賣超數據。<br>
+          • <strong>建議方案：</strong> 可於本機啟動 <code>py backend/server.py</code> 即時查詢官方三大法人籌碼歷史。
+        </p>
+      `;
+    }
+  } else if (chipBox) {
+    const fAction = chipSummary.foreign_30d_net >= 0 ? '買超' : '賣超';
+    const tAction = chipSummary.trust_30d_net >= 0 ? '買超' : '賣超';
+    const totAction = chipSummary.total_30d_net >= 0 ? '買超' : '賣超';
+
+    function streakText(streak) {
+      if (streak > 0) return `連續 ${streak} 日買超`;
+      if (streak < 0) return `連續 ${Math.abs(streak)} 日賣超`;
+      return '單日買賣平衡';
+    }
+
+    chipBox.innerHTML = `
+      <p>
+        基於臺灣證券交易所 (TWSE) 與櫃買中心 (TPEx) 官方最近 30 個營業日真實籌碼數據量化綜判：<br>
+        • <strong>外資動能現況：</strong> 30 日累計淨${fAction} <strong>${formatLots(Math.abs(chipSummary.foreign_30d_net), false)} 張</strong>，最新單日呈現 <strong>${streakText(chipSummary.foreign_consecutive_days)} (${formatLots(chipSummary.foreign_latest_net)} 張)</strong>。<br>
+        • <strong>本土投信布局：</strong> 30 日累計淨${tAction} <strong>${formatLots(Math.abs(chipSummary.trust_30d_net), false)} 張</strong>，最新單日呈現 <strong>${streakText(chipSummary.trust_consecutive_days)} (${formatLots(chipSummary.trust_latest_net)} 張)</strong>。<br>
+        • <strong>自營商操作態勢：</strong> 30 日累計淨額 <strong>${formatLots(chipSummary.dealers_30d_net)} 張</strong>，最新單日買賣超 <strong>${formatLots(chipSummary.dealers_latest_net)} 張</strong>。<br>
+        • <strong>三大法人合計淨額：</strong> 30 日累計淨${totAction} <strong>${formatLots(Math.abs(chipSummary.total_30d_net), false)} 張</strong>，最新單日合計 <strong>${formatLots(chipSummary.total_latest_net)} 張</strong>。<br>
+        • <strong>籌碼面多空綜判：</strong> <span class="${chipSummary.total_latest_net > 0 ? 'text-up' : (chipSummary.total_latest_net < 0 ? 'text-down' : 'text-flat')}"><strong>【${chipSummary.institutional_sentiment}】</strong></span><br>
+        • <strong>量化籌碼解讀：</strong> ${chipSummary.analysis || '法人籌碼買賣互見，短線宜觀察均線支撐與量能配合狀況。'}
+      </p>
+    `;
+  }
 }
 
 // 刷新當前個股畫面
@@ -660,7 +1009,9 @@ async function refreshCurrentStockView() {
 
   renderWatchlistTabs();
   renderMetricCards(quote, historyData);
+  renderInstitutionalCard(quote, historyData);
   renderTrendChart(symbol, historyData);
+  renderInstitutionalChart(symbol, historyData);
   renderHistoryTable(historyData);
   renderReport(quote, historyData);
 }
@@ -776,6 +1127,22 @@ function copyReportToClipboard() {
   if (!quote) return;
 
   const ind = hist ? hist.indicators : {};
+  const chipSum = getInstitutionalSummary(quote.symbol, hist);
+
+  let chipSectionText = '';
+  if (chipSum) {
+    const fStreakStr = chipSum.foreign_consecutive_days > 0 ? `連 ${chipSum.foreign_consecutive_days} 買` : (chipSum.foreign_consecutive_days < 0 ? `連 ${Math.abs(chipSum.foreign_consecutive_days)} 賣` : '平');
+    const tStreakStr = chipSum.trust_consecutive_days > 0 ? `連 ${chipSum.trust_consecutive_days} 買` : (chipSum.trust_consecutive_days < 0 ? `連 ${Math.abs(chipSum.trust_consecutive_days)} 賣` : '平');
+    chipSectionText = `
+【三大法人 30 天籌碼面深度解析】
+外資 30 日累計：${formatLots(chipSum.foreign_30d_net)} 張 (${fStreakStr}，最新單日: ${formatLots(chipSum.foreign_latest_net)} 張)
+投信 30 日累計：${formatLots(chipSum.trust_30d_net)} 張 (${tStreakStr}，最新單日: ${formatLots(chipSum.trust_latest_net)} 張)
+自營商 30 日累計：${formatLots(chipSum.dealers_30d_net)} 張 (最新單日: ${formatLots(chipSum.dealers_latest_net)} 張)
+三大法人 30 日合計：${formatLots(chipSum.total_30d_net)} 張 (最新單日合計: ${formatLots(chipSum.total_latest_net)} 張)
+籌碼面多空綜評：${chipSum.institutional_sentiment}
+主力動能深度解讀：${chipSum.analysis || '法人籌碼動態平穩。'}
+`.trim();
+  }
 
   const text = `
 【台股趨勢分析小幫手 - 官方行情深度分析報告】
@@ -798,6 +1165,8 @@ function copyReportToClipboard() {
 預估次日開盤參考：${formatCurrency(quote.close_price)} 元
 下檔第一支撐位：${formatCurrency(ind.ma5 ? Math.min(ind.ma5, quote.close_price * 0.985) : quote.close_price * 0.98)} 元
 上檔第一壓力位：${formatCurrency(ind.high_30 ? Math.max(ind.high_30, quote.close_price * 1.018) : quote.close_price * 1.02)} 元
+-----------------------------------------
+${chipSectionText}
 =========================================
 本報告直接串接證交所 (TWSE) 與櫃買中心 (TPEx) 官方 OpenAPI，非投資買賣建議。
 `.trim();
@@ -934,6 +1303,15 @@ async function initializeApp() {
       btnToggleTable.innerHTML = `${tableIcon} 檢視 30 天官方歷史明細表`;
     }
   });
+
+  // 圖表檢視模式切換 (雙圖對照 / 僅股價 / 僅法人籌碼)
+  const btnBoth = document.getElementById('btnViewBoth');
+  const btnPrice = document.getElementById('btnViewPrice');
+  const btnChip = document.getElementById('btnViewChip');
+
+  if (btnBoth) btnBoth.addEventListener('click', () => updateChartView('both'));
+  if (btnPrice) btnPrice.addEventListener('click', () => updateChartView('price'));
+  if (btnChip) btnChip.addEventListener('click', () => updateChartView('chip'));
 
   document.getElementById('btnCopyReport').addEventListener('click', copyReportToClipboard);
 }
