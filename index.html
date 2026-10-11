@@ -66,29 +66,39 @@
             <input 
               type="text" 
               id="stockInput" 
-              placeholder="輸入股票代號（例如: 0050、2330、6488、00679B，保留前導0）" 
+              placeholder="輸入股票代碼或名稱（例如: 鴻海、台積電、0050、2330、6488）" 
               autocomplete="off"
-              aria-label="股票代號或名稱輸入框"
+              aria-label="股票代號或股票名稱輸入框"
               list="stockSuggestions"
             >
             <datalist id="stockSuggestions">
               <option value="2330 台積電 (上市)"></option>
-              <option value="2308 台達電 (上市)"></option>
+              <option value="2317 鴻海 (上市)"></option>
               <option value="2454 聯發科 (上市)"></option>
+              <option value="2308 台達電 (上市)"></option>
               <option value="2303 聯電 (上市)"></option>
-              <option value="1303 南亞 (上市)"></option>
-              <option value="1301 台塑 (上市)"></option>
-              <option value="2002 中鋼 (上市)"></option>
+              <option value="2382 廣達 (上市)"></option>
+              <option value="2881 富邦金 (上市)"></option>
+              <option value="2882 國泰金 (上市)"></option>
               <option value="2891 中信金 (上市)"></option>
+              <option value="2603 長榮 (上市)"></option>
+              <option value="1301 台塑 (上市)"></option>
+              <option value="1303 南亞 (上市)"></option>
+              <option value="2002 中鋼 (上市)"></option>
               <option value="2059 川湖 (上市)"></option>
+              <option value="3008 大立光 (上市)"></option>
+              <option value="3034 聯詠 (上市)"></option>
+              <option value="3231 緯創 (上市)"></option>
               <option value="0050 元大台灣50 (上市ETF)"></option>
               <option value="0056 元大高股息 (上市ETF)"></option>
+              <option value="00878 國泰永續高股息 (上市ETF)"></option>
+              <option value="00919 群益台灣精選高息 (上市ETF)"></option>
               <option value="00631L 元大台灣50正2 (上市ETF)"></option>
               <option value="00685L 群益臺灣加權正2 (上市ETF)"></option>
-              <option value="2317 鴻海 (上市)"></option>
               <option value="6488 環球晶 (上櫃)"></option>
               <option value="3293 鈊象 (上櫃)"></option>
               <option value="8069 元太 (上櫃)"></option>
+              <option value="5483 中美晶 (上櫃)"></option>
               <option value="00679B 元大美債20年 (上櫃ETF)"></option>
             </datalist>
           </div>
@@ -491,9 +501,85 @@
     </div>
   </main>
 
+  <!-- 確認新增股票對話框 (確認流程與儲存/取消鍵) -->
+  <div class="modal-backdrop" id="confirmModalBackdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <polyline points="9 12 11 14 15 10"></polyline>
+            </svg>
+          </div>
+          <div>
+            <h3 class="modal-title" id="modalTitle">確認加入觀察名單</h3>
+            <p class="modal-subtitle">已為您比對官方最新成交行情，請確認股票資訊：</p>
+          </div>
+        </div>
+        <button type="button" class="btn-modal-close" id="btnModalClose" aria-label="關閉對話框">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="confirm-stock-preview">
+          <div class="preview-header">
+            <div class="preview-name-group">
+              <span class="preview-symbol" id="modalStockSymbol">--</span>
+              <strong class="preview-name" id="modalStockName">--</strong>
+            </div>
+            <span class="market-tag" id="modalStockMarket">TWSE 上市</span>
+          </div>
+
+          <div class="preview-price-row">
+            <div class="preview-price-item">
+              <span class="preview-lbl">最新收盤價</span>
+              <div class="preview-val-group">
+                <span class="preview-price" id="modalStockPrice">--</span>
+                <span class="preview-unit">元</span>
+              </div>
+            </div>
+            <div class="preview-price-item">
+              <span class="preview-lbl">漲跌幅</span>
+              <span class="change-tag" id="modalStockChange">--</span>
+            </div>
+          </div>
+
+          <div class="preview-meta-grid">
+            <div class="meta-item">
+              <span class="lbl">官方交易日</span>
+              <span class="val" id="modalStockDate">--</span>
+            </div>
+            <div class="meta-item">
+              <span class="lbl">成交量 (股)</span>
+              <span class="val" id="modalStockVolume">--</span>
+            </div>
+            <div class="meta-item full-width">
+              <span class="lbl">行情來源</span>
+              <span class="val" id="modalStockSource">臺灣官方 OpenAPI</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" id="btnCancelAdd">
+          取消
+        </button>
+        <button type="button" class="btn-save" id="btnConfirmAdd">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+            <polyline points="7 3 7 8 15 8"></polyline>
+          </svg>
+          儲存並加入名單
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast 提示容器 -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <script src="app.js?v=20261011_v4"></script>
+  <script src="app.js?v=20261011_v5"></script>
 </body>
 </html>

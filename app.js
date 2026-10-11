@@ -1066,11 +1066,17 @@ async function selectStock(symbol) {
   await refreshCurrentStockView();
 }
 
-// 新增股票至觀察名單
-async function addStock(inputVal) {
+// ==========================================================================
+// 觀察名單新增確認流程 (名稱/代號查詢、確認對話框、儲存/取消鍵)
+// ==========================================================================
+
+let pendingAddQuote = null; // 暫存等待使用者確認儲存的股票行情物件
+
+// 查詢股票行情並彈出確認流程對話框
+async function requestAddStock(inputVal) {
   const rawInput = (inputVal || '').trim();
   if (!rawInput) {
-    showToast('請輸入股票代碼！', 'warn');
+    showToast('請輸入股票代碼或名稱！', 'warn');
     return;
   }
 
@@ -1079,6 +1085,7 @@ async function addStock(inputVal) {
     return;
   }
 
+  // 1. 先萃取可能代碼（例如從 "2317 鴻海" 或純代號 "2330"）
   let symbol = '';
   const match = rawInput.match(/^[0-9A-Za-z]{4,6}/) || rawInput.match(/[0-9A-Za-z]{4,6}/);
   if (match) {
@@ -1087,9 +1094,9 @@ async function addStock(inputVal) {
     symbol = rawInput.trim();
   }
 
-  showToast(`正在查詢 [${rawInput}] 官方行情...`, 'info');
+  showToast(`正在查詢 [${rawInput}] 官方即時行情...`, 'info');
 
-  // 嘗試載入行情
+  // 2. 嘗試載入行情（支援代碼搜尋或名稱反查）
   await loadQuotesForWatchlist([symbol]);
   let qData = AppState.quotesMap[symbol];
 
@@ -1099,23 +1106,109 @@ async function addStock(inputVal) {
   }
 
   if (!qData) {
-    showToast(`查無 [${rawInput}] 之官方收盤資料！`, 'error');
+    showToast(`查無 [${rawInput}] 之官方收盤資料，請確認代碼或名稱是否正確！`, 'error');
     return;
   }
 
+  // 3. 檢查是否已在觀察清單中
   if (AppState.watchlist.includes(symbol)) {
     showToast(`股票 [${qData.name || symbol}] 已經在觀察名單中！`, 'warn');
     selectStock(symbol);
     return;
   }
 
+  // 4. 開啟確認流程對話框，待使用者按下「儲存」鍵
+  openConfirmModal(qData);
+}
+
+// 開啟確認對話框
+function openConfirmModal(quote) {
+  pendingAddQuote = quote;
+
+  document.getElementById('modalStockSymbol').textContent = quote.symbol;
+  document.getElementById('modalStockName').textContent = quote.name || quote.symbol;
+  document.getElementById('modalStockMarket').textContent = quote.market || '官方證券市場';
+
+  const priceEl = document.getElementById('modalStockPrice');
+  const changeEl = document.getElementById('modalStockChange');
+
+  if (quote.close_price !== null && quote.close_price !== undefined) {
+    priceEl.textContent = formatCurrency(quote.close_price);
+    const isUp = quote.change > 0;
+    const isDown = quote.change < 0;
+    const sign = isUp ? '+' : '';
+    changeEl.textContent = `${sign}${formatCurrency(quote.change)} 元`;
+    changeEl.className = 'change-tag ' + (isUp ? 'change-up' : (isDown ? 'change-down' : 'change-flat'));
+  } else {
+    priceEl.textContent = '無有效收盤價';
+    changeEl.textContent = '--';
+    changeEl.className = 'change-tag change-flat';
+  }
+
+  document.getElementById('modalStockDate').textContent = quote.trade_date || '--';
+  document.getElementById('modalStockVolume').textContent = quote.volume !== null && quote.volume !== undefined ? Number(quote.volume).toLocaleString('zh-TW') : '--';
+  document.getElementById('modalStockSource').textContent = quote.data_source || '臺灣官方 OpenAPI';
+
+  const backdrop = document.getElementById('confirmModalBackdrop');
+  backdrop.style.display = 'flex';
+  
+  // 焦點至確認儲存按鈕
+  setTimeout(() => {
+    const saveBtn = document.getElementById('btnConfirmAdd');
+    if (saveBtn) saveBtn.focus();
+  }, 50);
+}
+
+// 關閉確認對話框
+function closeConfirmModal() {
+  const backdrop = document.getElementById('confirmModalBackdrop');
+  backdrop.style.display = 'none';
+  pendingAddQuote = null;
+}
+
+// 使用者按下「儲存並加入名單」鍵
+async function confirmSaveStock() {
+  if (!pendingAddQuote) {
+    closeConfirmModal();
+    return;
+  }
+
+  const quote = pendingAddQuote;
+  const symbol = quote.symbol;
+
+  if (AppState.watchlist.length >= 10) {
+    showToast('觀察名單上限為 10 檔，請先刪除既有名單再新增！', 'warn');
+    closeConfirmModal();
+    return;
+  }
+
+  if (AppState.watchlist.includes(symbol)) {
+    showToast(`股票 [${quote.name || symbol}] 已經在觀察名單中！`, 'warn');
+    closeConfirmModal();
+    selectStock(symbol);
+    return;
+  }
+
+  // 寫入觀察清單並保存
   AppState.watchlist.push(symbol);
   AppState.selectedSymbol = symbol;
   saveWatchlistToStorage();
 
+  closeConfirmModal();
   await refreshCurrentStockView();
-  showToast(`成功加入觀察名單：${qData.name} (${symbol})`, 'success');
-  document.getElementById('stockInput').value = '';
+  showToast(`已成功儲存並加入觀察名單：${quote.name} (${symbol})`, 'success');
+  
+  // 清空輸入框
+  const stockInput = document.getElementById('stockInput');
+  if (stockInput) stockInput.value = '';
+}
+
+// 使用者按下「取消」鍵
+function cancelAddStock() {
+  if (pendingAddQuote) {
+    showToast(`已取消新增 [${pendingAddQuote.name || pendingAddQuote.symbol}]`, 'info');
+  }
+  closeConfirmModal();
 }
 
 // 移除觀察股票
@@ -1289,12 +1382,47 @@ async function initializeApp() {
   const stockInput = document.getElementById('stockInput');
 
   btnAdd.addEventListener('click', () => {
-    addStock(stockInput.value);
+    requestAddStock(stockInput.value);
   });
 
   stockInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
-      addStock(stockInput.value);
+      requestAddStock(stockInput.value);
+    }
+  });
+
+  // 確認對話框按鈕事件 (儲存鍵、取消鍵、關閉叉號、ESC 鍵、點擊遮罩關閉)
+  const btnConfirmAdd = document.getElementById('btnConfirmAdd');
+  const btnCancelAdd = document.getElementById('btnCancelAdd');
+  const btnModalClose = document.getElementById('btnModalClose');
+  const confirmModalBackdrop = document.getElementById('confirmModalBackdrop');
+
+  if (btnConfirmAdd) {
+    btnConfirmAdd.addEventListener('click', confirmSaveStock);
+  }
+  if (btnCancelAdd) {
+    btnCancelAdd.addEventListener('click', cancelAddStock);
+  }
+  if (btnModalClose) {
+    btnModalClose.addEventListener('click', cancelAddStock);
+  }
+  if (confirmModalBackdrop) {
+    confirmModalBackdrop.addEventListener('click', (e) => {
+      if (e.target === confirmModalBackdrop) {
+        cancelAddStock();
+      }
+    });
+  }
+
+  // 支援 ESC 鍵關閉 / Enter 鍵儲存
+  document.addEventListener('keydown', (e) => {
+    if (confirmModalBackdrop && confirmModalBackdrop.style.display !== 'none') {
+      if (e.key === 'Escape') {
+        cancelAddStock();
+      } else if (e.key === 'Enter' && e.target !== btnCancelAdd) {
+        e.preventDefault();
+        confirmSaveStock();
+      }
     }
   });
 
