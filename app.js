@@ -484,6 +484,7 @@ function renderInstitutionalCard(quote, historyData) {
   const tot30El = document.getElementById('chipTotal30');
   const fLatestEl = document.getElementById('chipForeignLatest');
   const tLatestEl = document.getElementById('chipTrustLatest');
+  const dLatestEl = document.getElementById('chipDealersLatest');
   const totLatestEl = document.getElementById('chipTotalLatest');
 
   const summary = getInstitutionalSummary(quote ? quote.symbol : '', historyData);
@@ -499,6 +500,7 @@ function renderInstitutionalCard(quote, historyData) {
     if (tot30El) tot30El.textContent = '--';
     if (fLatestEl) fLatestEl.textContent = '--';
     if (tLatestEl) tLatestEl.textContent = '--';
+    if (dLatestEl) dLatestEl.textContent = '--';
     if (totLatestEl) totLatestEl.textContent = '--';
     return;
   }
@@ -551,6 +553,7 @@ function renderInstitutionalCard(quote, historyData) {
 
   setSignedLatestText(fLatestEl, summary.foreign_latest_net);
   setSignedLatestText(tLatestEl, summary.trust_latest_net);
+  setSignedLatestText(dLatestEl, summary.dealers_latest_net);
   setSignedLatestText(totLatestEl, summary.total_latest_net);
 }
 

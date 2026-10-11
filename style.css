@@ -642,6 +642,10 @@ input:focus-visible,
   padding-top: 0.9rem;
 }
 
+.card-footer-grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
 .stat-cell {
   display: flex;
   flex-direction: column;
@@ -1177,4 +1181,5 @@ input:focus-visible,
   .input-wrapper { min-width: 100%; }
   .chart-wrapper { height: 300px; }
   .card-footer-grid { grid-template-columns: 1fr; }
+  .card-footer-grid-4 { grid-template-columns: repeat(2, 1fr); }
 }
