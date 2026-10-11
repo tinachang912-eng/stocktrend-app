@@ -346,8 +346,10 @@ function renderMetricCards(quote, historyData) {
     const ind = historyData.indicators;
     document.getElementById('metricMA5').textContent = ind.ma5 ? `${formatCurrency(ind.ma5)} 元` : '--';
     document.getElementById('metricMA20').textContent = ind.ma20 ? `${formatCurrency(ind.ma20)} 元` : '--';
+    document.getElementById('metricMA60').textContent = ind.ma60 ? `${formatCurrency(ind.ma60)} 元` : '--';
     document.getElementById('metricBias5').textContent = ind.bias_5 !== undefined ? `${ind.bias_5}%` : '--';
     document.getElementById('metricBias20').textContent = ind.bias_20 !== undefined ? `${ind.bias_20}%` : '--';
+    document.getElementById('metricBias60').textContent = ind.bias_60 !== undefined ? `${ind.bias_60}%` : '--';
     document.getElementById('metricHigh30').textContent = ind.high_30 ? `${formatCurrency(ind.high_30)} 元` : '--';
     document.getElementById('metricLow30').textContent = ind.low_30 ? `${formatCurrency(ind.low_30)} 元` : '--';
     document.getElementById('metricHistoryCount').textContent = `${historyData.total_days} 個營業日`;
@@ -356,8 +358,10 @@ function renderMetricCards(quote, historyData) {
   } else {
     document.getElementById('metricMA5').textContent = '資料整理中...';
     document.getElementById('metricMA20').textContent = '資料整理中...';
+    document.getElementById('metricMA60').textContent = '資料整理中...';
     document.getElementById('metricBias5').textContent = '--';
     document.getElementById('metricBias20').textContent = '--';
+    document.getElementById('metricBias60').textContent = '--';
     document.getElementById('metricHigh30').textContent = '--';
     document.getElementById('metricLow30').textContent = '--';
     document.getElementById('metricHistoryCount').textContent = '--';
@@ -389,20 +393,30 @@ function renderPredictionSummary(quote, ind) {
   document.getElementById('predResistancePrice').textContent = `${formatCurrency(resistancePrice)} 元`;
 
   let structureText = '';
-  if (latestPrice >= ind.ma5 && ind.ma5 >= ind.ma20) {
-    structureText = '多頭排列（收盤 > MA5 > MA20），短線具備多方動能';
+  const ma60Val = ind.ma60;
+  if (latestPrice >= ind.ma5 && ind.ma5 >= ind.ma20 && (!ma60Val || ind.ma20 >= ma60Val)) {
+    structureText = '強烈多頭排列（收盤 > MA5 > MA20 > MA60 季線），中長線多方架構扎實';
+    badge.textContent = '多頭排列・季線翻揚';
+    badge.className = 'prediction-pill pred-pill-bullish';
+  } else if (latestPrice >= ind.ma5 && ind.ma5 >= ind.ma20) {
+    structureText = '短多排列（收盤 > MA5 > MA20），短線具備多方動能，上檔關注季線壓力';
     badge.textContent = '強勢多頭・逢低有撐';
     badge.className = 'prediction-pill pred-pill-bullish';
+  } else if (latestPrice >= ind.ma20 && (!ma60Val || latestPrice >= ma60Val)) {
+    structureText = '守穩月線與季線中長多生命線，短線處於均線震盪收斂';
+    badge.textContent = '震盪偏多・守穩月季線';
+    badge.className = 'prediction-pill pred-pill-neutral';
   } else if (latestPrice >= ind.ma20) {
-    structureText = '守穩月線中多格局，短線處於均線震盪收斂';
-    badge.textContent = '震盪偏多・守穩月線';
+    structureText = '站上月線但承壓於季線生命線之下，屬於中線反彈震盪結構';
+    badge.textContent = '反彈震盪・關注季線';
     badge.className = 'prediction-pill pred-pill-neutral';
   } else if (latestPrice < ind.ma5 && latestPrice < ind.ma20) {
-    structureText = '跌破短期均線與月線，短線進入修正整理架構';
+    const ma60Desc = ma60Val && latestPrice < ma60Val ? '且失守季線生命線' : '';
+    structureText = `跌破短期均線與月線${ma60Desc}，短線進入修正整理架構`;
     badge.textContent = '弱勢防守・嚴控部位';
     badge.className = 'prediction-pill pred-pill-bearish';
   } else {
-    structureText = '短期均線糾結整理，等待量能突破表態';
+    structureText = '均線糾結整理，等待量能突破表態';
     badge.textContent = '區間整理・觀望因應';
     badge.className = 'prediction-pill pred-pill-neutral';
   }
@@ -583,6 +597,7 @@ function renderTrendChart(symbol, historyData) {
 
   const ma5Series = [];
   const ma20Series = [];
+  const ma60Series = [];
 
   for (let i = 0; i < prices.length; i++) {
     if (i >= 4) {
@@ -599,6 +614,20 @@ function renderTrendChart(symbol, historyData) {
       ma20Series.push(roundDec(avg20, 2));
     } else {
       ma20Series.push(null);
+    }
+
+    // 60 日季線 (MA60)：優先使用後端/預先計算之 rolling ma60，若無則依當前陣列長度降級計算
+    if (records[i].ma60 !== undefined && records[i].ma60 !== null) {
+      ma60Series.push(records[i].ma60);
+    } else if (i >= 59) {
+      const slice60 = prices.slice(i - 59, i + 1);
+      const avg60 = slice60.reduce((a, b) => a + b, 0) / 60;
+      ma60Series.push(roundDec(avg60, 2));
+    } else if (historyData.indicators && historyData.indicators.ma60) {
+      // 靜態 30 天視圖降級參考值（季線基準）
+      ma60Series.push(historyData.indicators.ma60);
+    } else {
+      ma60Series.push(null);
     }
   }
 
@@ -639,6 +668,16 @@ function renderTrendChart(symbol, historyData) {
           borderWidth: 1.8,
           pointRadius: 0,
           borderDash: [5, 4],
+          fill: false,
+          tension: 0.2
+        },
+        {
+          label: '60日季線 (MA60)',
+          data: ma60Series,
+          borderColor: '#10b981',
+          borderWidth: 2,
+          pointRadius: 0,
+          borderDash: [6, 3],
           fill: false,
           tension: 0.2
         }
@@ -897,8 +936,10 @@ function renderReport(quote, historyData) {
   const hasHistory = !!(historyData && historyData.indicators && ind.ma5);
   const ma5 = ind.ma5 || '--';
   const ma20 = ind.ma20 || '--';
+  const ma60 = ind.ma60 || '--';
   const bias5 = ind.bias_5 !== undefined ? ind.bias_5 : '--';
   const bias20 = ind.bias_20 !== undefined ? ind.bias_20 : '--';
+  const bias60 = ind.bias_60 !== undefined ? ind.bias_60 : '--';
   const closePrice = quote.close_price;
 
   // 1. 官方日曆判定
@@ -918,19 +959,19 @@ function renderReport(quote, historyData) {
   if (!hasHistory) {
     techBox.innerHTML = `
       <p style="color:#f59e0b;">
-        • <strong>歷史數據狀態：</strong> 靜態展示版尚未收錄此檔 30 天歷史數據。<br>
-        • <strong>均線與乖離率：</strong> 缺少足夠交易天數，暫無法計算 MA5 / MA20 / BIAS 指標。<br>
+        • <strong>歷史數據狀態：</strong> 靜態展示版尚未收錄此檔歷史走勢數據。<br>
+        • <strong>均線與乖離率：</strong> 缺少足夠交易天數，暫無法計算 MA5 / MA20 / MA60 / BIAS 指標。<br>
         • <strong>建議方案：</strong> 可於本機啟動 <code>python backend/server.py</code> 即時連線官方 OpenAPI 計算，或於後端匯出清單中擴充此檔股票。
       </p>
     `;
   } else {
     techBox.innerHTML = `
       <p>
-        基於官方最近 30 個營業日真實成交紀錄量化計算：<br>
-        • <strong>5日均線 (MA5)：</strong> ${formatCurrency(ma5)} 元<br>
-        • <strong>20日月均線 (MA20)：</strong> ${formatCurrency(ma20)} 元<br>
-        • <strong>5日乖離率 (BIAS)：</strong> ${bias5}% (${Math.abs(bias5) > 4 ? '短線乖離擴大，提防技術性修正' : '處於常態運行範圍'})<br>
-        • <strong>20日乖離率 (BIAS)：</strong> ${bias20}%<br>
+        基於官方最近 30~60 個營業日真實成交紀錄量化計算：<br>
+        • <strong>5日短期均線 (MA5)：</strong> ${formatCurrency(ma5)} 元 (5日乖離率: ${bias5}%)<br>
+        • <strong>20日月均線 (MA20)：</strong> ${formatCurrency(ma20)} 元 (20日乖離率: ${bias20}%)<br>
+        • <strong>60日季線 (MA60 生命線)：</strong> ${formatCurrency(ma60)} 元 (60日乖離率: ${bias60}%)<br>
+        • <strong>均線架構綜評：</strong> ${closePrice >= ma5 && ma5 >= ma20 ? '多頭排列結構，短線走勢凌厲' : (closePrice >= ma20 ? '月線上中多整理，維持強勢格局' : '跌破短期均線，正尋求季線防守支撐')}<br>
         • <strong>30日波動區間：</strong> 上檔峰值 ${formatCurrency(ind.high_30)} 元，下檔低點 ${formatCurrency(ind.low_30)} 元。
       </p>
     `;
@@ -1159,9 +1200,10 @@ function copyReportToClipboard() {
 資料抓取時間：${quote.fetch_time}
 資料驗證狀態：${quote.status_message}
 -----------------------------------------
-【真實 30 天均線與技術架構】
+【真實均線與技術架構】
 5日短期均線 (MA5)：${formatCurrency(ind.ma5)} 元 (乖離率: ${ind.bias_5}%)
 20日月均線 (MA20)：${formatCurrency(ind.ma20)} 元 (乖離率: ${ind.bias_20}%)
+60日季線 (MA60 生命線)：${formatCurrency(ind.ma60)} 元 (乖離率: ${ind.bias_60}%)
 30日波段高低區間：${formatCurrency(ind.low_30)} ~ ${formatCurrency(ind.high_30)} 元
 -----------------------------------------
 【次一交易日客觀研判】

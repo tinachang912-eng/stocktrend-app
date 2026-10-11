@@ -109,6 +109,9 @@ def get_history(symbol: str = Query(..., description="股票代號")):
     # 20日均線 (MA20)
     ma20 = round(sum(prices[-20:]) / len(prices[-20:]), 2) if len(prices) >= 20 else (round(sum(prices) / len(prices), 2) if prices else None)
 
+    # 60日季線 (MA60 / 生命線)
+    ma60 = round(sum(prices[-60:]) / len(prices[-60:]), 2) if len(prices) >= 60 else (round(sum(prices) / len(prices), 2) if prices else None)
+
     high_30 = max(prices) if prices else None
     low_30 = min(prices) if prices else None
 
@@ -116,6 +119,12 @@ def get_history(symbol: str = Query(..., description="股票代號")):
     latest_price = prices[-1] if prices else None
     bias_5 = round(((latest_price - ma5) / ma5) * 100, 2) if (latest_price and ma5) else 0.0
     bias_20 = round(((latest_price - ma20) / ma20) * 100, 2) if (latest_price and ma20) else 0.0
+    bias_60 = round(((latest_price - ma60) / ma60) * 100, 2) if (latest_price and ma60) else 0.0
+
+    # 為每筆歷史紀錄計算滾動季線 (MA60)
+    for i, r in enumerate(records):
+        slice_k = prices[max(0, i - 59):i + 1]
+        r["ma60"] = round(sum(slice_k) / len(slice_k), 2)
 
     # 計算三大法人 30 天籌碼面指標與分析
     institutional_summary = compute_institutional_summary(clean_symbol, records)
@@ -127,10 +136,12 @@ def get_history(symbol: str = Query(..., description="股票代號")):
         "indicators": {
             "ma5": ma5,
             "ma20": ma20,
+            "ma60": ma60,
             "high_30": high_30,
             "low_30": low_30,
             "bias_5": bias_5,
-            "bias_20": bias_20
+            "bias_20": bias_20,
+            "bias_60": bias_60
         },
         "institutional": institutional_summary
     }

@@ -680,6 +680,14 @@ input:focus-visible,
   gap: 0.5rem;
 }
 
+.tech-grid-6 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.text-quarterly {
+  color: #34d399 !important;
+}
+
 .tech-box {
   background: rgba(255, 255, 255, 0.03);
   padding: 0.5rem 0.7rem;

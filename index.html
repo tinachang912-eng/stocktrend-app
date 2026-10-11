@@ -170,7 +170,7 @@
             <span class="tag-status">30個營業日統計</span>
           </div>
           <div class="card-body">
-            <div class="tech-grid">
+            <div class="tech-grid tech-grid-6">
               <div class="tech-box">
                 <span class="tech-lbl">5日短期均線 (MA5)</span>
                 <span class="tech-num" id="metricMA5">--</span>
@@ -180,12 +180,20 @@
                 <span class="tech-num" id="metricMA20">--</span>
               </div>
               <div class="tech-box">
+                <span class="tech-lbl">60日季線 (MA60)</span>
+                <span class="tech-num text-quarterly" id="metricMA60">--</span>
+              </div>
+              <div class="tech-box">
                 <span class="tech-lbl">5日乖離率 (BIAS)</span>
                 <span class="tech-num" id="metricBias5">--</span>
               </div>
               <div class="tech-box">
                 <span class="tech-lbl">20日乖離率 (BIAS)</span>
                 <span class="tech-num" id="metricBias20">--</span>
+              </div>
+              <div class="tech-box">
+                <span class="tech-lbl">60日乖離率 (BIAS)</span>
+                <span class="tech-num" id="metricBias60">--</span>
               </div>
             </div>
           </div>
@@ -303,7 +311,7 @@
       <section class="chart-section">
         <div class="chart-header">
           <div class="chart-title-area">
-            <h3>真實 30 個營業日官方歷史收盤均線與三大法人籌碼動向圖</h3>
+            <h3>真實 30 個營業日官方收盤均線 (MA5 / MA20 / MA60 季線) 與三大法人籌碼動向圖</h3>
             <p class="chart-subtitle" id="chartSubtitleDesc">
               100% 串接證交所 (TWSE) 與櫃買中心 (TPEx) 官方真實成交紀錄與外資、投信、自營商買賣超，無任何 AI 編造
             </p>
@@ -330,7 +338,7 @@
           <!-- 圖表 1: 股價均線走勢圖 -->
           <div class="chart-block" id="blockPriceChart">
             <div class="chart-block-header">
-              <span class="chart-block-title">📈 官方歷史收盤價與 MA5 / MA20 均線趨勢</span>
+              <span class="chart-block-title">📈 官方歷史收盤價與 MA5 / MA20 / MA60 (季線) 均線趨勢</span>
             </div>
             <div class="chart-wrapper">
               <canvas id="trendChart"></canvas>
@@ -486,6 +494,6 @@
   <!-- Toast 提示容器 -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <script src="app.js?v=20261011_v3"></script>
+  <script src="app.js?v=20261011_v4"></script>
 </body>
 </html>
