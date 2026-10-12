@@ -1,6 +1,6 @@
 {
   "symbol": "3231",
-  "total_days": 26,
+  "total_days": 27,
   "history": [
     {
       "date": "2026-09-01",
@@ -287,31 +287,42 @@
       "dealers": 810,
       "institutional_total": 5840,
       "ma60": 186.44
+    },
+    {
+      "date": "2026-10-12",
+      "close_price": 189.5,
+      "change": 1.0,
+      "volume": 30872569.0,
+      "foreign_investors": 2154,
+      "investment_trust": -5,
+      "dealers": 923,
+      "institutional_total": 3072,
+      "ma60": 186.56
     }
   ],
   "indicators": {
-    "ma5": 187.8,
-    "ma20": 185.5,
-    "ma60": 186.44,
+    "ma5": 188.4,
+    "ma20": 185.53,
+    "ma60": 186.56,
     "high_30": 198.0,
     "low_30": 180.0,
-    "bias_5": 0.37,
-    "bias_20": 1.62,
-    "bias_60": 1.1
+    "bias_5": 0.58,
+    "bias_20": 2.14,
+    "bias_60": 1.58
   },
   "institutional": {
-    "foreign_30d_net": -630,
-    "trust_30d_net": -1974,
-    "dealers_30d_net": 10018,
-    "total_30d_net": 7414,
-    "foreign_consecutive_days": 1,
-    "trust_consecutive_days": 1,
-    "dealers_consecutive_days": 1,
-    "foreign_latest_net": 4185,
-    "trust_latest_net": 845,
-    "dealers_latest_net": 810,
-    "total_latest_net": 5840,
-    "institutional_sentiment": "三大法人同步買超（多方強烈共識）",
-    "analysis": "外資近 30 個營業日累計淨賣超 630 張，最新單日呈現連續 1 日買超 (4,185 張)。本土投信近 30 日累計淨賣超 1,974 張，最新呈現連續 1 日買超 (845 張)。三大法人近 30 日合計淨買超 7,414 張（自營商累計淨額 +10,018 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
+    "foreign_30d_net": 1524,
+    "trust_30d_net": -1979,
+    "dealers_30d_net": 10941,
+    "total_30d_net": 10486,
+    "foreign_consecutive_days": 2,
+    "trust_consecutive_days": -1,
+    "dealers_consecutive_days": 2,
+    "foreign_latest_net": 2154,
+    "trust_latest_net": -5,
+    "dealers_latest_net": 923,
+    "total_latest_net": 3072,
+    "institutional_sentiment": "外資主導回補（投信高檔獲利調節）",
+    "analysis": "外資近 30 個營業日累計淨買超 1,524 張，最新單日呈現連續 2 日買超 (2,154 張)。本土投信近 30 日累計淨賣超 1,979 張，最新呈現連續 1 日賣超 (5 張)。三大法人近 30 日合計淨買超 10,486 張（自營商累計淨額 +10,941 張）。法人買賣力道互有消長，籌碼集中度適中，預期股價維持於均線區間震盪整理。"
   }
 }

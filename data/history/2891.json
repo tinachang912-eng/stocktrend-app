@@ -1,6 +1,6 @@
 {
   "symbol": "2891",
-  "total_days": 26,
+  "total_days": 27,
   "history": [
     {
       "date": "2026-09-01",
@@ -287,31 +287,42 @@
       "dealers": 336,
       "institutional_total": -1816,
       "ma60": 68.32
+    },
+    {
+      "date": "2026-10-12",
+      "close_price": 69.8,
+      "change": 2.5,
+      "volume": 40618256.0,
+      "foreign_investors": 2055,
+      "investment_trust": 755,
+      "dealers": 74,
+      "institutional_total": 2884,
+      "ma60": 68.38
     }
   ],
   "indicators": {
-    "ma5": 67.82,
-    "ma20": 68.59,
-    "ma60": 68.32,
+    "ma5": 68.32,
+    "ma20": 68.75,
+    "ma60": 68.38,
     "high_30": 71.2,
     "low_30": 66.5,
-    "bias_5": -0.77,
-    "bias_20": -1.88,
-    "bias_60": -1.49
+    "bias_5": 2.17,
+    "bias_20": 1.53,
+    "bias_60": 2.08
   },
   "institutional": {
-    "foreign_30d_net": 3185,
-    "trust_30d_net": 3081,
-    "dealers_30d_net": 3229,
-    "total_30d_net": 9495,
-    "foreign_consecutive_days": -1,
-    "trust_consecutive_days": -1,
-    "dealers_consecutive_days": 4,
-    "foreign_latest_net": -1794,
-    "trust_latest_net": -358,
-    "dealers_latest_net": 336,
-    "total_latest_net": -1816,
-    "institutional_sentiment": "波段主力持續偏多布局",
-    "analysis": "外資近 30 個營業日累計淨買超 3,185 張，最新單日呈現連續 1 日賣超 (1,794 張)。本土投信近 30 日累計淨買超 3,081 張，最新呈現連續 1 日賣超 (358 張)。三大法人近 30 日合計淨買超 9,495 張（自營商累計淨額 +3,229 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
+    "foreign_30d_net": 5240,
+    "trust_30d_net": 3836,
+    "dealers_30d_net": 3303,
+    "total_30d_net": 12379,
+    "foreign_consecutive_days": 1,
+    "trust_consecutive_days": 1,
+    "dealers_consecutive_days": 5,
+    "foreign_latest_net": 2055,
+    "trust_latest_net": 755,
+    "dealers_latest_net": 74,
+    "total_latest_net": 2884,
+    "institutional_sentiment": "三大法人同步買超（多方強烈共識）",
+    "analysis": "外資近 30 個營業日累計淨買超 5,240 張，最新單日呈現連續 1 日買超 (2,055 張)。本土投信近 30 日累計淨買超 3,836 張，最新呈現連續 1 日買超 (755 張)。三大法人近 30 日合計淨買超 12,379 張（自營商累計淨額 +3,303 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
   }
 }

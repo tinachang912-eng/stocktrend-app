@@ -1,6 +1,6 @@
 {
   "symbol": "00878",
-  "total_days": 26,
+  "total_days": 27,
   "history": [
     {
       "date": "2026-09-01",
@@ -287,31 +287,42 @@
       "dealers": -678,
       "institutional_total": -1937,
       "ma60": 34.56
+    },
+    {
+      "date": "2026-10-12",
+      "close_price": 35.24,
+      "change": 0.25,
+      "volume": 23479818.0,
+      "foreign_investors": 1405,
+      "investment_trust": -217,
+      "dealers": -147,
+      "institutional_total": 1041,
+      "ma60": 34.59
     }
   ],
   "indicators": {
-    "ma5": 35.08,
-    "ma20": 34.75,
-    "ma60": 34.56,
-    "high_30": 35.22,
+    "ma5": 35.15,
+    "ma20": 34.81,
+    "ma60": 34.59,
+    "high_30": 35.24,
     "low_30": 33.58,
-    "bias_5": -0.26,
-    "bias_20": 0.69,
-    "bias_60": 1.24
+    "bias_5": 0.26,
+    "bias_20": 1.24,
+    "bias_60": 1.88
   },
   "institutional": {
-    "foreign_30d_net": 13609,
-    "trust_30d_net": 1177,
-    "dealers_30d_net": 7474,
-    "total_30d_net": 22260,
-    "foreign_consecutive_days": -1,
-    "trust_consecutive_days": -2,
-    "dealers_consecutive_days": -1,
-    "foreign_latest_net": -1249,
-    "trust_latest_net": -10,
-    "dealers_latest_net": -678,
-    "total_latest_net": -1937,
-    "institutional_sentiment": "三大法人同步賣超（短線沉重調節）",
-    "analysis": "外資近 30 個營業日累計淨買超 13,609 張，最新單日呈現連續 1 日賣超 (1,249 張)。本土投信近 30 日累計淨買超 1,177 張，最新呈現連續 2 日賣超 (10 張)。三大法人近 30 日合計淨買超 22,260 張（自營商累計淨額 +7,474 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
+    "foreign_30d_net": 15014,
+    "trust_30d_net": 960,
+    "dealers_30d_net": 7327,
+    "total_30d_net": 23301,
+    "foreign_consecutive_days": 1,
+    "trust_consecutive_days": -3,
+    "dealers_consecutive_days": -2,
+    "foreign_latest_net": 1405,
+    "trust_latest_net": -217,
+    "dealers_latest_net": -147,
+    "total_latest_net": 1041,
+    "institutional_sentiment": "外資主導回補（投信高檔獲利調節）",
+    "analysis": "外資近 30 個營業日累計淨買超 15,014 張，最新單日呈現連續 1 日買超 (1,405 張)。本土投信近 30 日累計淨買超 960 張，最新呈現連續 3 日賣超 (217 張)。三大法人近 30 日合計淨買超 23,301 張（自營商累計淨額 +7,327 張）。法人買賣力道互有消長，籌碼集中度適中，預期股價維持於均線區間震盪整理。"
   }
 }

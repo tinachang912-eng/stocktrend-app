@@ -1,6 +1,6 @@
 {
   "symbol": "2317",
-  "total_days": 26,
+  "total_days": 27,
   "history": [
     {
       "date": "2026-09-01",
@@ -287,31 +287,42 @@
       "dealers": -756,
       "institutional_total": -3890,
       "ma60": 251.56
+    },
+    {
+      "date": "2026-10-12",
+      "close_price": 244.5,
+      "change": -4.5,
+      "volume": 52408677.0,
+      "foreign_investors": -4696,
+      "investment_trust": 293,
+      "dealers": 952,
+      "institutional_total": -3451,
+      "ma60": 251.3
     }
   ],
   "indicators": {
-    "ma5": 252.4,
-    "ma20": 251.12,
-    "ma60": 251.56,
+    "ma5": 251.1,
+    "ma20": 250.75,
+    "ma60": 251.3,
     "high_30": 256.0,
-    "low_30": 246.5,
-    "bias_5": -1.35,
-    "bias_20": -0.84,
-    "bias_60": -1.02
+    "low_30": 244.5,
+    "bias_5": -2.63,
+    "bias_20": -2.49,
+    "bias_60": -2.71
   },
   "institutional": {
-    "foreign_30d_net": 14109,
-    "trust_30d_net": 4261,
-    "dealers_30d_net": 2056,
-    "total_30d_net": 20426,
-    "foreign_consecutive_days": -2,
-    "trust_consecutive_days": -2,
-    "dealers_consecutive_days": -1,
-    "foreign_latest_net": -2596,
-    "trust_latest_net": -538,
-    "dealers_latest_net": -756,
-    "total_latest_net": -3890,
-    "institutional_sentiment": "三大法人同步賣超（短線沉重調節）",
-    "analysis": "外資近 30 個營業日累計淨買超 14,109 張，最新單日呈現連續 2 日賣超 (2,596 張)。本土投信近 30 日累計淨買超 4,261 張，最新呈現連續 2 日賣超 (538 張)。三大法人近 30 日合計淨買超 20,426 張（自營商累計淨額 +2,056 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
+    "foreign_30d_net": 9413,
+    "trust_30d_net": 4554,
+    "dealers_30d_net": 3008,
+    "total_30d_net": 16975,
+    "foreign_consecutive_days": -3,
+    "trust_consecutive_days": 1,
+    "dealers_consecutive_days": 1,
+    "foreign_latest_net": -4696,
+    "trust_latest_net": 293,
+    "dealers_latest_net": 952,
+    "total_latest_net": -3451,
+    "institutional_sentiment": "土洋對作（投信積極護盤承接）",
+    "analysis": "外資近 30 個營業日累計淨買超 9,413 張，最新單日呈現連續 3 日賣超 (4,696 張)。本土投信近 30 日累計淨買超 4,554 張，最新呈現連續 1 日買超 (293 張)。三大法人近 30 日合計淨買超 16,975 張（自營商累計淨額 +3,008 張）。呈現典型「土洋對作」格局，外資調節賣壓由內資投信逢低承接，短線震盪劇烈，宜以月線作為關鍵防守點。"
   }
 }

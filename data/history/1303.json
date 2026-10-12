@@ -1,6 +1,6 @@
 {
   "symbol": "1303",
-  "total_days": 26,
+  "total_days": 27,
   "history": [
     {
       "date": "2026-09-01",
@@ -287,31 +287,42 @@
       "dealers": -1587,
       "institutional_total": -3979,
       "ma60": 246.48
+    },
+    {
+      "date": "2026-10-12",
+      "close_price": 303.0,
+      "change": -7.0,
+      "volume": 72014249.0,
+      "foreign_investors": -3467,
+      "investment_trust": 722,
+      "dealers": -1271,
+      "institutional_total": -4016,
+      "ma60": 248.57
     }
   ],
   "indicators": {
-    "ma5": 292.6,
-    "ma20": 251.22,
-    "ma60": 246.48,
+    "ma5": 301.2,
+    "ma20": 254.55,
+    "ma60": 248.57,
     "high_30": 314.0,
     "low_30": 221.0,
-    "bias_5": 5.95,
-    "bias_20": 23.4,
-    "bias_60": 25.77
+    "bias_5": 0.6,
+    "bias_20": 19.03,
+    "bias_60": 21.9
   },
   "institutional": {
-    "foreign_30d_net": 56810,
-    "trust_30d_net": 20759,
-    "dealers_30d_net": 8524,
-    "total_30d_net": 86093,
-    "foreign_consecutive_days": -1,
-    "trust_consecutive_days": 9,
-    "dealers_consecutive_days": -1,
-    "foreign_latest_net": -3849,
-    "trust_latest_net": 1457,
-    "dealers_latest_net": -1587,
-    "total_latest_net": -3979,
+    "foreign_30d_net": 53343,
+    "trust_30d_net": 21481,
+    "dealers_30d_net": 7253,
+    "total_30d_net": 82077,
+    "foreign_consecutive_days": -2,
+    "trust_consecutive_days": 10,
+    "dealers_consecutive_days": -2,
+    "foreign_latest_net": -3467,
+    "trust_latest_net": 722,
+    "dealers_latest_net": -1271,
+    "total_latest_net": -4016,
     "institutional_sentiment": "土洋對作（投信積極護盤承接）",
-    "analysis": "外資近 30 個營業日累計淨買超 56,810 張，最新單日呈現連續 1 日賣超 (3,849 張)。本土投信近 30 日累計淨買超 20,759 張，最新呈現連續 9 日買超 (1,457 張)。三大法人近 30 日合計淨買超 86,093 張（自營商累計淨額 +8,524 張）。呈現典型「土洋對作」格局，外資調節賣壓由內資投信逢低承接，短線震盪劇烈，宜以月線作為關鍵防守點。"
+    "analysis": "外資近 30 個營業日累計淨買超 53,343 張，最新單日呈現連續 2 日賣超 (3,467 張)。本土投信近 30 日累計淨買超 21,481 張，最新呈現連續 10 日買超 (722 張)。三大法人近 30 日合計淨買超 82,077 張（自營商累計淨額 +7,253 張）。呈現典型「土洋對作」格局，外資調節賣壓由內資投信逢低承接，短線震盪劇烈，宜以月線作為關鍵防守點。"
   }
 }
