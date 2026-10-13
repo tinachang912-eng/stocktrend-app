@@ -1,6 +1,6 @@
 {
   "symbol": "00919",
-  "total_days": 27,
+  "total_days": 28,
   "history": [
     {
       "date": "2026-09-01",
@@ -298,31 +298,42 @@
       "dealers": 1627,
       "institutional_total": 10380,
       "ma60": 32.21
+    },
+    {
+      "date": "2026-10-13",
+      "close_price": 32.4,
+      "change": 0.17,
+      "volume": 108841416.0,
+      "foreign_investors": 4847,
+      "investment_trust": 6,
+      "dealers": -98,
+      "institutional_total": 4755,
+      "ma60": 32.22
     }
   ],
   "indicators": {
-    "ma5": 31.85,
-    "ma20": 32.06,
-    "ma60": 32.21,
+    "ma5": 32.0,
+    "ma20": 32.05,
+    "ma60": 32.22,
     "high_30": 33.02,
     "low_30": 31.55,
-    "bias_5": 1.19,
-    "bias_20": 0.53,
-    "bias_60": 0.06
+    "bias_5": 1.25,
+    "bias_20": 1.09,
+    "bias_60": 0.56
   },
   "institutional": {
-    "foreign_30d_net": 21168,
-    "trust_30d_net": 9176,
-    "dealers_30d_net": -3969,
-    "total_30d_net": 26375,
-    "foreign_consecutive_days": 1,
-    "trust_consecutive_days": 1,
-    "dealers_consecutive_days": 1,
-    "foreign_latest_net": 3960,
-    "trust_latest_net": 4793,
-    "dealers_latest_net": 1627,
-    "total_latest_net": 10380,
-    "institutional_sentiment": "三大法人同步買超（多方強烈共識）",
-    "analysis": "外資近 30 個營業日累計淨買超 21,168 張，最新單日呈現連續 1 日買超 (3,960 張)。本土投信近 30 日累計淨買超 9,176 張，最新呈現連續 1 日買超 (4,793 張)。三大法人近 30 日合計淨買超 26,375 張（自營商累計淨額 -3,969 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
+    "foreign_30d_net": 26015,
+    "trust_30d_net": 9182,
+    "dealers_30d_net": -4067,
+    "total_30d_net": 31130,
+    "foreign_consecutive_days": 2,
+    "trust_consecutive_days": 2,
+    "dealers_consecutive_days": -1,
+    "foreign_latest_net": 4847,
+    "trust_latest_net": 6,
+    "dealers_latest_net": -98,
+    "total_latest_net": 4755,
+    "institutional_sentiment": "波段主力持續偏多布局",
+    "analysis": "外資近 30 個營業日累計淨買超 26,015 張，最新單日呈現連續 2 日買超 (4,847 張)。本土投信近 30 日累計淨買超 9,182 張，最新呈現連續 2 日買超 (6 張)。三大法人近 30 日合計淨買超 31,130 張（自營商累計淨額 -4,067 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
   }
 }

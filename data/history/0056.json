@@ -1,6 +1,6 @@
 {
   "symbol": "0056",
-  "total_days": 27,
+  "total_days": 28,
   "history": [
     {
       "date": "2026-09-01",
@@ -298,31 +298,42 @@
       "dealers": 396,
       "institutional_total": 2872,
       "ma60": 56.42
+    },
+    {
+      "date": "2026-10-13",
+      "close_price": 58.55,
+      "change": -0.05,
+      "volume": 62428804.0,
+      "foreign_investors": -843,
+      "investment_trust": 1362,
+      "dealers": 243,
+      "institutional_total": 762,
+      "ma60": 56.49
     }
   ],
   "indicators": {
-    "ma5": 58.26,
-    "ma20": 56.8,
-    "ma60": 56.42,
+    "ma5": 58.4,
+    "ma20": 56.95,
+    "ma60": 56.49,
     "high_30": 58.6,
     "low_30": 54.5,
-    "bias_5": 0.58,
-    "bias_20": 3.17,
-    "bias_60": 3.86
+    "bias_5": 0.26,
+    "bias_20": 2.81,
+    "bias_60": 3.65
   },
   "institutional": {
-    "foreign_30d_net": 8203,
-    "trust_30d_net": 3673,
-    "dealers_30d_net": 382,
-    "total_30d_net": 12258,
-    "foreign_consecutive_days": 4,
-    "trust_consecutive_days": 2,
-    "dealers_consecutive_days": 1,
-    "foreign_latest_net": 1686,
-    "trust_latest_net": 790,
-    "dealers_latest_net": 396,
-    "total_latest_net": 2872,
-    "institutional_sentiment": "三大法人同步買超（多方強烈共識）",
-    "analysis": "外資近 30 個營業日累計淨買超 8,203 張，最新單日呈現連續 4 日買超 (1,686 張)。本土投信近 30 日累計淨買超 3,673 張，最新呈現連續 2 日買超 (790 張)。三大法人近 30 日合計淨買超 12,258 張（自營商累計淨額 +382 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
+    "foreign_30d_net": 7360,
+    "trust_30d_net": 5035,
+    "dealers_30d_net": 625,
+    "total_30d_net": 13020,
+    "foreign_consecutive_days": -1,
+    "trust_consecutive_days": 3,
+    "dealers_consecutive_days": 2,
+    "foreign_latest_net": -843,
+    "trust_latest_net": 1362,
+    "dealers_latest_net": 243,
+    "total_latest_net": 762,
+    "institutional_sentiment": "土洋對作（投信積極護盤承接）",
+    "analysis": "外資近 30 個營業日累計淨買超 7,360 張，最新單日呈現連續 1 日賣超 (843 張)。本土投信近 30 日累計淨買超 5,035 張，最新呈現連續 3 日買超 (1,362 張)。三大法人近 30 日合計淨買超 13,020 張（自營商累計淨額 +625 張）。呈現典型「土洋對作」格局，外資調節賣壓由內資投信逢低承接，短線震盪劇烈，宜以月線作為關鍵防守點。"
   }
 }

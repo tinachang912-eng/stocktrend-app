@@ -1,6 +1,6 @@
 {
   "symbol": "0050",
-  "total_days": 27,
+  "total_days": 28,
   "history": [
     {
       "date": "2026-09-01",
@@ -298,31 +298,42 @@
       "dealers": 858,
       "institutional_total": -5018,
       "ma60": 110.69
+    },
+    {
+      "date": "2026-10-13",
+      "close_price": 112.4,
+      "change": -2.4,
+      "volume": 242070746.0,
+      "foreign_investors": -19742,
+      "investment_trust": -2720,
+      "dealers": -5093,
+      "institutional_total": -27555,
+      "ma60": 110.75
     }
   ],
   "indicators": {
-    "ma5": 115.65,
-    "ma20": 111.51,
-    "ma60": 110.69,
+    "ma5": 114.94,
+    "ma20": 111.67,
+    "ma60": 110.75,
     "high_30": 116.5,
     "low_30": 106.2,
-    "bias_5": -0.73,
-    "bias_20": 2.95,
-    "bias_60": 3.71
+    "bias_5": -2.21,
+    "bias_20": 0.65,
+    "bias_60": 1.49
   },
   "institutional": {
-    "foreign_30d_net": 29704,
-    "trust_30d_net": 11528,
-    "dealers_30d_net": -7255,
-    "total_30d_net": 33977,
-    "foreign_consecutive_days": -3,
-    "trust_consecutive_days": -3,
-    "dealers_consecutive_days": 2,
-    "foreign_latest_net": -4366,
-    "trust_latest_net": -1510,
-    "dealers_latest_net": 858,
-    "total_latest_net": -5018,
-    "institutional_sentiment": "波段主力持續偏多布局",
-    "analysis": "外資近 30 個營業日累計淨買超 29,704 張，最新單日呈現連續 3 日賣超 (4,366 張)。本土投信近 30 日累計淨買超 11,528 張，最新呈現連續 3 日賣超 (1,510 張)。三大法人近 30 日合計淨買超 33,977 張（自營商累計淨額 -7,255 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
+    "foreign_30d_net": 9962,
+    "trust_30d_net": 8808,
+    "dealers_30d_net": -12348,
+    "total_30d_net": 6422,
+    "foreign_consecutive_days": -4,
+    "trust_consecutive_days": -4,
+    "dealers_consecutive_days": -1,
+    "foreign_latest_net": -19742,
+    "trust_latest_net": -2720,
+    "dealers_latest_net": -5093,
+    "total_latest_net": -27555,
+    "institutional_sentiment": "三大法人同步賣超（短線沉重調節）",
+    "analysis": "外資近 30 個營業日累計淨買超 9,962 張，最新單日呈現連續 4 日賣超 (19,742 張)。本土投信近 30 日累計淨買超 8,808 張，最新呈現連續 4 日賣超 (2,720 張)。三大法人近 30 日合計淨買超 6,422 張（自營商累計淨額 -12,348 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
   }
 }

@@ -1,6 +1,6 @@
 {
   "symbol": "00878",
-  "total_days": 27,
+  "total_days": 28,
   "history": [
     {
       "date": "2026-09-01",
@@ -298,31 +298,42 @@
       "dealers": -147,
       "institutional_total": 1041,
       "ma60": 34.59
+    },
+    {
+      "date": "2026-10-13",
+      "close_price": 35.34,
+      "change": 0.1,
+      "volume": 34148589.0,
+      "foreign_investors": -1013,
+      "investment_trust": 9,
+      "dealers": 152,
+      "institutional_total": -852,
+      "ma60": 34.61
     }
   ],
   "indicators": {
-    "ma5": 35.15,
-    "ma20": 34.81,
-    "ma60": 34.59,
-    "high_30": 35.24,
+    "ma5": 35.19,
+    "ma20": 34.87,
+    "ma60": 34.61,
+    "high_30": 35.34,
     "low_30": 33.58,
-    "bias_5": 0.26,
-    "bias_20": 1.24,
-    "bias_60": 1.88
+    "bias_5": 0.43,
+    "bias_20": 1.35,
+    "bias_60": 2.11
   },
   "institutional": {
-    "foreign_30d_net": 15014,
-    "trust_30d_net": 960,
-    "dealers_30d_net": 7327,
-    "total_30d_net": 23301,
-    "foreign_consecutive_days": 1,
-    "trust_consecutive_days": -3,
-    "dealers_consecutive_days": -2,
-    "foreign_latest_net": 1405,
-    "trust_latest_net": -217,
-    "dealers_latest_net": -147,
-    "total_latest_net": 1041,
-    "institutional_sentiment": "外資主導回補（投信高檔獲利調節）",
-    "analysis": "外資近 30 個營業日累計淨買超 15,014 張，最新單日呈現連續 1 日買超 (1,405 張)。本土投信近 30 日累計淨買超 960 張，最新呈現連續 3 日賣超 (217 張)。三大法人近 30 日合計淨買超 23,301 張（自營商累計淨額 +7,327 張）。法人買賣力道互有消長，籌碼集中度適中，預期股價維持於均線區間震盪整理。"
+    "foreign_30d_net": 14001,
+    "trust_30d_net": 969,
+    "dealers_30d_net": 7479,
+    "total_30d_net": 22449,
+    "foreign_consecutive_days": -1,
+    "trust_consecutive_days": 1,
+    "dealers_consecutive_days": 1,
+    "foreign_latest_net": -1013,
+    "trust_latest_net": 9,
+    "dealers_latest_net": 152,
+    "total_latest_net": -852,
+    "institutional_sentiment": "土洋對作（投信積極護盤承接）",
+    "analysis": "外資近 30 個營業日累計淨買超 14,001 張，最新單日呈現連續 1 日賣超 (1,013 張)。本土投信近 30 日累計淨買超 969 張，最新呈現連續 1 日買超 (9 張)。三大法人近 30 日合計淨買超 22,449 張（自營商累計淨額 +7,479 張）。呈現典型「土洋對作」格局，外資調節賣壓由內資投信逢低承接，短線震盪劇烈，宜以月線作為關鍵防守點。"
   }
 }

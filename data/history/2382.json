@@ -1,6 +1,6 @@
 {
   "symbol": "2382",
-  "total_days": 27,
+  "total_days": 28,
   "history": [
     {
       "date": "2026-09-01",
@@ -298,31 +298,42 @@
       "dealers": -5,
       "institutional_total": -648,
       "ma60": 336.72
+    },
+    {
+      "date": "2026-10-13",
+      "close_price": 323.0,
+      "change": 1.0,
+      "volume": 11368818.0,
+      "foreign_investors": -440,
+      "investment_trust": 255,
+      "dealers": 358,
+      "institutional_total": 173,
+      "ma60": 336.23
     }
   ],
   "indicators": {
-    "ma5": 329.4,
-    "ma20": 335.75,
-    "ma60": 336.72,
+    "ma5": 327.8,
+    "ma20": 335.1,
+    "ma60": 336.23,
     "high_30": 347.5,
     "low_30": 322.0,
-    "bias_5": -2.25,
-    "bias_20": -4.1,
-    "bias_60": -4.37
+    "bias_5": -1.46,
+    "bias_20": -3.61,
+    "bias_60": -3.93
   },
   "institutional": {
-    "foreign_30d_net": -5407,
-    "trust_30d_net": 636,
-    "dealers_30d_net": 227,
-    "total_30d_net": -4544,
-    "foreign_consecutive_days": -2,
-    "trust_consecutive_days": -2,
-    "dealers_consecutive_days": -3,
-    "foreign_latest_net": -542,
-    "trust_latest_net": -101,
-    "dealers_latest_net": -5,
-    "total_latest_net": -648,
-    "institutional_sentiment": "三大法人同步賣超（短線沉重調節）",
-    "analysis": "外資近 30 個營業日累計淨賣超 5,407 張，最新單日呈現連續 2 日賣超 (542 張)。本土投信近 30 日累計淨買超 636 張，最新呈現連續 2 日賣超 (101 張)。三大法人近 30 日合計淨賣超 4,544 張（自營商累計淨額 +227 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
+    "foreign_30d_net": -5847,
+    "trust_30d_net": 891,
+    "dealers_30d_net": 585,
+    "total_30d_net": -4371,
+    "foreign_consecutive_days": -3,
+    "trust_consecutive_days": 1,
+    "dealers_consecutive_days": 1,
+    "foreign_latest_net": -440,
+    "trust_latest_net": 255,
+    "dealers_latest_net": 358,
+    "total_latest_net": 173,
+    "institutional_sentiment": "土洋對作（投信積極護盤承接）",
+    "analysis": "外資近 30 個營業日累計淨賣超 5,847 張，最新單日呈現連續 3 日賣超 (440 張)。本土投信近 30 日累計淨買超 891 張，最新呈現連續 1 日買超 (255 張)。三大法人近 30 日合計淨賣超 4,371 張（自營商累計淨額 +585 張）。呈現典型「土洋對作」格局，外資調節賣壓由內資投信逢低承接，短線震盪劇烈，宜以月線作為關鍵防守點。"
   }
 }

@@ -1,6 +1,6 @@
 {
   "symbol": "2603",
-  "total_days": 27,
+  "total_days": 28,
   "history": [
     {
       "date": "2026-09-01",
@@ -298,31 +298,42 @@
       "dealers": 1544,
       "institutional_total": 8919,
       "ma60": 237.63
+    },
+    {
+      "date": "2026-10-13",
+      "close_price": 264.0,
+      "change": 8.5,
+      "volume": 61917014.0,
+      "foreign_investors": 2736,
+      "investment_trust": 2246,
+      "dealers": 623,
+      "institutional_total": 5605,
+      "ma60": 238.57
     }
   ],
   "indicators": {
-    "ma5": 238.3,
-    "ma20": 238.78,
-    "ma60": 237.63,
-    "high_30": 255.5,
+    "ma5": 244.2,
+    "ma20": 240.43,
+    "ma60": 238.57,
+    "high_30": 264.0,
     "low_30": 229.0,
-    "bias_5": 7.22,
-    "bias_20": 7.0,
-    "bias_60": 7.52
+    "bias_5": 8.11,
+    "bias_20": 9.8,
+    "bias_60": 10.66
   },
   "institutional": {
-    "foreign_30d_net": 7682,
-    "trust_30d_net": 1931,
-    "dealers_30d_net": 2965,
-    "total_30d_net": 12578,
-    "foreign_consecutive_days": 2,
-    "trust_consecutive_days": 2,
-    "dealers_consecutive_days": 1,
-    "foreign_latest_net": 5428,
-    "trust_latest_net": 1947,
-    "dealers_latest_net": 1544,
-    "total_latest_net": 8919,
+    "foreign_30d_net": 10418,
+    "trust_30d_net": 4177,
+    "dealers_30d_net": 3588,
+    "total_30d_net": 18183,
+    "foreign_consecutive_days": 3,
+    "trust_consecutive_days": 3,
+    "dealers_consecutive_days": 2,
+    "foreign_latest_net": 2736,
+    "trust_latest_net": 2246,
+    "dealers_latest_net": 623,
+    "total_latest_net": 5605,
     "institutional_sentiment": "三大法人同步買超（多方強烈共識）",
-    "analysis": "外資近 30 個營業日累計淨買超 7,682 張，最新單日呈現連續 2 日買超 (5,428 張)。本土投信近 30 日累計淨買超 1,931 張，最新呈現連續 2 日買超 (1,947 張)。三大法人近 30 日合計淨買超 12,578 張（自營商累計淨額 +2,965 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
+    "analysis": "外資近 30 個營業日累計淨買超 10,418 張，最新單日呈現連續 3 日買超 (2,736 張)。本土投信近 30 日累計淨買超 4,177 張，最新呈現連續 3 日買超 (2,246 張)。三大法人近 30 日合計淨買超 18,183 張（自營商累計淨額 +3,588 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
   }
 }
