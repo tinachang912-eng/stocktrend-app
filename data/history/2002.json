@@ -1,6 +1,6 @@
 {
   "symbol": "2002",
-  "total_days": 28,
+  "total_days": 29,
   "history": [
     {
       "date": "2026-09-01",
@@ -309,31 +309,42 @@
       "dealers": 480,
       "institutional_total": -1335,
       "ma60": 18.92
+    },
+    {
+      "date": "2026-10-14",
+      "close_price": 19.5,
+      "change": 0.35,
+      "volume": 103580211.0,
+      "foreign_investors": 12380,
+      "investment_trust": 6109,
+      "dealers": -239,
+      "institutional_total": 18250,
+      "ma60": 18.94
     }
   ],
   "indicators": {
-    "ma5": 19.04,
-    "ma20": 18.85,
-    "ma60": 18.92,
-    "high_30": 19.25,
+    "ma5": 19.15,
+    "ma20": 18.88,
+    "ma60": 18.94,
+    "high_30": 19.5,
     "low_30": 18.65,
-    "bias_5": 0.58,
-    "bias_20": 1.59,
-    "bias_60": 1.22
+    "bias_5": 1.83,
+    "bias_20": 3.28,
+    "bias_60": 2.96
   },
   "institutional": {
-    "foreign_30d_net": 4767,
-    "trust_30d_net": 9375,
-    "dealers_30d_net": 3860,
-    "total_30d_net": 18002,
-    "foreign_consecutive_days": -4,
-    "trust_consecutive_days": -1,
-    "dealers_consecutive_days": 1,
-    "foreign_latest_net": -1252,
-    "trust_latest_net": -563,
-    "dealers_latest_net": 480,
-    "total_latest_net": -1335,
+    "foreign_30d_net": 17147,
+    "trust_30d_net": 15484,
+    "dealers_30d_net": 3621,
+    "total_30d_net": 36252,
+    "foreign_consecutive_days": 1,
+    "trust_consecutive_days": 1,
+    "dealers_consecutive_days": -1,
+    "foreign_latest_net": 12380,
+    "trust_latest_net": 6109,
+    "dealers_latest_net": -239,
+    "total_latest_net": 18250,
     "institutional_sentiment": "波段主力持續偏多布局",
-    "analysis": "外資近 30 個營業日累計淨買超 4,767 張，最新單日呈現連續 4 日賣超 (1,252 張)。本土投信近 30 日累計淨買超 9,375 張，最新呈現連續 1 日賣超 (563 張)。三大法人近 30 日合計淨買超 18,002 張（自營商累計淨額 +3,860 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
+    "analysis": "外資近 30 個營業日累計淨買超 17,147 張，最新單日呈現連續 1 日買超 (12,380 張)。本土投信近 30 日累計淨買超 15,484 張，最新呈現連續 1 日買超 (6,109 張)。三大法人近 30 日合計淨買超 36,252 張（自營商累計淨額 +3,621 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
   }
 }

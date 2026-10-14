@@ -1,6 +1,6 @@
 {
   "symbol": "2382",
-  "total_days": 28,
+  "total_days": 29,
   "history": [
     {
       "date": "2026-09-01",
@@ -309,31 +309,42 @@
       "dealers": 358,
       "institutional_total": 173,
       "ma60": 336.23
+    },
+    {
+      "date": "2026-10-14",
+      "close_price": 323.0,
+      "change": 0.0,
+      "volume": 12026972.0,
+      "foreign_investors": 229,
+      "investment_trust": 419,
+      "dealers": -14,
+      "institutional_total": 634,
+      "ma60": 335.78
     }
   ],
   "indicators": {
-    "ma5": 327.8,
-    "ma20": 335.1,
-    "ma60": 336.23,
+    "ma5": 325.7,
+    "ma20": 334.43,
+    "ma60": 335.78,
     "high_30": 347.5,
     "low_30": 322.0,
-    "bias_5": -1.46,
-    "bias_20": -3.61,
-    "bias_60": -3.93
+    "bias_5": -0.83,
+    "bias_20": -3.42,
+    "bias_60": -3.81
   },
   "institutional": {
-    "foreign_30d_net": -5847,
-    "trust_30d_net": 891,
-    "dealers_30d_net": 585,
-    "total_30d_net": -4371,
-    "foreign_consecutive_days": -3,
-    "trust_consecutive_days": 1,
-    "dealers_consecutive_days": 1,
-    "foreign_latest_net": -440,
-    "trust_latest_net": 255,
-    "dealers_latest_net": 358,
-    "total_latest_net": 173,
-    "institutional_sentiment": "土洋對作（投信積極護盤承接）",
-    "analysis": "外資近 30 個營業日累計淨賣超 5,847 張，最新單日呈現連續 3 日賣超 (440 張)。本土投信近 30 日累計淨買超 891 張，最新呈現連續 1 日買超 (255 張)。三大法人近 30 日合計淨賣超 4,371 張（自營商累計淨額 +585 張）。呈現典型「土洋對作」格局，外資調節賣壓由內資投信逢低承接，短線震盪劇烈，宜以月線作為關鍵防守點。"
+    "foreign_30d_net": -5618,
+    "trust_30d_net": 1310,
+    "dealers_30d_net": 571,
+    "total_30d_net": -3737,
+    "foreign_consecutive_days": 1,
+    "trust_consecutive_days": 2,
+    "dealers_consecutive_days": -1,
+    "foreign_latest_net": 229,
+    "trust_latest_net": 419,
+    "dealers_latest_net": -14,
+    "total_latest_net": 634,
+    "institutional_sentiment": "主力籌碼多空分歧（震盪洗盤）",
+    "analysis": "外資近 30 個營業日累計淨賣超 5,618 張，最新單日呈現連續 1 日買超 (229 張)。本土投信近 30 日累計淨買超 1,310 張，最新呈現連續 2 日買超 (419 張)。三大法人近 30 日合計淨賣超 3,737 張（自營商累計淨額 +571 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
   }
 }
