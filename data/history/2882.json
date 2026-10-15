@@ -1,6 +1,6 @@
 {
   "symbol": "2882",
-  "total_days": 29,
+  "total_days": 30,
   "history": [
     {
       "date": "2026-09-01",
@@ -320,31 +320,42 @@
       "dealers": 546,
       "institutional_total": -498,
       "ma60": 111.86
+    },
+    {
+      "date": "2026-10-15",
+      "close_price": 113.5,
+      "change": -0.5,
+      "volume": 20714474.0,
+      "foreign_investors": -1124,
+      "investment_trust": -462,
+      "dealers": -262,
+      "institutional_total": -1848,
+      "ma60": 111.92
     }
   ],
   "indicators": {
-    "ma5": 112.9,
-    "ma20": 111.85,
-    "ma60": 111.86,
+    "ma5": 113.0,
+    "ma20": 111.9,
+    "ma60": 111.92,
     "high_30": 115.0,
     "low_30": 109.0,
-    "bias_5": 0.97,
-    "bias_20": 1.92,
-    "bias_60": 1.91
+    "bias_5": 0.44,
+    "bias_20": 1.43,
+    "bias_60": 1.41
   },
   "institutional": {
-    "foreign_30d_net": -4360,
-    "trust_30d_net": 5226,
-    "dealers_30d_net": 534,
-    "total_30d_net": 1400,
-    "foreign_consecutive_days": -1,
-    "trust_consecutive_days": -1,
-    "dealers_consecutive_days": 1,
-    "foreign_latest_net": -879,
-    "trust_latest_net": -165,
-    "dealers_latest_net": 546,
-    "total_latest_net": -498,
-    "institutional_sentiment": "主力籌碼多空分歧（震盪洗盤）",
-    "analysis": "外資近 30 個營業日累計淨賣超 4,360 張，最新單日呈現連續 1 日賣超 (879 張)。本土投信近 30 日累計淨買超 5,226 張，最新呈現連續 1 日賣超 (165 張)。三大法人近 30 日合計淨買超 1,400 張（自營商累計淨額 +534 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
+    "foreign_30d_net": -5484,
+    "trust_30d_net": 4764,
+    "dealers_30d_net": 272,
+    "total_30d_net": -448,
+    "foreign_consecutive_days": -2,
+    "trust_consecutive_days": -2,
+    "dealers_consecutive_days": -1,
+    "foreign_latest_net": -1124,
+    "trust_latest_net": -462,
+    "dealers_latest_net": -262,
+    "total_latest_net": -1848,
+    "institutional_sentiment": "三大法人同步賣超（短線沉重調節）",
+    "analysis": "外資近 30 個營業日累計淨賣超 5,484 張，最新單日呈現連續 2 日賣超 (1,124 張)。本土投信近 30 日累計淨買超 4,764 張，最新呈現連續 2 日賣超 (462 張)。三大法人近 30 日合計淨賣超 448 張（自營商累計淨額 +272 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
   }
 }

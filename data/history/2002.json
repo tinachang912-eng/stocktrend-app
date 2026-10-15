@@ -1,6 +1,6 @@
 {
   "symbol": "2002",
-  "total_days": 29,
+  "total_days": 30,
   "history": [
     {
       "date": "2026-09-01",
@@ -320,31 +320,42 @@
       "dealers": -239,
       "institutional_total": 18250,
       "ma60": 18.94
+    },
+    {
+      "date": "2026-10-15",
+      "close_price": 19.25,
+      "change": -0.25,
+      "volume": 46591364.0,
+      "foreign_investors": -965,
+      "investment_trust": 811,
+      "dealers": -244,
+      "institutional_total": -398,
+      "ma60": 18.95
     }
   ],
   "indicators": {
-    "ma5": 19.15,
-    "ma20": 18.88,
-    "ma60": 18.94,
+    "ma5": 19.21,
+    "ma20": 18.91,
+    "ma60": 18.95,
     "high_30": 19.5,
     "low_30": 18.65,
-    "bias_5": 1.83,
-    "bias_20": 3.28,
-    "bias_60": 2.96
+    "bias_5": 0.21,
+    "bias_20": 1.8,
+    "bias_60": 1.58
   },
   "institutional": {
-    "foreign_30d_net": 17147,
-    "trust_30d_net": 15484,
-    "dealers_30d_net": 3621,
-    "total_30d_net": 36252,
-    "foreign_consecutive_days": 1,
-    "trust_consecutive_days": 1,
-    "dealers_consecutive_days": -1,
-    "foreign_latest_net": 12380,
-    "trust_latest_net": 6109,
-    "dealers_latest_net": -239,
-    "total_latest_net": 18250,
-    "institutional_sentiment": "波段主力持續偏多布局",
-    "analysis": "外資近 30 個營業日累計淨買超 17,147 張，最新單日呈現連續 1 日買超 (12,380 張)。本土投信近 30 日累計淨買超 15,484 張，最新呈現連續 1 日買超 (6,109 張)。三大法人近 30 日合計淨買超 36,252 張（自營商累計淨額 +3,621 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
+    "foreign_30d_net": 16182,
+    "trust_30d_net": 16295,
+    "dealers_30d_net": 3377,
+    "total_30d_net": 35854,
+    "foreign_consecutive_days": -1,
+    "trust_consecutive_days": 2,
+    "dealers_consecutive_days": -2,
+    "foreign_latest_net": -965,
+    "trust_latest_net": 811,
+    "dealers_latest_net": -244,
+    "total_latest_net": -398,
+    "institutional_sentiment": "土洋對作（投信積極護盤承接）",
+    "analysis": "外資近 30 個營業日累計淨買超 16,182 張，最新單日呈現連續 1 日賣超 (965 張)。本土投信近 30 日累計淨買超 16,295 張，最新呈現連續 2 日買超 (811 張)。三大法人近 30 日合計淨買超 35,854 張（自營商累計淨額 +3,377 張）。呈現典型「土洋對作」格局，外資調節賣壓由內資投信逢低承接，短線震盪劇烈，宜以月線作為關鍵防守點。"
   }
 }

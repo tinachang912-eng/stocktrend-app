@@ -1,6 +1,6 @@
 {
   "symbol": "2881",
-  "total_days": 29,
+  "total_days": 30,
   "history": [
     {
       "date": "2026-09-01",
@@ -320,31 +320,42 @@
       "dealers": -86,
       "institutional_total": -1351,
       "ma60": 151.66
+    },
+    {
+      "date": "2026-10-15",
+      "close_price": 159.5,
+      "change": -1.0,
+      "volume": 24375430.0,
+      "foreign_investors": 973,
+      "investment_trust": -555,
+      "dealers": 143,
+      "institutional_total": 561,
+      "ma60": 151.92
     }
   ],
   "indicators": {
-    "ma5": 157.5,
-    "ma20": 153.47,
-    "ma60": 151.66,
+    "ma5": 158.3,
+    "ma20": 153.75,
+    "ma60": 151.92,
     "high_30": 160.5,
     "low_30": 143.5,
-    "bias_5": 1.9,
-    "bias_20": 4.58,
-    "bias_60": 5.83
+    "bias_5": 0.76,
+    "bias_20": 3.74,
+    "bias_60": 4.99
   },
   "institutional": {
-    "foreign_30d_net": 8499,
-    "trust_30d_net": 2975,
-    "dealers_30d_net": 1291,
-    "total_30d_net": 12765,
-    "foreign_consecutive_days": -1,
-    "trust_consecutive_days": -1,
-    "dealers_consecutive_days": -1,
-    "foreign_latest_net": -915,
-    "trust_latest_net": -350,
-    "dealers_latest_net": -86,
-    "total_latest_net": -1351,
-    "institutional_sentiment": "三大法人同步賣超（短線沉重調節）",
-    "analysis": "外資近 30 個營業日累計淨買超 8,499 張，最新單日呈現連續 1 日賣超 (915 張)。本土投信近 30 日累計淨買超 2,975 張，最新呈現連續 1 日賣超 (350 張)。三大法人近 30 日合計淨買超 12,765 張（自營商累計淨額 +1,291 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
+    "foreign_30d_net": 9472,
+    "trust_30d_net": 2420,
+    "dealers_30d_net": 1434,
+    "total_30d_net": 13326,
+    "foreign_consecutive_days": 1,
+    "trust_consecutive_days": -2,
+    "dealers_consecutive_days": 1,
+    "foreign_latest_net": 973,
+    "trust_latest_net": -555,
+    "dealers_latest_net": 143,
+    "total_latest_net": 561,
+    "institutional_sentiment": "外資主導回補（投信高檔獲利調節）",
+    "analysis": "外資近 30 個營業日累計淨買超 9,472 張，最新單日呈現連續 1 日買超 (973 張)。本土投信近 30 日累計淨買超 2,420 張，最新呈現連續 2 日賣超 (555 張)。三大法人近 30 日合計淨買超 13,326 張（自營商累計淨額 +1,434 張）。法人買賣力道互有消長，籌碼集中度適中，預期股價維持於均線區間震盪整理。"
   }
 }
