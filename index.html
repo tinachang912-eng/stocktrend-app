@@ -11,8 +11,8 @@
     /* No trustworthy 30-day institutional data: remove this entire section from display. */
     #blockChipChart, .chart-view-group,
     .report-block:has(#reportChipAnalysis) { display: none !important; }
-    #cardInstitutional .card-header, #cardInstitutional .card-body { display: none !important; }
-    #cardInstitutional .card-footer-grid { border-top: 0 !important; }
+    
+    
     #historyTableDrawer th:nth-child(n+5),
     #historyTableDrawer td:nth-child(n+5) { display: none !important; }
   </style>
@@ -22,7 +22,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="style.css?v=20261011_v3">
+  <link rel="stylesheet" href="style.css?v=20261023_v5">
 </head>
 <body>
   <!-- 頁首導航 -->
@@ -266,64 +266,13 @@
           </div>
         </div>
 
-        <!-- 卡片 4：三大法人 30 天籌碼動能 (外資 / 投信 / 自營商) -->
-        <div class="metric-card" id="cardInstitutional">
-          <div class="card-header">
-            <div class="card-title-group">
-              <span class="stock-badge badge-chip">CHIP</span>
-              <h2>三大法人 30 天籌碼動向</h2>
-            </div>
-            <span class="tag-status" id="chipSentimentBadge">籌碼分析中...</span>
-          </div>
-          <div class="card-body">
-            <p style="margin:0 0 12px;padding:10px 12px;border:1px solid #a16207;border-radius:8px;color:#fbbf24;font-size:13px;line-height:1.6;">資料查核通知：30 日法人買賣超與連續買賣統計尚未通過官方逐日資料驗證，已暫停顯示，避免錯誤投資判斷。<a href="https://www.twse.com.tw/zh/trading/foreign/t86.html" target="_blank" rel="noopener noreferrer" style="color:#7dd3fc;text-decoration:underline;">證交所官方來源</a></p>
-            <div class="chip-metric-grid">
-              <div class="chip-box">
-                <div class="chip-title-row">
-                  <span class="chip-lbl chip-foreign">外資 (30日累計)</span>
-                  <span class="chip-streak" id="chipForeignStreak">--</span>
-                </div>
-                <span class="chip-num" id="chipForeign30">待核實</span>
-              </div>
-              <div class="chip-box">
-                <div class="chip-title-row">
-                  <span class="chip-lbl chip-trust">投信 (30日累計)</span>
-                  <span class="chip-streak" id="chipTrustStreak">--</span>
-                </div>
-                <span class="chip-num" id="chipTrust30">待核實</span>
-              </div>
-              <div class="chip-box">
-                <div class="chip-title-row">
-                  <span class="chip-lbl chip-dealers">自營商 (30日累計)</span>
-                  <span class="chip-streak" id="chipDealersStreak">--</span>
-                </div>
-                <span class="chip-num" id="chipDealers30">待核實</span>
-              </div>
-              <div class="chip-box">
-                <div class="chip-title-row">
-                  <span class="chip-lbl chip-total">三大法人合計 (30日)</span>
-                </div>
-                <span class="chip-num" id="chipTotal30">待核實</span>
-              </div>
-            </div>
-          </div>
-          <div class="card-footer-grid card-footer-grid-4">
-            <div class="stat-cell">
-              <span class="lbl">外資最新單日</span>
-              <span class="val" id="chipForeignLatest">--</span>
-            </div>
-            <div class="stat-cell">
-              <span class="lbl">投信最新單日</span>
-              <span class="val" id="chipTrustLatest">--</span>
-            </div>
-            <div class="stat-cell">
-              <span class="lbl">自營商最新單日</span>
-              <span class="val" id="chipDealersLatest">--</span>
-            </div>
-            <div class="stat-cell">
-              <span class="lbl">法人最新單日合計</span>
-              <span class="val" id="chipTotalLatest">--</span>
-            </div>
+        <div class="metric-card institutional-latest-card" id="cardInstitutional">
+          <div class="institutional-latest-header"><span class="stock-badge badge-chip">CHIP</span><h2>三大法人最新單日買賣超</h2></div>
+          <div class="institutional-latest-grid">
+            <div class="institutional-box"><span class="lbl">外資最新單日</span><span class="val" id="chipForeignLatest">--</span></div>
+            <div class="institutional-box"><span class="lbl">投信最新單日</span><span class="val" id="chipTrustLatest">--</span></div>
+            <div class="institutional-box"><span class="lbl">自營商最新單日</span><span class="val" id="chipDealersLatest">--</span></div>
+            <div class="institutional-box"><span class="lbl">法人最新單日合計</span><span class="val" id="chipTotalLatest">--</span></div>
           </div>
         </div>
       </section>
