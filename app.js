@@ -509,9 +509,14 @@ function renderInstitutionalCard(quote, historyData) {
   // Do not display unsupported 30-day totals, streaks, or unverified daily values.
   const symbol = String(quote?.symbol || AppState.selectedSymbol);
   const latestRecord = historyData?.history?.[historyData.history.length - 1];
-  const verified2330 = symbol === '2330' && latestRecord?.date === '2026-10-22'
-    ? { foreign: -12695, trust: 1350, dealers: 1196, total: -10149 }
-    : null;
+  // Source-checked one-day snapshots, keyed by symbol AND trade date.
+  // Do not display the generated, incorrect institutional aggregates.
+  const verifiedDaily = {
+    '2330': { date: '2026-10-22', foreign: -12695, trust: 1350, dealers: 1196, total: -10149 },
+    '2308': { date: '2026-10-22', foreign: -3208, trust: 77, dealers: -79, total: -3210 }
+  };
+  const verified2330 = verifiedDaily[symbol]?.date === latestRecord?.date
+    ? verifiedDaily[symbol] : null;
   const summary = null;
 
   if (!summary) {
