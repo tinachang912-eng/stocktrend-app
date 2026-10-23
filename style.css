@@ -1459,3 +1459,38 @@ input:focus-visible,
 .institutional-box .val {font-size:clamp(1rem,1.5vw,1.3rem);font-weight:800;line-height:1.5;overflow-wrap:anywhere;}
 @media(max-width:850px) { .institutional-latest-grid {grid-template-columns:repeat(2,minmax(0,1fr));} }
 @media(max-width:420px) {.institutional-box {padding:12px 10px;} .institutional-box .val {font-size:1rem;} }
+
+/* TECH card overflow prevention: keep all 6 indicators and footer inside their card */
+#cardTechMetrics { min-width: 0; max-width: 100%; overflow: hidden; box-sizing: border-box; }
+#cardTechMetrics .card-header, #cardTechMetrics .card-title-group,
+#cardTechMetrics .card-body, #cardTechMetrics .card-footer-grid { min-width: 0; max-width: 100%; }
+#cardTechMetrics .card-header { gap: 12px; flex-wrap: wrap; }
+#cardTechMetrics .card-title-group { flex-wrap: wrap; }
+#cardTechMetrics .tech-grid-6 {
+  width: 100%; min-width: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+#cardTechMetrics .tech-box { min-width: 0; max-width: 100%; box-sizing: border-box; padding: 10px 8px; }
+#cardTechMetrics .tech-num {
+  font-size: clamp(12px, 1.3vw, 18px);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+#cardTechMetrics .tech-lbl { overflow-wrap: anywhere; }
+#cardTechMetrics .card-footer-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+#cardTechMetrics .stat-cell { min-width: 0; }
+#cardTechMetrics .stat-cell .val { overflow-wrap: anywhere; word-break: normal; }
+@media (max-width: 1100px) {
+  #cardTechMetrics .tech-grid-6 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #cardTechMetrics .card-footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 420px) {
+  #cardTechMetrics .tech-num { font-size: 16px; }
+  #cardTechMetrics .tech-grid-6 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  #cardTechMetrics .card-footer-grid { grid-template-columns: minmax(0,1fr); }
+}
