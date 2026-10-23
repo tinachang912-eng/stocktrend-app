@@ -761,7 +761,20 @@ function roundDec(num, d = 2) {
 
 // 渲染三大法人 30 天每日買賣超柱狀圖
 function renderInstitutionalChart(symbol, historyData) {
+  // Institutional history source has not passed official T86 validation.
+  // Suppress the chart rather than presenting misleading bars.
+  if (AppState.chipChartInstance) {
+    AppState.chipChartInstance.destroy();
+    AppState.chipChartInstance = null;
+  }
   const canvas = document.getElementById('chipChart');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.setAttribute('aria-label', '法人歷史資料尚待官方驗證，目前暫停顯示');
+  }
+  return;
+  // Legacy implementation retained below pending replacement.
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
 
