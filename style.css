@@ -1494,20 +1494,3 @@ input:focus-visible,
   #cardTechMetrics .tech-grid-6 { grid-template-columns: repeat(2, minmax(0,1fr)); }
   #cardTechMetrics .card-footer-grid { grid-template-columns: minmax(0,1fr); }
 }
-
-/* TECH price labels: fixed compact typography to prevent overflow in narrow desktop cards. */
-#cardTechMetrics .tech-box .tech-num {
-  font-size: 13px !important;
-  font-weight: 700 !important;
-  letter-spacing: -0.04em !important;
-  line-height: 1.45 !important;
-  overflow-wrap: anywhere !important;
-}
-#cardTechMetrics .tech-box { padding: 8px 6px !important; }
-#cardTechMetrics .card-footer-grid .val {
-  font-size: 12px !important;
-  letter-spacing: -0.025em !important;
-}
-@media (max-width: 420px) {
-  #cardTechMetrics .tech-box .tech-num { font-size: 12px !important; }
-}
