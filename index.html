@@ -7,6 +7,13 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>台股趨勢分析小幫手 | 官方行情連線版</title>
+  <style>
+    /* No trustworthy 30-day institutional data: remove this entire section from display. */
+    #cardInstitutional, #blockChipChart, .chart-view-group,
+    .report-block:has(#reportChipAnalysis) { display: none !important; }
+    #historyTableDrawer th:nth-child(n+5),
+    #historyTableDrawer td:nth-child(n+5) { display: none !important; }
+  </style>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -323,9 +330,9 @@
       <section class="chart-section">
         <div class="chart-header">
           <div class="chart-title-area">
-            <h3>真實 30 個營業日官方收盤均線 (MA5 / MA20 / MA60 季線) 與三大法人籌碼動向圖</h3>
+            <h3>真實 30 個營業日官方收盤均線 (MA5 / MA20 / MA60 季線)</h3>
             <p class="chart-subtitle" id="chartSubtitleDesc">
-              100% 串接證交所 (TWSE) 與櫃買中心 (TPEx) 官方真實成交紀錄與外資、投信、自營商買賣超，無任何 AI 編造
+              證交所 (TWSE) 與櫃買中心 (TPEx) 行情資料；法人數據未驗證，暫不顯示
             </p>
           </div>
           <div class="chart-controls">
@@ -376,8 +383,8 @@
         <!-- 30天數據表格 -->
         <div class="table-drawer collapsed" id="historyTableDrawer">
           <div class="table-drawer-header">
-            <h4>最近 30 個營業日官方成交紀錄與三大法人籌碼明細</h4>
-            <span class="note">依交易日期由新至舊排序（買賣超單位：張）</span>
+            <h4>最近 30 個營業日官方成交紀錄</h4>
+            <span class="note">依交易日期由新至舊排序</span>
           </div>
           <div class="table-responsive">
             <table class="history-table">
