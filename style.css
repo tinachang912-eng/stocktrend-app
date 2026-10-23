@@ -1494,3 +1494,17 @@ input:focus-visible,
   #cardTechMetrics .tech-grid-6 { grid-template-columns: repeat(2, minmax(0,1fr)); }
   #cardTechMetrics .card-footer-grid { grid-template-columns: minmax(0,1fr); }
 }
+
+/* Readability adjustment: moderately larger TECH numbers, safe within boxes */
+#cardTechMetrics .tech-num {
+  font-size: clamp(16px, 1.45vw, 20px);
+  line-height: 1.45;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+}
+#cardTechMetrics .tech-box { min-width: 0; }
+#cardTechMetrics .stat-cell .val { font-size: 14px; overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  #cardTechMetrics .tech-num { font-size: 17px; }
+  #cardTechMetrics .tech-grid-6 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
