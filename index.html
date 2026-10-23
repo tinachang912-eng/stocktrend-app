@@ -9,8 +9,10 @@
   <title>台股趨勢分析小幫手 | 官方行情連線版</title>
   <style>
     /* No trustworthy 30-day institutional data: remove this entire section from display. */
-    #cardInstitutional, #blockChipChart, .chart-view-group,
+    #blockChipChart, .chart-view-group,
     .report-block:has(#reportChipAnalysis) { display: none !important; }
+    #cardInstitutional .card-header, #cardInstitutional .card-body { display: none !important; }
+    #cardInstitutional .card-footer-grid { border-top: 0 !important; }
     #historyTableDrawer th:nth-child(n+5),
     #historyTableDrawer td:nth-child(n+5) { display: none !important; }
   </style>
@@ -589,6 +591,6 @@
   <!-- Toast 提示容器 -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <script src="app.js?v=20261023_v11"></script>
+  <script src="app.js?v=20261023_v12"></script>
 </body>
 </html>
