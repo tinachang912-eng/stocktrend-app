@@ -1097,7 +1097,6 @@ async function refreshCurrentStockView() {
   renderTrendChart(symbol, historyData);
   renderInstitutionalChart(symbol, historyData);
   renderHistoryTable(historyData);
-  renderReport(quote, historyData);
 }
 
 // 選取指定股票
@@ -1538,7 +1537,6 @@ async function initializeApp() {
   if (btnPrice) btnPrice.addEventListener('click', () => updateChartView('price'));
   if (btnChip) btnChip.addEventListener('click', () => updateChartView('chip'));
 
-  document.getElementById('btnCopyReport').addEventListener('click', copyReportToClipboard);
 }
 
 document.addEventListener('DOMContentLoaded', initializeApp);
