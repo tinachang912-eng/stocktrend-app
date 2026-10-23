@@ -1272,9 +1272,63 @@ function removeStock(symbol) {
 
 function saveWatchlistToStorage() {
   try {
+    const old = localStorage.getItem(STORAGE_WATCHLIST_KEY);
+    if (old && old !== JSON.stringify(AppState.watchlist)) {
+      // Recovery snapshot of the previous valid list.
+      try {
+        const arr = JSON.parse(old);
+        if (Array.isArray(arr) && arr.length) {
+          localStorage.setItem(STORAGE_WATCHLIST_KEY + '_BACKUP', old);
+        }
+      } catch (_) { /* ignore damaged previous snapshot */ }
+    }
     localStorage.setItem(STORAGE_WATCHLIST_KEY, JSON.stringify(AppState.watchlist));
   } catch (e) {
     console.error('儲存觀察名單失敗:', e);
+    showToast('瀏覽器無法保存名單，請立即匯出 JSON 備份', 'error');
+  }
+}
+
+function exportWatchlistBackup() {
+  const payload = {
+    type: 'stocktrend-watchlist-backup',
+    version: 1,
+    exported_at: new Date().toISOString(),
+    symbols: [...AppState.watchlist]
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'stocktrend-watchlist-' + new Date().toISOString().slice(0,10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  showToast('觀察名單備份檔已下載', 'success');
+}
+
+async function importWatchlistBackup(file) {
+  if (!file) return;
+  try {
+    const data = JSON.parse(await file.text());
+    const incoming = Array.isArray(data) ? data : data?.symbols;
+    if (!Array.isArray(incoming) || !incoming.length || incoming.length > 10 ||
+        incoming.some(x => typeof x !== 'string' || !/^[0-9A-Za-z]{4,6}$/.test(x))) {
+      throw new Error('備份檔內容不符合觀察名單格式（1～10 檔股票代碼）');
+    }
+    const symbols = [...new Set(incoming.map(x => x.trim().toUpperCase()))];
+    if (!confirm('確認匯入 ' + symbols.length + ' 檔股票？目前觀察名單將被取代，建議先匯出備份。')) return;
+    AppState.watchlist = symbols;
+    AppState.selectedSymbol = symbols[0];
+    AppState.quotesMap = {};
+    AppState.historyMap = {};
+    saveWatchlistToStorage();
+    await loadQuotesForWatchlist(symbols);
+    await refreshCurrentStockView();
+    showToast('已還原 ' + symbols.length + ' 檔觀察名單', 'success');
+  } catch (e) {
+    showToast('匯入失敗：' + e.message, 'error');
   }
 }
 
@@ -1494,6 +1548,14 @@ async function initializeApp() {
       refreshBtn.disabled = false;
       refreshBtn.classList.remove('btn-spinning');
     }
+  });
+
+  document.getElementById('btnExportWatchlist').addEventListener('click', exportWatchlistBackup);
+  const importInput = document.getElementById('fileImportWatchlist');
+  document.getElementById('btnImportWatchlist').addEventListener('click', () => importInput.click());
+  importInput.addEventListener('change', async () => {
+    await importWatchlistBackup(importInput.files?.[0]);
+    importInput.value = '';
   });
 
   document.getElementById('btnResetDefault').addEventListener('click', async () => {
