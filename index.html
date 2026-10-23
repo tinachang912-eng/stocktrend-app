@@ -138,7 +138,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="style.css?v=20261023_v7">
+  <link rel="stylesheet" href="style.css?v=20261023_v8">
 </head>
 <body>
   <!-- 頁首導航 -->
@@ -382,13 +382,13 @@
           </div>
         </div>
 
-        <div class="metric-card institutional-latest-card" id="cardInstitutional">
-          <div class="institutional-latest-header"><span class="stock-badge badge-chip">CHIP</span><h2>三大法人最新單日買賣超</h2></div>
-          <div class="institutional-latest-grid">
-            <div class="institutional-box"><span class="lbl">外資最新單日</span><span class="val" id="chipForeignLatest">--</span></div>
-            <div class="institutional-box"><span class="lbl">投信最新單日</span><span class="val" id="chipTrustLatest">--</span></div>
-            <div class="institutional-box"><span class="lbl">自營商最新單日</span><span class="val" id="chipDealersLatest">--</span></div>
-            <div class="institutional-box"><span class="lbl">法人最新單日合計</span><span class="val" id="chipTotalLatest">--</span></div>
+        <div class="metric-card institutional-latest-card" id="cardInstitutional" style="height:auto;min-height:0;display:block;padding:16px;">
+          <div class="institutional-latest-header" style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;"><span class="stock-badge badge-chip">CHIP</span><h2 style="font-size:20px;line-height:1.4;margin:0;">三大法人最新單日買賣超</h2></div>
+          <div class="institutional-latest-grid" style="display:flex;flex-direction:column;gap:10px;width:100%;">
+            <div class="institutional-box" style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;min-height:56px;gap:10px;padding:12px 14px;"><span class="lbl" style="white-space:nowrap;word-break:keep-all;writing-mode:horizontal-tb;font-size:13px;flex:0 0 auto;">外資最新單日</span><span class="val" id="chipForeignLatest" style="white-space:nowrap;word-break:keep-all;writing-mode:horizontal-tb;font-size:clamp(14px,4vw,19px);flex:0 1 auto;text-align:right;">--</span></div>
+            <div class="institutional-box" style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;min-height:56px;gap:10px;padding:12px 14px;"><span class="lbl" style="white-space:nowrap;word-break:keep-all;writing-mode:horizontal-tb;font-size:13px;flex:0 0 auto;">投信最新單日</span><span class="val" id="chipTrustLatest" style="white-space:nowrap;word-break:keep-all;writing-mode:horizontal-tb;font-size:clamp(14px,4vw,19px);flex:0 1 auto;text-align:right;">--</span></div>
+            <div class="institutional-box" style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;min-height:56px;gap:10px;padding:12px 14px;"><span class="lbl" style="white-space:nowrap;word-break:keep-all;writing-mode:horizontal-tb;font-size:13px;flex:0 0 auto;">自營商最新單日</span><span class="val" id="chipDealersLatest" style="white-space:nowrap;word-break:keep-all;writing-mode:horizontal-tb;font-size:clamp(14px,4vw,19px);flex:0 1 auto;text-align:right;">--</span></div>
+            <div class="institutional-box" style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;min-height:56px;gap:10px;padding:12px 14px;"><span class="lbl" style="white-space:nowrap;word-break:keep-all;writing-mode:horizontal-tb;font-size:13px;flex:0 0 auto;">法人最新單日合計</span><span class="val" id="chipTotalLatest" style="white-space:nowrap;word-break:keep-all;writing-mode:horizontal-tb;font-size:clamp(14px,4vw,19px);flex:0 1 auto;text-align:right;">--</span></div>
           </div>
         </div>
       </section>
