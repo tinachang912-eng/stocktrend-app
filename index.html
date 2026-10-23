@@ -15,6 +15,55 @@
     
     #historyTableDrawer th:nth-child(n+5),
     #historyTableDrawer td:nth-child(n+5) { display: none !important; }
+
+    /* Compact verified latest-day institutional card; override legacy flex and grid stretching. */
+    #cardInstitutional.institutional-latest-card {
+      align-self: start !important;
+      height: auto !important;
+      min-height: 0 !important;
+      justify-content: flex-start !important;
+      gap: 14px !important;
+      padding: 18px !important;
+    }
+    #cardInstitutional .institutional-latest-header {
+      display: flex !important; align-items: center !important;
+      flex-wrap: wrap !important; gap: 10px !important;
+      margin: 0 !important;
+    }
+    #cardInstitutional .institutional-latest-header h2 {
+      font-size: 1.15rem !important; margin: 0 !important;
+      font-weight: 750 !important; line-height: 1.4 !important;
+    }
+    #cardInstitutional .institutional-latest-grid {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+      gap: 10px !important;
+      width: 100% !important;
+      margin: 0 !important;
+    }
+    #cardInstitutional .institutional-box {
+      display: flex !important; flex-direction: column !important;
+      justify-content: space-between !important; gap: 12px !important;
+      padding: 14px 12px !important;
+      border: 1px solid rgba(148,163,184,.2) !important;
+      background: rgba(148,163,184,.065) !important;
+      border-radius: 12px !important;
+      min-width: 0 !important; min-height: 92px !important;
+    }
+    #cardInstitutional .institutional-box .lbl {
+      display: block; font-size: 13px !important; line-height: 1.5 !important;
+      color: #a7b4c7 !important;
+    }
+    #cardInstitutional .institutional-box .val {
+      display: block; font-size: clamp(16px, 3.6vw, 22px) !important;
+      font-weight: 800 !important; line-height: 1.4 !important;
+      overflow-wrap: anywhere !important;
+    }
+    @media (min-width: 950px) {
+      #cardInstitutional .institutional-latest-grid {
+        grid-template-columns: repeat(4, minmax(0,1fr)) !important;
+      }
+    }
   </style>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,7 +71,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="style.css?v=20261023_v5">
+  <link rel="stylesheet" href="style.css?v=20261023_v6">
 </head>
 <body>
   <!-- 頁首導航 -->
