@@ -94,6 +94,43 @@
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
       }
     }
+
+    /* Force true horizontal reading and prevent narrow two-column overflow. */
+    #cardInstitutional .institutional-latest-grid {
+      grid-template-columns: minmax(0,1fr) !important;
+      width:100% !important;
+    }
+    #cardInstitutional .institutional-box {
+      display:grid !important;
+      grid-template-columns: minmax(0, 1fr) auto !important;
+      align-items:center !important;
+      column-gap:8px !important;
+      min-height:56px !important;
+      padding:10px 12px !important;
+    }
+    #cardInstitutional .institutional-box .lbl {
+      writing-mode:horizontal-tb !important;
+      white-space:nowrap !important;
+      word-break:keep-all !important;
+      overflow-wrap:normal !important;
+      font-size:clamp(11px, 3vw, 14px) !important;
+      letter-spacing:-.02em !important;
+    }
+    #cardInstitutional .institutional-box .val {
+      writing-mode:horizontal-tb !important;
+      white-space:nowrap !important;
+      word-break:keep-all !important;
+      overflow-wrap:normal !important;
+      font-size:clamp(13px, 3.4vw, 19px) !important;
+      letter-spacing:-.04em !important;
+      font-variant-numeric:tabular-nums;
+    }
+    @media (max-width:380px) {
+      #cardInstitutional.institutional-latest-card {padding:12px !important;}
+      #cardInstitutional .institutional-box {padding:10px 8px !important;column-gap:5px !important;}
+      #cardInstitutional .institutional-box .lbl {font-size:11px !important;}
+      #cardInstitutional .institutional-box .val {font-size:13px !important;}
+    }
   </style>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
