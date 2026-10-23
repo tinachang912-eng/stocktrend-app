@@ -475,105 +475,6 @@
         </div>
       </section>
 
-      <!-- 下方：次一交易日走勢分析報告 (依真實資料客觀生成) -->
-      <section class="report-section">
-        <div class="report-container">
-          <div class="report-header">
-            <div class="report-title-group">
-              <div class="report-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                  <line x1="16" y1="13" x2="8" y2="13"></line>
-                  <line x1="16" y1="17" x2="8" y2="17"></line>
-                </svg>
-              </div>
-              <div>
-                <h3 class="report-title">
-                  次一交易日股價走勢預測分析報告
-                  <span class="report-stock-name" id="reportStockName">台積電 (2330)</span>
-                </h3>
-                <p class="report-time">
-                  報告依據：<span id="reportDataSourceName">TWSE 官方行情</span> &bull; 
-                  實際交易日期：<span id="reportTradeDate">--</span> &bull; 
-                  資料抓取時間：<span id="reportFetchTime">--</span>
-                </p>
-              </div>
-            </div>
-
-            <div class="report-actions">
-              <button id="btnCopyReport" class="btn-sm btn-outline">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
-                複製完整官方分析報告
-              </button>
-            </div>
-          </div>
-
-          <div class="report-content-grid" id="reportContent">
-            <!-- 區塊 1: 官方交易日曆與更新比對 -->
-            <div class="report-block">
-              <div class="block-badge badge-blue">
-                一、官方交易日曆與行情時效判定
-              </div>
-              <div class="block-body" id="reportCalendarAnalysis">
-                <!-- 動態注入 -->
-              </div>
-            </div>
-
-            <!-- 區塊 2: 30天真實技術指標分析 -->
-            <div class="report-block">
-              <div class="block-badge badge-purple">
-                二、真實 30 天均線排列與乖離率 (BIAS)
-              </div>
-              <div class="block-body" id="reportTechAnalysis">
-                <!-- 動態注入 -->
-              </div>
-            </div>
-
-            <!-- 區塊 3: 次日走勢推演 -->
-            <div class="report-block">
-              <div class="block-badge badge-orange">
-                三、次一交易日支撐/壓力與走勢情境
-              </div>
-              <div class="block-body" id="reportScenarioAnalysis">
-                <!-- 動態注入 -->
-              </div>
-            </div>
-
-            <!-- 區塊 4: 操作建議與防守紀律 -->
-            <div class="report-block">
-              <div class="block-badge badge-green">
-                四、交易操作策略與風控指引
-              </div>
-              <div class="block-body" id="reportActionStrategy">
-                <!-- 動態注入 -->
-              </div>
-            </div>
-
-            <!-- 區塊 5: 三大法人 30 天籌碼面深度解讀與法人動向 -->
-            <div class="report-block">
-              <div class="block-badge badge-teal">
-                五、三大法人 30 天籌碼面深度解讀與法人動向
-              </div>
-              <div class="block-body" id="reportChipAnalysis">
-                <!-- 動態注入 -->
-              </div>
-            </div>
-          </div>
-
-          <div class="report-disclaimer">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="8" x2="12" y2="12"></line>
-              <line x1="12" y1="16" x2="12.01" y2="16"></line>
-            </svg>
-            官方資料宣告：本系統股價直接串接臺灣證券交易所 (TWSE) 與證券櫃檯買賣中心 (TPEx) 官方 OpenAPI。預測與均線均根據官方真實歷史成交數據量化運算，無任何 AI 編造股價。投資具有風險，本分析僅供研究交流，不構成買賣投資建議。
-          </div>
-        </div>
-      </section>
     </div>
   </main>
 
@@ -656,6 +557,6 @@
   <!-- Toast 提示容器 -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <script src="app.js?v=20261023_v12"></script>
+  <script src="app.js?v=20261023_v13"></script>
 </body>
 </html>
