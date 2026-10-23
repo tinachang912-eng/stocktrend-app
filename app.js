@@ -58,6 +58,7 @@ async function fetchWithTimeout(url, options = {}, timeoutMs = 4000) {
   try {
     const response = await fetch(url, {
       ...options,
+      cache: 'no-store',
       signal: controller.signal
     });
     clearTimeout(id);
@@ -1433,10 +1434,22 @@ async function initializeApp() {
     refreshBtn.classList.add('btn-spinning');
     showToast('正在重新整理最新官方行情...', 'info');
     try {
-      await loadMarketCalendar();
+      // Clear in-memory history and quotations before fetching fresh static JSON.
+      AppState.historyMap = {};
+      AppState.quotesMap = {};
+      const calendar = await loadMarketCalendar();
       await loadQuotesForWatchlist(AppState.watchlist);
       await refreshCurrentStockView();
-      showToast('官方行情已重新整理！', 'success');
+      const history = AppState.historyMap[AppState.selectedSymbol];
+      const last = history?.history?.[history.history.length - 1]?.date;
+      const expected = calendar?.latest_expected_trading_date;
+      if (!last) {
+        showToast('無法取得歷史行情，請確認資料來源', 'error');
+      } else if (expected && last < expected) {
+        showToast(`行情僅更新至 ${last}，落後於應有交易日 ${expected}`, 'error');
+      } else {
+        showToast(`已取得最新資料（交易日：${last}）`, 'success');
+      }
     } catch (e) {
       showToast('行情重新整理失敗，請稍候再試', 'error');
     } finally {
