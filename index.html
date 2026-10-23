@@ -239,6 +239,9 @@
         </div>
 
         <div class="utility-actions">
+          <button id="btnExportWatchlist" class="btn-outline" type="button">匯出觀察名單 JSON</button>
+          <button id="btnImportWatchlist" class="btn-outline" type="button">匯入觀察名單 JSON</button>
+          <input id="fileImportWatchlist" type="file" accept=".json,application/json" style="display:none" aria-label="選擇觀察名單 JSON 備份檔">
           <button id="btnResetDefault" class="btn-outline" title="還原至台積電、台達電、聯發科三檔預設股票">
             還原預設 (台積電/台達電/聯發科)
           </button>
@@ -557,6 +560,6 @@
   <!-- Toast 提示容器 -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <script src="app.js?v=20261023_v13"></script>
+  <script src="app.js?v=20261023_v14"></script>
 </body>
 </html>
