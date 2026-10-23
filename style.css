@@ -1508,3 +1508,36 @@ input:focus-visible,
   #cardTechMetrics .tech-num { font-size: 17px; }
   #cardTechMetrics .tech-grid-6 { grid-template-columns: repeat(2, minmax(0,1fr)); }
 }
+
+/* 2026-10-23 mobile readability pass — only small screens */
+@media (max-width: 600px) {
+  html { -webkit-text-size-adjust: 100%; }
+  .brand-text h1 { font-size: 1.6rem !important; line-height: 1.35; }
+  .brand-text .subtitle { font-size: 1rem !important; line-height: 1.55; }
+  .market-bar { width: 100%; min-width: 0; flex-wrap: wrap; gap: 12px; padding: 14px !important; }
+  .market-badge, .badge-title, #serverStatusText { font-size: 1rem !important; line-height: 1.5; }
+  .market-meta { flex-wrap: wrap; gap: 8px; font-size: 1rem !important; }
+  #marketTimezone, #expectedTradeDateBadge { font-size: .95rem !important; overflow-wrap: anywhere; }
+  #btnRefreshData { font-size: 1rem !important; min-height: 42px; padding: 8px 12px; white-space: nowrap; }
+  .metric-card { padding: 16px !important; }
+  .card-header h2, .card-title-group h2 { font-size: 1.25rem !important; line-height: 1.4; }
+  .tag-status { font-size: .9rem !important; line-height: 1.4; }
+  #cardTechMetrics .tech-grid-6 { grid-template-columns: repeat(2,minmax(0,1fr)) !important; gap: 10px; }
+  #cardTechMetrics .tech-box { min-width: 0; padding: 12px 10px !important; }
+  #cardTechMetrics .tech-lbl { font-size: .95rem !important; line-height: 1.5; }
+  #cardTechMetrics .tech-num { font-size: 1.18rem !important; line-height: 1.45; letter-spacing: -.04em; overflow-wrap: anywhere; }
+  #cardTechMetrics .card-footer-grid { grid-template-columns: repeat(2,minmax(0,1fr)) !important; gap: 14px; }
+  #cardTechMetrics .stat-cell .lbl { font-size: .95rem !important; line-height: 1.5; }
+  #cardTechMetrics .stat-cell .val { font-size: 1.08rem !important; line-height: 1.45; }
+  #cardPredictionSummary .forecast-range-box .range-label,
+  #cardPredictionSummary .pred-item .p-lbl,
+  #cardPredictionSummary .stat-cell .lbl { font-size: 1rem !important; line-height: 1.5; }
+  #cardPredictionSummary .range-val { font-size: 1.55rem !important; }
+  #cardPredictionSummary .pred-item .p-num,
+  #cardPredictionSummary .stat-cell .val { font-size: 1.1rem !important; overflow-wrap: anywhere; }
+}
+@media (max-width: 365px) {
+  #cardTechMetrics .tech-num { font-size: 1.05rem !important; }
+  #cardTechMetrics .tech-lbl { font-size: .88rem !important; }
+  .market-meta { font-size: .9rem !important; }
+}
