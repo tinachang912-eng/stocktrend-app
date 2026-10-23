@@ -426,6 +426,9 @@ function renderPredictionSummary(quote, ind) {
 
 // 計算或取得籌碼面綜合統計
 function getInstitutionalSummary(symbol, historyData) {
+  // Historical institutional numbers must be rebuilt from verified exchange T86 data.
+  // Never treat the currently generated JSON aggregates as trusted.
+  return null;
   if (historyData && historyData.institutional) {
     return historyData.institutional;
   }
