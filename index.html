@@ -131,6 +131,15 @@
       #cardInstitutional .institutional-box .lbl {font-size:11px !important;}
       #cardInstitutional .institutional-box .val {font-size:13px !important;}
     }
+
+    /* Match the CHIP panel's outer dimensions to the adjacent prediction panel. */
+    .overview-cards > #cardInstitutional.institutional-latest-card {
+      align-self: stretch !important;
+      height: 100% !important;
+      min-height: 100% !important;
+      box-sizing: border-box !important;
+    }
+    .overview-cards { align-items: stretch; }
   </style>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
