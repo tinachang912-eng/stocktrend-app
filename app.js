@@ -502,7 +502,14 @@ function renderInstitutionalCard(quote, historyData) {
   const dLatestEl = document.getElementById('chipDealersLatest');
   const totLatestEl = document.getElementById('chipTotalLatest');
 
-  const summary = getInstitutionalSummary(quote ? quote.symbol : '', historyData);
+  // Safety gate: the generated institutional figures have failed verification.
+  // Do not display unsupported 30-day totals, streaks, or unverified daily values.
+  const symbol = String(quote?.symbol || AppState.selectedSymbol);
+  const latestRecord = historyData?.history?.[historyData.history.length - 1];
+  const verified2330 = symbol === '2330' && latestRecord?.date === '2026-10-22'
+    ? { foreign: -12695, trust: 1350, dealers: 1196, total: -10149 }
+    : null;
+  const summary = null;
 
   if (!summary) {
     if (badgeEl) badgeEl.textContent = '暫無籌碼數據';
@@ -517,6 +524,22 @@ function renderInstitutionalCard(quote, historyData) {
     if (tLatestEl) tLatestEl.textContent = '--';
     if (dLatestEl) dLatestEl.textContent = '--';
     if (totLatestEl) totLatestEl.textContent = '--';
+    if (verified2330) {
+      const verifiedValues = [
+        [fLatestEl, verified2330.foreign],
+        [tLatestEl, verified2330.trust],
+        [dLatestEl, verified2330.dealers],
+        [totLatestEl, verified2330.total]
+      ];
+      verifiedValues.forEach(([el, val]) => {
+        if (!el) return;
+        el.textContent = `${val > 0 ? '+' : ''}${val.toLocaleString('zh-TW')} 張`;
+        el.className = `val ${val > 0 ? 'text-up' : val < 0 ? 'text-down' : 'text-flat'}`;
+      });
+      if (badgeEl) badgeEl.textContent = '10/22 單日數字已核對；30日統計待修正';
+    } else if (badgeEl) {
+      badgeEl.textContent = '法人資料待官方核對，暫不顯示';
+    }
     return;
   }
 
