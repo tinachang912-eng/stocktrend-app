@@ -156,6 +156,37 @@
         align-self: stretch !important;
       }
     }
+
+    /* Evenly distribute all four institution rows over the full card height. */
+    .overview-cards > #cardInstitutional.institutional-latest-card {
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: flex-start !important;
+      align-items: stretch !important;
+    }
+    #cardInstitutional .institutional-latest-header {
+      flex: 0 0 auto !important;
+    }
+    #cardInstitutional .institutional-latest-grid {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) !important;
+      grid-template-rows: repeat(4, minmax(0, 1fr)) !important;
+      flex: 1 1 auto !important;
+      min-height: 0 !important;
+      height: auto !important;
+      align-content: stretch !important;
+      gap: 12px !important;
+    }
+    #cardInstitutional .institutional-box {
+      min-height: 0 !important;
+      height: 100% !important;
+      box-sizing: border-box !important;
+    }
+    @media (max-width: 899px) {
+      .overview-cards > #cardInstitutional.institutional-latest-card {
+        min-height: 440px !important;
+      }
+    }
   </style>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
