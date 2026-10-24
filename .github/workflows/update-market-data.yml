@@ -29,6 +29,10 @@ jobs:
         run: |
           python backend/export_data.py
 
+      - name: Update official institutional trading snapshots
+        run: |
+          python backend/fetch_institutional_daily.py
+
       - name: Commit & Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
