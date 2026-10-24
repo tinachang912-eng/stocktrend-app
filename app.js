@@ -509,48 +509,36 @@ function renderInstitutionalCard(quote, historyData) {
   // Do not display unsupported 30-day totals, streaks, or unverified daily values.
   const symbol = String(quote?.symbol || AppState.selectedSymbol);
   const latestRecord = historyData?.history?.[historyData.history.length - 1];
-  // Source-checked one-day snapshots, keyed by symbol AND trade date.
-  // Do not display the generated, incorrect institutional aggregates.
-  const verifiedDaily = {
-    '2330': { date: '2026-10-22', foreign: -12695, trust: 1350, dealers: 1196, total: -10149 },
-    '2308': { date: '2026-10-22', foreign: -3208, trust: 77, dealers: -79, total: -3210 },
-    '2454': { date: '2026-10-22', foreign: -1084, trust: 357, dealers: 96, total: -631 }
-  };
-  const verifiedSnapshot = verifiedDaily[symbol]?.date === latestRecord?.date
-    ? verifiedDaily[symbol] : null;
+  // Read exchange-verified daily data; never manufacture institutional figures.
   const summary = null;
-
-  if (!summary) {
-    if (badgeEl) badgeEl.textContent = '暫無籌碼數據';
-    if (fStreakEl) fStreakEl.textContent = '--';
-    if (tStreakEl) tStreakEl.textContent = '--';
-    if (dStreakEl) dStreakEl.textContent = '--';
-    if (f30El) f30El.textContent = '--';
-    if (t30El) t30El.textContent = '--';
-    if (d30El) d30El.textContent = '--';
-    if (tot30El) tot30El.textContent = '--';
-    if (fLatestEl) fLatestEl.textContent = '--';
-    if (tLatestEl) tLatestEl.textContent = '--';
-    if (dLatestEl) dLatestEl.textContent = '--';
-    if (totLatestEl) totLatestEl.textContent = '--';
-    if (verifiedSnapshot) {
-      const verifiedValues = [
-        [fLatestEl, verifiedSnapshot.foreign],
-        [tLatestEl, verifiedSnapshot.trust],
-        [dLatestEl, verifiedSnapshot.dealers],
-        [totLatestEl, verifiedSnapshot.total]
-      ];
-      verifiedValues.forEach(([el, val]) => {
-        if (!el) return;
-        el.textContent = `${val > 0 ? '+' : ''}${val.toLocaleString('zh-TW')} 張`;
-        el.className = `val ${val > 0 ? 'text-up' : val < 0 ? 'text-down' : 'text-flat'}`;
-      });
-      if (badgeEl) badgeEl.textContent = `${verifiedSnapshot.date.slice(5).replace('-', '/')} 單日數字已核對；30日統計待修正`;
-    } else if (badgeEl) {
-      badgeEl.textContent = '法人資料待官方核對，暫不顯示';
-    }
-    return;
+  const fields = [fLatestEl,tLatestEl,dLatestEl,totLatestEl,
+                  fStreakEl,tStreakEl,dStreakEl,f30El,t30El,d30El,tot30El];
+  fields.forEach(el => { if (el) el.textContent = '--'; });
+  if (badgeEl) badgeEl.textContent = '讀取交易所法人資料中…';
+  if (!window.__institutionalDailyPromise) {
+    window.__institutionalDailyPromise = fetch('data/institutional_latest.json?v=' + Date.now(), {cache:'no-store'})
+      .then(res => {if(!res.ok)throw new Error('HTTP '+res.status); return res.json();})
+      .catch(() => null);
   }
+  window.__institutionalDailyPromise.then(snapshot => {
+    // Ignore responses for a stock that the user has navigated away from.
+    if (String(AppState.selectedSymbol) !== symbol) return;
+    const item = snapshot?.stocks?.[symbol];
+    const keys = ['foreign','trust','dealers','total'];
+    const cells = [fLatestEl,tLatestEl,dLatestEl,totLatestEl];
+    if (!item || !keys.every(key => typeof item[key] === 'number' && Number.isFinite(item[key]))) {
+      if (badgeEl) badgeEl.textContent = '未取得該股票的官方法人資料（非零張）';
+      return;
+    }
+    cells.forEach((el,index) => {
+      if (!el) return;
+      const val = item[keys[index]];
+      el.textContent = (val > 0 ? '+' : '') + val.toLocaleString('zh-TW',{maximumFractionDigits:3}) + ' 張';
+      el.className = 'val ' + (val > 0 ? 'text-up' : val < 0 ? 'text-down' : 'text-flat');
+    });
+    if (badgeEl) badgeEl.textContent = snapshot.date + ' 法人單日買賣超（盤後公布）';
+  });
+  return;
 
   function setStreakTag(el, streak) {
     if (!el) return;
