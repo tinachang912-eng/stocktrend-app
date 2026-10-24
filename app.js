@@ -513,9 +513,10 @@ function renderInstitutionalCard(quote, historyData) {
   // Do not display the generated, incorrect institutional aggregates.
   const verifiedDaily = {
     '2330': { date: '2026-10-22', foreign: -12695, trust: 1350, dealers: 1196, total: -10149 },
-    '2308': { date: '2026-10-22', foreign: -3208, trust: 77, dealers: -79, total: -3210 }
+    '2308': { date: '2026-10-22', foreign: -3208, trust: 77, dealers: -79, total: -3210 },
+    '2454': { date: '2026-10-22', foreign: -1084, trust: 357, dealers: 96, total: -631 }
   };
-  const verified2330 = verifiedDaily[symbol]?.date === latestRecord?.date
+  const verifiedSnapshot = verifiedDaily[symbol]?.date === latestRecord?.date
     ? verifiedDaily[symbol] : null;
   const summary = null;
 
@@ -532,19 +533,19 @@ function renderInstitutionalCard(quote, historyData) {
     if (tLatestEl) tLatestEl.textContent = '--';
     if (dLatestEl) dLatestEl.textContent = '--';
     if (totLatestEl) totLatestEl.textContent = '--';
-    if (verified2330) {
+    if (verifiedSnapshot) {
       const verifiedValues = [
-        [fLatestEl, verified2330.foreign],
-        [tLatestEl, verified2330.trust],
-        [dLatestEl, verified2330.dealers],
-        [totLatestEl, verified2330.total]
+        [fLatestEl, verifiedSnapshot.foreign],
+        [tLatestEl, verifiedSnapshot.trust],
+        [dLatestEl, verifiedSnapshot.dealers],
+        [totLatestEl, verifiedSnapshot.total]
       ];
       verifiedValues.forEach(([el, val]) => {
         if (!el) return;
         el.textContent = `${val > 0 ? '+' : ''}${val.toLocaleString('zh-TW')} 張`;
         el.className = `val ${val > 0 ? 'text-up' : val < 0 ? 'text-down' : 'text-flat'}`;
       });
-      if (badgeEl) badgeEl.textContent = '10/22 單日數字已核對；30日統計待修正';
+      if (badgeEl) badgeEl.textContent = `${verifiedSnapshot.date.slice(5).replace('-', '/')} 單日數字已核對；30日統計待修正`;
     } else if (badgeEl) {
       badgeEl.textContent = '法人資料待官方核對，暫不顯示';
     }
