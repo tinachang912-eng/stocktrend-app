@@ -1,7 +1,7 @@
 {
-  "taipei_time": "2026-10-23 21:39:28",
+  "taipei_time": "2026-10-26 23:19:57",
   "timezone": "Asia/Taipei",
-  "is_today_trading_day": true,
+  "is_today_trading_day": false,
   "latest_expected_trading_date": "2026-10-23",
   "official_holidays": [
     "2026-01-01",
