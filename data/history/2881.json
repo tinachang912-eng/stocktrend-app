@@ -3,17 +3,6 @@
   "total_days": 30,
   "history": [
     {
-      "date": "2026-09-10",
-      "close_price": 148.5,
-      "change": 1.5,
-      "volume": 12504942.0,
-      "foreign_investors": 1169,
-      "investment_trust": -108,
-      "dealers": -149,
-      "institutional_total": 912,
-      "ma60": 148.5
-    },
-    {
       "date": "2026-09-11",
       "close_price": 148.5,
       "change": 0.0,
@@ -33,7 +22,7 @@
       "investment_trust": 1212,
       "dealers": 804,
       "institutional_total": 3735,
-      "ma60": 150.33
+      "ma60": 151.25
     },
     {
       "date": "2026-09-15",
@@ -44,7 +33,7 @@
       "investment_trust": -304,
       "dealers": 250,
       "institutional_total": -792,
-      "ma60": 150.5
+      "ma60": 151.17
     },
     {
       "date": "2026-09-16",
@@ -55,7 +44,7 @@
       "investment_trust": -68,
       "dealers": -114,
       "institutional_total": 971,
-      "ma60": 151.0
+      "ma60": 151.62
     },
     {
       "date": "2026-09-17",
@@ -66,7 +55,7 @@
       "investment_trust": -306,
       "dealers": 89,
       "institutional_total": -1216,
-      "ma60": 151.08
+      "ma60": 151.6
     },
     {
       "date": "2026-09-18",
@@ -77,7 +66,7 @@
       "investment_trust": -505,
       "dealers": -477,
       "institutional_total": -2017,
-      "ma60": 151.0
+      "ma60": 151.42
     },
     {
       "date": "2026-09-21",
@@ -88,7 +77,7 @@
       "investment_trust": 420,
       "dealers": 123,
       "institutional_total": 2550,
-      "ma60": 151.44
+      "ma60": 151.86
     },
     {
       "date": "2026-09-22",
@@ -99,7 +88,7 @@
       "investment_trust": 184,
       "dealers": -162,
       "institutional_total": 1230,
-      "ma60": 151.78
+      "ma60": 152.19
     },
     {
       "date": "2026-09-23",
@@ -110,7 +99,7 @@
       "investment_trust": 6,
       "dealers": -23,
       "institutional_total": 227,
-      "ma60": 151.9
+      "ma60": 152.28
     },
     {
       "date": "2026-09-24",
@@ -121,7 +110,7 @@
       "investment_trust": 110,
       "dealers": -78,
       "institutional_total": -555,
-      "ma60": 151.73
+      "ma60": 152.05
     },
     {
       "date": "2026-09-29",
@@ -132,7 +121,7 @@
       "investment_trust": -74,
       "dealers": -165,
       "institutional_total": -262,
-      "ma60": 151.71
+      "ma60": 152.0
     },
     {
       "date": "2026-09-30",
@@ -143,7 +132,7 @@
       "investment_trust": -160,
       "dealers": -128,
       "institutional_total": 79,
-      "ma60": 151.65
+      "ma60": 151.92
     },
     {
       "date": "2026-10-01",
@@ -154,7 +143,7 @@
       "investment_trust": -211,
       "dealers": -309,
       "institutional_total": -520,
-      "ma60": 151.57
+      "ma60": 151.81
     },
     {
       "date": "2026-10-02",
@@ -165,7 +154,7 @@
       "investment_trust": -40,
       "dealers": -166,
       "institutional_total": 469,
-      "ma60": 151.5
+      "ma60": 151.71
     },
     {
       "date": "2026-10-05",
@@ -176,7 +165,7 @@
       "investment_trust": -88,
       "dealers": 111,
       "institutional_total": 187,
-      "ma60": 151.53
+      "ma60": 151.73
     },
     {
       "date": "2026-10-06",
@@ -187,7 +176,7 @@
       "investment_trust": 170,
       "dealers": 258,
       "institutional_total": 1368,
-      "ma60": 151.71
+      "ma60": 151.91
     },
     {
       "date": "2026-10-07",
@@ -198,7 +187,7 @@
       "investment_trust": 173,
       "dealers": -77,
       "institutional_total": 739,
-      "ma60": 151.92
+      "ma60": 152.12
     },
     {
       "date": "2026-10-08",
@@ -209,7 +198,7 @@
       "investment_trust": 255,
       "dealers": 69,
       "institutional_total": -709,
-      "ma60": 151.97
+      "ma60": 152.17
     },
     {
       "date": "2026-10-12",
@@ -220,7 +209,7 @@
       "investment_trust": 1137,
       "dealers": -3,
       "institutional_total": 1738,
-      "ma60": 152.3
+      "ma60": 152.5
     },
     {
       "date": "2026-10-13",
@@ -231,7 +220,7 @@
       "investment_trust": 150,
       "dealers": 584,
       "institutional_total": 1826,
-      "ma60": 152.67
+      "ma60": 152.88
     },
     {
       "date": "2026-10-14",
@@ -242,7 +231,7 @@
       "investment_trust": -350,
       "dealers": -86,
       "institutional_total": -1351,
-      "ma60": 153.02
+      "ma60": 153.24
     },
     {
       "date": "2026-10-15",
@@ -253,7 +242,7 @@
       "investment_trust": -555,
       "dealers": 143,
       "institutional_total": 561,
-      "ma60": 153.3
+      "ma60": 153.52
     },
     {
       "date": "2026-10-16",
@@ -264,7 +253,7 @@
       "investment_trust": 198,
       "dealers": -219,
       "institutional_total": -311,
-      "ma60": 153.65
+      "ma60": 153.87
     },
     {
       "date": "2026-10-19",
@@ -275,7 +264,7 @@
       "investment_trust": -326,
       "dealers": 5,
       "institutional_total": -1772,
-      "ma60": 153.84
+      "ma60": 154.06
     },
     {
       "date": "2026-10-20",
@@ -286,7 +275,7 @@
       "investment_trust": -249,
       "dealers": -315,
       "institutional_total": -1370,
-      "ma60": 153.83
+      "ma60": 154.04
     },
     {
       "date": "2026-10-21",
@@ -297,7 +286,7 @@
       "investment_trust": 353,
       "dealers": 12,
       "institutional_total": 2970,
-      "ma60": 154.0
+      "ma60": 154.21
     },
     {
       "date": "2026-10-22",
@@ -308,7 +297,7 @@
       "investment_trust": -123,
       "dealers": 45,
       "institutional_total": 705,
-      "ma60": 154.16
+      "ma60": 154.37
     },
     {
       "date": "2026-10-27",
@@ -319,7 +308,7 @@
       "investment_trust": 24,
       "dealers": 930,
       "institutional_total": 2312,
-      "ma60": 154.43
+      "ma60": 154.64
     },
     {
       "date": "2026-10-28",
@@ -330,32 +319,43 @@
       "investment_trust": -79,
       "dealers": -28,
       "institutional_total": -58,
-      "ma60": 154.65
+      "ma60": 154.86
+    },
+    {
+      "date": "2026-10-29",
+      "close_price": 162.0,
+      "change": 1.0,
+      "volume": 11226501.0,
+      "foreign_investors": -263,
+      "investment_trust": -41,
+      "dealers": 25,
+      "institutional_total": -279,
+      "ma60": 155.1
     }
   ],
   "indicators": {
-    "ma5": 158.7,
-    "ma20": 156.03,
-    "ma60": 154.65,
+    "ma5": 160.4,
+    "ma20": 156.62,
+    "ma60": 155.1,
     "high_30": 162.0,
     "low_30": 148.5,
-    "bias_5": 1.45,
-    "bias_20": 3.19,
-    "bias_60": 4.11
+    "bias_5": 1.0,
+    "bias_20": 3.44,
+    "bias_60": 4.45
   },
   "institutional": {
-    "foreign_30d_net": 10031,
-    "trust_30d_net": 756,
-    "dealers_30d_net": 900,
-    "total_30d_net": 11687,
-    "foreign_consecutive_days": 4,
-    "trust_consecutive_days": -1,
-    "dealers_consecutive_days": -1,
-    "foreign_latest_net": 49,
-    "trust_latest_net": -79,
-    "dealers_latest_net": -28,
-    "total_latest_net": -58,
-    "institutional_sentiment": "外資主導回補（投信高檔獲利調節）",
-    "analysis": "外資近 30 個營業日累計淨買超 10,031 張，最新單日呈現連續 4 日買超 (49 張)。本土投信近 30 日累計淨買超 756 張，最新呈現連續 1 日賣超 (79 張)。三大法人近 30 日合計淨買超 11,687 張（自營商累計淨額 +900 張）。法人買賣力道互有消長，籌碼集中度適中，預期股價維持於均線區間震盪整理。"
+    "foreign_30d_net": 8599,
+    "trust_30d_net": 823,
+    "dealers_30d_net": 1074,
+    "total_30d_net": 10496,
+    "foreign_consecutive_days": -1,
+    "trust_consecutive_days": -2,
+    "dealers_consecutive_days": 1,
+    "foreign_latest_net": -263,
+    "trust_latest_net": -41,
+    "dealers_latest_net": 25,
+    "total_latest_net": -279,
+    "institutional_sentiment": "波段主力持續偏多布局",
+    "analysis": "外資近 30 個營業日累計淨買超 8,599 張，最新單日呈現連續 1 日賣超 (263 張)。本土投信近 30 日累計淨買超 823 張，最新呈現連續 2 日賣超 (41 張)。三大法人近 30 日合計淨買超 10,496 張（自營商累計淨額 +1,074 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
   }
 }
