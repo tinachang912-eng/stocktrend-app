@@ -1,6 +1,6 @@
 {
   "symbol": "2881",
-  "total_days": 20,
+  "total_days": 21,
   "history": [
     {
       "date": "2026-10-01",
@@ -221,31 +221,42 @@
       "dealers": -347,
       "institutional_total": -60,
       "ma60": 157.55
+    },
+    {
+      "date": "2026-11-03",
+      "close_price": 154.0,
+      "change": -5.5,
+      "volume": 24618606.0,
+      "foreign_investors": -2382,
+      "investment_trust": -931,
+      "dealers": 270,
+      "institutional_total": -3043,
+      "ma60": 157.38
     }
   ],
   "indicators": {
-    "ma5": 161.2,
-    "ma20": 157.55,
-    "ma60": 157.55,
+    "ma5": 159.6,
+    "ma20": 157.72,
+    "ma60": 157.38,
     "high_30": 162.0,
     "low_30": 150.5,
-    "bias_5": -1.05,
-    "bias_20": 1.24,
-    "bias_60": 1.24
+    "bias_5": -3.51,
+    "bias_20": -2.36,
+    "bias_60": -2.15
   },
   "institutional": {
-    "foreign_30d_net": 5352,
-    "trust_30d_net": 751,
-    "dealers_30d_net": 797,
-    "total_30d_net": 6900,
-    "foreign_consecutive_days": -1,
-    "trust_consecutive_days": 1,
-    "dealers_consecutive_days": -1,
-    "foreign_latest_net": -93,
-    "trust_latest_net": 380,
-    "dealers_latest_net": -347,
-    "total_latest_net": -60,
-    "institutional_sentiment": "土洋對作（投信積極護盤承接）",
-    "analysis": "外資近 30 個營業日累計淨買超 5,352 張，最新單日呈現連續 1 日賣超 (93 張)。本土投信近 30 日累計淨買超 751 張，最新呈現連續 1 日買超 (380 張)。三大法人近 30 日合計淨買超 6,900 張（自營商累計淨額 +797 張）。呈現典型「土洋對作」格局，外資調節賣壓由內資投信逢低承接，短線震盪劇烈，宜以月線作為關鍵防守點。"
+    "foreign_30d_net": 2970,
+    "trust_30d_net": -180,
+    "dealers_30d_net": 1067,
+    "total_30d_net": 3857,
+    "foreign_consecutive_days": -2,
+    "trust_consecutive_days": -1,
+    "dealers_consecutive_days": 1,
+    "foreign_latest_net": -2382,
+    "trust_latest_net": -931,
+    "dealers_latest_net": 270,
+    "total_latest_net": -3043,
+    "institutional_sentiment": "主力籌碼多空分歧（震盪洗盤）",
+    "analysis": "外資近 30 個營業日累計淨買超 2,970 張，最新單日呈現連續 2 日賣超 (2,382 張)。本土投信近 30 日累計淨賣超 180 張，最新呈現連續 1 日賣超 (931 張)。三大法人近 30 日合計淨買超 3,857 張（自營商累計淨額 +1,067 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
   }
 }

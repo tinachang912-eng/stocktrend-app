@@ -1,6 +1,6 @@
 {
   "symbol": "2882",
-  "total_days": 20,
+  "total_days": 21,
   "history": [
     {
       "date": "2026-10-01",
@@ -221,31 +221,42 @@
       "dealers": -156,
       "institutional_total": 1571,
       "ma60": 113.47
+    },
+    {
+      "date": "2026-11-03",
+      "close_price": 113.0,
+      "change": -3.0,
+      "volume": 29704785.0,
+      "foreign_investors": -3167,
+      "investment_trust": 67,
+      "dealers": 271,
+      "institutional_total": -2829,
+      "ma60": 113.45
     }
   ],
   "indicators": {
-    "ma5": 115.6,
-    "ma20": 113.47,
-    "ma60": 113.47,
+    "ma5": 115.4,
+    "ma20": 113.6,
+    "ma60": 113.45,
     "high_30": 116.5,
     "low_30": 110.0,
-    "bias_5": 0.35,
-    "bias_20": 2.23,
-    "bias_60": 2.23
+    "bias_5": -2.08,
+    "bias_20": -0.53,
+    "bias_60": -0.4
   },
   "institutional": {
-    "foreign_30d_net": 4191,
-    "trust_30d_net": 2454,
-    "dealers_30d_net": -1227,
-    "total_30d_net": 5418,
-    "foreign_consecutive_days": 1,
-    "trust_consecutive_days": -1,
-    "dealers_consecutive_days": -1,
-    "foreign_latest_net": 1979,
-    "trust_latest_net": -252,
-    "dealers_latest_net": -156,
-    "total_latest_net": 1571,
-    "institutional_sentiment": "外資主導回補（投信高檔獲利調節）",
-    "analysis": "外資近 30 個營業日累計淨買超 4,191 張，最新單日呈現連續 1 日買超 (1,979 張)。本土投信近 30 日累計淨買超 2,454 張，最新呈現連續 1 日賣超 (252 張)。三大法人近 30 日合計淨買超 5,418 張（自營商累計淨額 -1,227 張）。法人買賣力道互有消長，籌碼集中度適中，預期股價維持於均線區間震盪整理。"
+    "foreign_30d_net": 1024,
+    "trust_30d_net": 2521,
+    "dealers_30d_net": -956,
+    "total_30d_net": 2589,
+    "foreign_consecutive_days": -1,
+    "trust_consecutive_days": 1,
+    "dealers_consecutive_days": 1,
+    "foreign_latest_net": -3167,
+    "trust_latest_net": 67,
+    "dealers_latest_net": 271,
+    "total_latest_net": -2829,
+    "institutional_sentiment": "土洋對作（投信積極護盤承接）",
+    "analysis": "外資近 30 個營業日累計淨買超 1,024 張，最新單日呈現連續 1 日賣超 (3,167 張)。本土投信近 30 日累計淨買超 2,521 張，最新呈現連續 1 日買超 (67 張)。三大法人近 30 日合計淨買超 2,589 張（自營商累計淨額 -956 張）。呈現典型「土洋對作」格局，外資調節賣壓由內資投信逢低承接，短線震盪劇烈，宜以月線作為關鍵防守點。"
   }
 }
