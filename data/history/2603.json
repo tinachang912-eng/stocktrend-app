@@ -1,6 +1,6 @@
 {
   "symbol": "2603",
-  "total_days": 21,
+  "total_days": 22,
   "history": [
     {
       "date": "2026-10-01",
@@ -232,31 +232,42 @@
       "dealers": -24,
       "institutional_total": -1096,
       "ma60": 255.05
+    },
+    {
+      "date": "2026-11-04",
+      "close_price": 268.0,
+      "change": 1.5,
+      "volume": 9077701.0,
+      "foreign_investors": 55,
+      "investment_trust": 87,
+      "dealers": 170,
+      "institutional_total": 312,
+      "ma60": 255.64
     }
   ],
   "indicators": {
-    "ma5": 267.3,
-    "ma20": 255.9,
-    "ma60": 255.05,
+    "ma5": 268.3,
+    "ma20": 257.3,
+    "ma60": 255.64,
     "high_30": 274.5,
     "low_30": 232.5,
-    "bias_5": -0.3,
-    "bias_20": 4.14,
-    "bias_60": 4.49
+    "bias_5": -0.11,
+    "bias_20": 4.16,
+    "bias_60": 4.83
   },
   "institutional": {
-    "foreign_30d_net": 13853,
-    "trust_30d_net": 4701,
-    "dealers_30d_net": 3020,
-    "total_30d_net": 21574,
-    "foreign_consecutive_days": -1,
-    "trust_consecutive_days": 1,
-    "dealers_consecutive_days": -2,
-    "foreign_latest_net": -1132,
-    "trust_latest_net": 60,
-    "dealers_latest_net": -24,
-    "total_latest_net": -1096,
-    "institutional_sentiment": "土洋對作（投信積極護盤承接）",
-    "analysis": "外資近 30 個營業日累計淨買超 13,853 張，最新單日呈現連續 1 日賣超 (1,132 張)。本土投信近 30 日累計淨買超 4,701 張，最新呈現連續 1 日買超 (60 張)。三大法人近 30 日合計淨買超 21,574 張（自營商累計淨額 +3,020 張）。呈現典型「土洋對作」格局，外資調節賣壓由內資投信逢低承接，短線震盪劇烈，宜以月線作為關鍵防守點。"
+    "foreign_30d_net": 13908,
+    "trust_30d_net": 4788,
+    "dealers_30d_net": 3190,
+    "total_30d_net": 21886,
+    "foreign_consecutive_days": 1,
+    "trust_consecutive_days": 2,
+    "dealers_consecutive_days": 1,
+    "foreign_latest_net": 55,
+    "trust_latest_net": 87,
+    "dealers_latest_net": 170,
+    "total_latest_net": 312,
+    "institutional_sentiment": "三大法人同步買超（多方強烈共識）",
+    "analysis": "外資近 30 個營業日累計淨買超 13,908 張，最新單日呈現連續 1 日買超 (55 張)。本土投信近 30 日累計淨買超 4,788 張，最新呈現連續 2 日買超 (87 張)。三大法人近 30 日合計淨買超 21,886 張（自營商累計淨額 +3,190 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
   }
 }
