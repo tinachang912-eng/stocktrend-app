@@ -1,6 +1,6 @@
 {
   "symbol": "00631L",
-  "total_days": 22,
+  "total_days": 23,
   "history": [
     {
       "date": "2026-10-01",
@@ -243,31 +243,42 @@
       "dealers": -9848,
       "institutional_total": -45490,
       "ma60": 37.4
+    },
+    {
+      "date": "2026-11-05",
+      "close_price": 29.21,
+      "change": -1.64,
+      "volume": 496181413.0,
+      "foreign_investors": -83200,
+      "investment_trust": -24591,
+      "dealers": -16139,
+      "institutional_total": -123930,
+      "ma60": 37.05
     }
   ],
   "indicators": {
-    "ma5": 33.24,
-    "ma20": 37.18,
-    "ma60": 37.4,
+    "ma5": 31.91,
+    "ma20": 36.57,
+    "ma60": 37.05,
     "high_30": 41.89,
-    "low_30": 30.85,
-    "bias_5": -7.19,
-    "bias_20": -17.03,
-    "bias_60": -17.51
+    "low_30": 29.21,
+    "bias_5": -8.46,
+    "bias_20": -20.13,
+    "bias_60": -21.16
   },
   "institutional": {
-    "foreign_30d_net": -296657,
-    "trust_30d_net": -118124,
-    "dealers_30d_net": -41867,
-    "total_30d_net": -456648,
-    "foreign_consecutive_days": -2,
-    "trust_consecutive_days": -2,
-    "dealers_consecutive_days": -4,
-    "foreign_latest_net": -18812,
-    "trust_latest_net": -16830,
-    "dealers_latest_net": -9848,
-    "total_latest_net": -45490,
+    "foreign_30d_net": -379857,
+    "trust_30d_net": -142715,
+    "dealers_30d_net": -58006,
+    "total_30d_net": -580578,
+    "foreign_consecutive_days": -3,
+    "trust_consecutive_days": -3,
+    "dealers_consecutive_days": -5,
+    "foreign_latest_net": -83200,
+    "trust_latest_net": -24591,
+    "dealers_latest_net": -16139,
+    "total_latest_net": -123930,
     "institutional_sentiment": "三大法人同步賣超（短線沉重調節）",
-    "analysis": "外資近 30 個營業日累計淨賣超 296,657 張，最新單日呈現連續 2 日賣超 (18,812 張)。本土投信近 30 日累計淨賣超 118,124 張，最新呈現連續 2 日賣超 (16,830 張)。三大法人近 30 日合計淨賣超 456,648 張（自營商累計淨額 -41,867 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
+    "analysis": "外資近 30 個營業日累計淨賣超 379,857 張，最新單日呈現連續 3 日賣超 (83,200 張)。本土投信近 30 日累計淨賣超 142,715 張，最新呈現連續 3 日賣超 (24,591 張)。三大法人近 30 日合計淨賣超 580,578 張（自營商累計淨額 -58,006 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
   }
 }

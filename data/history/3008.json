@@ -1,6 +1,6 @@
 {
   "symbol": "3008",
-  "total_days": 22,
+  "total_days": 23,
   "history": [
     {
       "date": "2026-10-01",
@@ -243,31 +243,42 @@
       "dealers": 91,
       "institutional_total": 353,
       "ma60": 6257.27
+    },
+    {
+      "date": "2026-11-05",
+      "close_price": 4525.0,
+      "change": -485.0,
+      "volume": 2539944.0,
+      "foreign_investors": -328,
+      "investment_trust": -109,
+      "dealers": -97,
+      "institutional_total": -534,
+      "ma60": 6181.96
     }
   ],
   "indicators": {
-    "ma5": 5338.0,
-    "ma20": 6258.25,
-    "ma60": 6257.27,
+    "ma5": 5080.0,
+    "ma20": 6148.0,
+    "ma60": 6181.96,
     "high_30": 7325.0,
-    "low_30": 4945.0,
-    "bias_5": -6.14,
-    "bias_20": -19.95,
-    "bias_60": -19.93
+    "low_30": 4525.0,
+    "bias_5": -10.93,
+    "bias_20": -26.4,
+    "bias_60": -26.8
   },
   "institutional": {
-    "foreign_30d_net": -1099,
-    "trust_30d_net": -110,
-    "dealers_30d_net": -38,
-    "total_30d_net": -1247,
-    "foreign_consecutive_days": 1,
-    "trust_consecutive_days": 1,
-    "dealers_consecutive_days": 1,
-    "foreign_latest_net": 197,
-    "trust_latest_net": 65,
-    "dealers_latest_net": 91,
-    "total_latest_net": 353,
-    "institutional_sentiment": "三大法人同步買超（多方強烈共識）",
-    "analysis": "外資近 30 個營業日累計淨賣超 1,099 張，最新單日呈現連續 1 日買超 (197 張)。本土投信近 30 日累計淨賣超 110 張，最新呈現連續 1 日買超 (65 張)。三大法人近 30 日合計淨賣超 1,247 張（自營商累計淨額 -38 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
+    "foreign_30d_net": -1427,
+    "trust_30d_net": -219,
+    "dealers_30d_net": -135,
+    "total_30d_net": -1781,
+    "foreign_consecutive_days": -1,
+    "trust_consecutive_days": -1,
+    "dealers_consecutive_days": -1,
+    "foreign_latest_net": -328,
+    "trust_latest_net": -109,
+    "dealers_latest_net": -97,
+    "total_latest_net": -534,
+    "institutional_sentiment": "三大法人同步賣超（短線沉重調節）",
+    "analysis": "外資近 30 個營業日累計淨賣超 1,427 張，最新單日呈現連續 1 日賣超 (328 張)。本土投信近 30 日累計淨賣超 219 張，最新呈現連續 1 日賣超 (109 張)。三大法人近 30 日合計淨賣超 1,781 張（自營商累計淨額 -135 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
   }
 }

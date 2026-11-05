@@ -1,6 +1,6 @@
 {
   "symbol": "00919",
-  "total_days": 22,
+  "total_days": 23,
   "history": [
     {
       "date": "2026-10-01",
@@ -243,31 +243,42 @@
       "dealers": 1122,
       "institutional_total": -11326,
       "ma60": 32.2
+    },
+    {
+      "date": "2026-11-05",
+      "close_price": 31.19,
+      "change": -0.07,
+      "volume": 74455865.0,
+      "foreign_investors": -3569,
+      "investment_trust": -1578,
+      "dealers": 696,
+      "institutional_total": -4451,
+      "ma60": 32.16
     }
   ],
   "indicators": {
-    "ma5": 32.18,
-    "ma20": 32.27,
-    "ma60": 32.2,
+    "ma5": 31.85,
+    "ma20": 32.24,
+    "ma60": 32.16,
     "high_30": 32.9,
-    "low_30": 31.26,
-    "bias_5": -2.86,
-    "bias_20": -3.13,
-    "bias_60": -2.92
+    "low_30": 31.19,
+    "bias_5": -2.07,
+    "bias_20": -3.26,
+    "bias_60": -3.02
   },
   "institutional": {
-    "foreign_30d_net": -3687,
-    "trust_30d_net": 1783,
-    "dealers_30d_net": -2865,
-    "total_30d_net": -4769,
-    "foreign_consecutive_days": -5,
-    "trust_consecutive_days": -2,
-    "dealers_consecutive_days": 1,
-    "foreign_latest_net": -8731,
-    "trust_latest_net": -3717,
-    "dealers_latest_net": 1122,
-    "total_latest_net": -11326,
+    "foreign_30d_net": -7256,
+    "trust_30d_net": 205,
+    "dealers_30d_net": -2169,
+    "total_30d_net": -9220,
+    "foreign_consecutive_days": -6,
+    "trust_consecutive_days": -3,
+    "dealers_consecutive_days": 2,
+    "foreign_latest_net": -3569,
+    "trust_latest_net": -1578,
+    "dealers_latest_net": 696,
+    "total_latest_net": -4451,
     "institutional_sentiment": "主力籌碼多空分歧（震盪洗盤）",
-    "analysis": "外資近 30 個營業日累計淨賣超 3,687 張，最新單日呈現連續 5 日賣超 (8,731 張)。本土投信近 30 日累計淨買超 1,783 張，最新呈現連續 2 日賣超 (3,717 張)。三大法人近 30 日合計淨賣超 4,769 張（自營商累計淨額 -2,865 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
+    "analysis": "外資近 30 個營業日累計淨賣超 7,256 張，最新單日呈現連續 6 日賣超 (3,569 張)。本土投信近 30 日累計淨買超 205 張，最新呈現連續 3 日賣超 (1,578 張)。三大法人近 30 日合計淨賣超 9,220 張（自營商累計淨額 -2,169 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
   }
 }
