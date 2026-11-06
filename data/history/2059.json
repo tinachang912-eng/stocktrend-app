@@ -1,6 +1,6 @@
 {
   "symbol": "2059",
-  "total_days": 23,
+  "total_days": 24,
   "history": [
     {
       "date": "2026-10-01",
@@ -254,31 +254,42 @@
       "dealers": -26,
       "institutional_total": -223,
       "ma60": 10337.39
+    },
+    {
+      "date": "2026-11-06",
+      "close_price": 7565.0,
+      "change": -430.0,
+      "volume": 1051122.0,
+      "foreign_investors": -128,
+      "investment_trust": -41,
+      "dealers": -22,
+      "institutional_total": -191,
+      "ma60": 10221.88
     }
   ],
   "indicators": {
-    "ma5": 8981.0,
-    "ma20": 10021.25,
-    "ma60": 10337.39,
+    "ma5": 8564.0,
+    "ma20": 9744.5,
+    "ma60": 10221.88,
     "high_30": 13355.0,
-    "low_30": 7995.0,
-    "bias_5": -10.98,
-    "bias_20": -20.22,
-    "bias_60": -22.66
+    "low_30": 7565.0,
+    "bias_5": -11.67,
+    "bias_20": -22.37,
+    "bias_60": -25.99
   },
   "institutional": {
-    "foreign_30d_net": -1095,
-    "trust_30d_net": -303,
-    "dealers_30d_net": -206,
-    "total_30d_net": -1604,
-    "foreign_consecutive_days": -6,
-    "trust_consecutive_days": -6,
-    "dealers_consecutive_days": -5,
-    "foreign_latest_net": -162,
-    "trust_latest_net": -35,
-    "dealers_latest_net": -26,
-    "total_latest_net": -223,
+    "foreign_30d_net": -1223,
+    "trust_30d_net": -344,
+    "dealers_30d_net": -228,
+    "total_30d_net": -1795,
+    "foreign_consecutive_days": -7,
+    "trust_consecutive_days": -7,
+    "dealers_consecutive_days": -6,
+    "foreign_latest_net": -128,
+    "trust_latest_net": -41,
+    "dealers_latest_net": -22,
+    "total_latest_net": -191,
     "institutional_sentiment": "三大法人同步賣超（短線沉重調節）",
-    "analysis": "外資近 30 個營業日累計淨賣超 1,095 張，最新單日呈現連續 6 日賣超 (162 張)。本土投信近 30 日累計淨賣超 303 張，最新呈現連續 6 日賣超 (35 張)。三大法人近 30 日合計淨賣超 1,604 張（自營商累計淨額 -206 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
+    "analysis": "外資近 30 個營業日累計淨賣超 1,223 張，最新單日呈現連續 7 日賣超 (128 張)。本土投信近 30 日累計淨賣超 344 張，最新呈現連續 7 日賣超 (41 張)。三大法人近 30 日合計淨賣超 1,795 張（自營商累計淨額 -228 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
   }
 }

@@ -1,6 +1,6 @@
 {
   "symbol": "3231",
-  "total_days": 23,
+  "total_days": 24,
   "history": [
     {
       "date": "2026-10-01",
@@ -254,31 +254,42 @@
       "dealers": -575,
       "institutional_total": -6679,
       "ma60": 185.43
+    },
+    {
+      "date": "2026-11-06",
+      "close_price": 160.0,
+      "change": -8.5,
+      "volume": 48190870.0,
+      "foreign_investors": -7363,
+      "investment_trust": -2050,
+      "dealers": -1463,
+      "institutional_total": -10876,
+      "ma60": 184.38
     }
   ],
   "indicators": {
-    "ma5": 177.2,
-    "ma20": 184.93,
-    "ma60": 185.43,
+    "ma5": 172.5,
+    "ma20": 183.45,
+    "ma60": 184.38,
     "high_30": 195.0,
-    "low_30": 168.5,
-    "bias_5": -4.91,
-    "bias_20": -8.88,
-    "bias_60": -9.13
+    "low_30": 160.0,
+    "bias_5": -7.25,
+    "bias_20": -12.78,
+    "bias_60": -13.22
   },
   "institutional": {
-    "foreign_30d_net": 8617,
-    "trust_30d_net": -236,
-    "dealers_30d_net": 3135,
-    "total_30d_net": 11516,
-    "foreign_consecutive_days": -3,
-    "trust_consecutive_days": -6,
-    "dealers_consecutive_days": -3,
-    "foreign_latest_net": -4862,
-    "trust_latest_net": -1242,
-    "dealers_latest_net": -575,
-    "total_latest_net": -6679,
+    "foreign_30d_net": 1254,
+    "trust_30d_net": -2286,
+    "dealers_30d_net": 1672,
+    "total_30d_net": 640,
+    "foreign_consecutive_days": -4,
+    "trust_consecutive_days": -7,
+    "dealers_consecutive_days": -4,
+    "foreign_latest_net": -7363,
+    "trust_latest_net": -2050,
+    "dealers_latest_net": -1463,
+    "total_latest_net": -10876,
     "institutional_sentiment": "三大法人同步賣超（短線沉重調節）",
-    "analysis": "外資近 30 個營業日累計淨買超 8,617 張，最新單日呈現連續 3 日賣超 (4,862 張)。本土投信近 30 日累計淨賣超 236 張，最新呈現連續 6 日賣超 (1,242 張)。三大法人近 30 日合計淨買超 11,516 張（自營商累計淨額 +3,135 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
+    "analysis": "外資近 30 個營業日累計淨買超 1,254 張，最新單日呈現連續 4 日賣超 (7,363 張)。本土投信近 30 日累計淨賣超 2,286 張，最新呈現連續 7 日賣超 (2,050 張)。三大法人近 30 日合計淨買超 640 張（自營商累計淨額 +1,672 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
   }
 }
