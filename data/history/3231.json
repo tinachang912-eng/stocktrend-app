@@ -1,6 +1,6 @@
 {
   "symbol": "3231",
-  "total_days": 24,
+  "total_days": 25,
   "history": [
     {
       "date": "2026-10-01",
@@ -265,31 +265,42 @@
       "dealers": -1463,
       "institutional_total": -10876,
       "ma60": 184.38
+    },
+    {
+      "date": "2026-11-09",
+      "close_price": 168.5,
+      "change": 8.5,
+      "volume": 39866102.0,
+      "foreign_investors": 7661,
+      "investment_trust": 1517,
+      "dealers": 1319,
+      "institutional_total": 10497,
+      "ma60": 183.74
     }
   ],
   "indicators": {
-    "ma5": 172.5,
-    "ma20": 183.45,
-    "ma60": 184.38,
+    "ma5": 169.9,
+    "ma20": 182.62,
+    "ma60": 183.74,
     "high_30": 195.0,
     "low_30": 160.0,
-    "bias_5": -7.25,
-    "bias_20": -12.78,
-    "bias_60": -13.22
+    "bias_5": -0.82,
+    "bias_20": -7.73,
+    "bias_60": -8.29
   },
   "institutional": {
-    "foreign_30d_net": 1254,
-    "trust_30d_net": -2286,
-    "dealers_30d_net": 1672,
-    "total_30d_net": 640,
-    "foreign_consecutive_days": -4,
-    "trust_consecutive_days": -7,
-    "dealers_consecutive_days": -4,
-    "foreign_latest_net": -7363,
-    "trust_latest_net": -2050,
-    "dealers_latest_net": -1463,
-    "total_latest_net": -10876,
-    "institutional_sentiment": "三大法人同步賣超（短線沉重調節）",
-    "analysis": "外資近 30 個營業日累計淨買超 1,254 張，最新單日呈現連續 4 日賣超 (7,363 張)。本土投信近 30 日累計淨賣超 2,286 張，最新呈現連續 7 日賣超 (2,050 張)。三大法人近 30 日合計淨買超 640 張（自營商累計淨額 +1,672 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
+    "foreign_30d_net": 8915,
+    "trust_30d_net": -769,
+    "dealers_30d_net": 2991,
+    "total_30d_net": 11137,
+    "foreign_consecutive_days": 1,
+    "trust_consecutive_days": 1,
+    "dealers_consecutive_days": 1,
+    "foreign_latest_net": 7661,
+    "trust_latest_net": 1517,
+    "dealers_latest_net": 1319,
+    "total_latest_net": 10497,
+    "institutional_sentiment": "三大法人同步買超（多方強烈共識）",
+    "analysis": "外資近 30 個營業日累計淨買超 8,915 張，最新單日呈現連續 1 日買超 (7,661 張)。本土投信近 30 日累計淨賣超 769 張，最新呈現連續 1 日買超 (1,517 張)。三大法人近 30 日合計淨買超 11,137 張（自營商累計淨額 +2,991 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
   }
 }
