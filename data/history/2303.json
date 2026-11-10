@@ -1,6 +1,6 @@
 {
   "symbol": "2303",
-  "total_days": 25,
+  "total_days": 26,
   "history": [
     {
       "date": "2026-10-01",
@@ -276,31 +276,42 @@
       "dealers": -455,
       "institutional_total": 37897,
       "ma60": 128.38
+    },
+    {
+      "date": "2026-11-10",
+      "close_price": 100.5,
+      "change": 3.8,
+      "volume": 163109869.0,
+      "foreign_investors": 21650,
+      "investment_trust": 8514,
+      "dealers": -187,
+      "institutional_total": 29977,
+      "ma60": 127.31
     }
   ],
   "indicators": {
-    "ma5": 99.12,
-    "ma20": 121.91,
-    "ma60": 128.38,
+    "ma5": 98.62,
+    "ma20": 119.55,
+    "ma60": 127.31,
     "high_30": 161.5,
     "low_30": 92.0,
-    "bias_5": -2.44,
-    "bias_20": -20.68,
-    "bias_60": -24.68
+    "bias_5": 1.91,
+    "bias_20": -15.93,
+    "bias_60": -21.06
   },
   "institutional": {
-    "foreign_30d_net": -271278,
-    "trust_30d_net": -78575,
-    "dealers_30d_net": -23860,
-    "total_30d_net": -373713,
-    "foreign_consecutive_days": 1,
-    "trust_consecutive_days": 1,
-    "dealers_consecutive_days": -3,
-    "foreign_latest_net": 25511,
-    "trust_latest_net": 12841,
-    "dealers_latest_net": -455,
-    "total_latest_net": 37897,
+    "foreign_30d_net": -249628,
+    "trust_30d_net": -70061,
+    "dealers_30d_net": -24047,
+    "total_30d_net": -343736,
+    "foreign_consecutive_days": 2,
+    "trust_consecutive_days": 2,
+    "dealers_consecutive_days": -4,
+    "foreign_latest_net": 21650,
+    "trust_latest_net": 8514,
+    "dealers_latest_net": -187,
+    "total_latest_net": 29977,
     "institutional_sentiment": "波段主力籌碼持續外流",
-    "analysis": "外資近 30 個營業日累計淨賣超 271,278 張，最新單日呈現連續 1 日買超 (25,511 張)。本土投信近 30 日累計淨賣超 78,575 張，最新呈現連續 1 日買超 (12,841 張)。三大法人近 30 日合計淨賣超 373,713 張（自營商累計淨額 -23,860 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
+    "analysis": "外資近 30 個營業日累計淨賣超 249,628 張，最新單日呈現連續 2 日買超 (21,650 張)。本土投信近 30 日累計淨賣超 70,061 張，最新呈現連續 2 日買超 (8,514 張)。三大法人近 30 日合計淨賣超 343,736 張（自營商累計淨額 -24,047 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
   }
 }

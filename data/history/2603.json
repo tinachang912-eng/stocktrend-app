@@ -1,6 +1,6 @@
 {
   "symbol": "2603",
-  "total_days": 25,
+  "total_days": 26,
   "history": [
     {
       "date": "2026-10-01",
@@ -276,31 +276,42 @@
       "dealers": -150,
       "institutional_total": -123,
       "ma60": 255.0
+    },
+    {
+      "date": "2026-11-10",
+      "close_price": 255.5,
+      "change": 10.0,
+      "volume": 8658944.0,
+      "foreign_investors": 741,
+      "investment_trust": 644,
+      "dealers": 180,
+      "institutional_total": 1565,
+      "ma60": 255.02
     }
   ],
   "indicators": {
-    "ma5": 257.1,
-    "ma20": 259.68,
-    "ma60": 255.0,
+    "ma5": 254.9,
+    "ma20": 260.82,
+    "ma60": 255.02,
     "high_30": 274.5,
     "low_30": 232.5,
-    "bias_5": -4.51,
-    "bias_20": -5.46,
-    "bias_60": -3.73
+    "bias_5": 0.24,
+    "bias_20": -2.04,
+    "bias_60": 0.19
   },
   "institutional": {
-    "foreign_30d_net": 10301,
-    "trust_30d_net": 4372,
-    "dealers_30d_net": 2312,
-    "total_30d_net": 16985,
-    "foreign_consecutive_days": 1,
-    "trust_consecutive_days": -3,
-    "dealers_consecutive_days": -3,
-    "foreign_latest_net": 59,
-    "trust_latest_net": -32,
-    "dealers_latest_net": -150,
-    "total_latest_net": -123,
-    "institutional_sentiment": "外資主導回補（投信高檔獲利調節）",
-    "analysis": "外資近 30 個營業日累計淨買超 10,301 張，最新單日呈現連續 1 日買超 (59 張)。本土投信近 30 日累計淨買超 4,372 張，最新呈現連續 3 日賣超 (32 張)。三大法人近 30 日合計淨買超 16,985 張（自營商累計淨額 +2,312 張）。法人買賣力道互有消長，籌碼集中度適中，預期股價維持於均線區間震盪整理。"
+    "foreign_30d_net": 11042,
+    "trust_30d_net": 5016,
+    "dealers_30d_net": 2492,
+    "total_30d_net": 18550,
+    "foreign_consecutive_days": 2,
+    "trust_consecutive_days": 1,
+    "dealers_consecutive_days": 1,
+    "foreign_latest_net": 741,
+    "trust_latest_net": 644,
+    "dealers_latest_net": 180,
+    "total_latest_net": 1565,
+    "institutional_sentiment": "三大法人同步買超（多方強烈共識）",
+    "analysis": "外資近 30 個營業日累計淨買超 11,042 張，最新單日呈現連續 2 日買超 (741 張)。本土投信近 30 日累計淨買超 5,016 張，最新呈現連續 1 日買超 (644 張)。三大法人近 30 日合計淨買超 18,550 張（自營商累計淨額 +2,492 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
   }
 }

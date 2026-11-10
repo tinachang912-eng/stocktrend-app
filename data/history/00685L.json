@@ -1,6 +1,6 @@
 {
   "symbol": "00685L",
-  "total_days": 25,
+  "total_days": 26,
   "history": [
     {
       "date": "2026-10-01",
@@ -276,31 +276,42 @@
       "dealers": 4974,
       "institutional_total": 135167,
       "ma60": 11.98
+    },
+    {
+      "date": "2026-11-10",
+      "close_price": 9.85,
+      "change": 0.46,
+      "volume": 536825964.0,
+      "foreign_investors": 97745,
+      "investment_trust": 7550,
+      "dealers": 8847,
+      "institutional_total": 114142,
+      "ma60": 11.9
     }
   ],
   "indicators": {
-    "ma5": 9.58,
-    "ma20": 11.59,
-    "ma60": 11.98,
+    "ma5": 9.49,
+    "ma20": 11.41,
+    "ma60": 11.9,
     "high_30": 13.87,
     "low_30": 8.56,
-    "bias_5": -1.98,
-    "bias_20": -18.98,
-    "bias_60": -21.62
+    "bias_5": 3.79,
+    "bias_20": -13.67,
+    "bias_60": -17.23
   },
   "institutional": {
-    "foreign_30d_net": -768403,
-    "trust_30d_net": -230916,
-    "dealers_30d_net": -171166,
-    "total_30d_net": -1170485,
-    "foreign_consecutive_days": 1,
-    "trust_consecutive_days": 1,
-    "dealers_consecutive_days": 1,
-    "foreign_latest_net": 103952,
-    "trust_latest_net": 26241,
-    "dealers_latest_net": 4974,
-    "total_latest_net": 135167,
+    "foreign_30d_net": -670658,
+    "trust_30d_net": -223366,
+    "dealers_30d_net": -162319,
+    "total_30d_net": -1056343,
+    "foreign_consecutive_days": 2,
+    "trust_consecutive_days": 2,
+    "dealers_consecutive_days": 2,
+    "foreign_latest_net": 97745,
+    "trust_latest_net": 7550,
+    "dealers_latest_net": 8847,
+    "total_latest_net": 114142,
     "institutional_sentiment": "三大法人同步買超（多方強烈共識）",
-    "analysis": "外資近 30 個營業日累計淨賣超 768,403 張，最新單日呈現連續 1 日買超 (103,952 張)。本土投信近 30 日累計淨賣超 230,916 張，最新呈現連續 1 日買超 (26,241 張)。三大法人近 30 日合計淨賣超 1,170,485 張（自營商累計淨額 -171,166 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
+    "analysis": "外資近 30 個營業日累計淨賣超 670,658 張，最新單日呈現連續 2 日買超 (97,745 張)。本土投信近 30 日累計淨賣超 223,366 張，最新呈現連續 2 日買超 (7,550 張)。三大法人近 30 日合計淨賣超 1,056,343 張（自營商累計淨額 -162,319 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
   }
 }

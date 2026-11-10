@@ -1,6 +1,6 @@
 {
   "symbol": "2382",
-  "total_days": 25,
+  "total_days": 26,
   "history": [
     {
       "date": "2026-10-01",
@@ -276,31 +276,42 @@
       "dealers": -40,
       "institutional_total": 3684,
       "ma60": 319.82
+    },
+    {
+      "date": "2026-11-10",
+      "close_price": 298.5,
+      "change": 2.0,
+      "volume": 14162113.0,
+      "foreign_investors": 1028,
+      "investment_trust": 504,
+      "dealers": 148,
+      "institutional_total": 1680,
+      "ma60": 319.0
     }
   ],
   "indicators": {
-    "ma5": 300.2,
-    "ma20": 316.5,
-    "ma60": 319.82,
+    "ma5": 297.6,
+    "ma20": 315.15,
+    "ma60": 319.0,
     "high_30": 335.0,
     "low_30": 290.5,
-    "bias_5": -1.23,
-    "bias_20": -6.32,
-    "bias_60": -7.29
+    "bias_5": 0.3,
+    "bias_20": -5.28,
+    "bias_60": -6.43
   },
   "institutional": {
-    "foreign_30d_net": -7247,
-    "trust_30d_net": 1095,
-    "dealers_30d_net": 278,
-    "total_30d_net": -5874,
-    "foreign_consecutive_days": 1,
-    "trust_consecutive_days": 1,
-    "dealers_consecutive_days": -2,
-    "foreign_latest_net": 3091,
-    "trust_latest_net": 633,
-    "dealers_latest_net": -40,
-    "total_latest_net": 3684,
-    "institutional_sentiment": "主力籌碼多空分歧（震盪洗盤）",
-    "analysis": "外資近 30 個營業日累計淨賣超 7,247 張，最新單日呈現連續 1 日買超 (3,091 張)。本土投信近 30 日累計淨買超 1,095 張，最新呈現連續 1 日買超 (633 張)。三大法人近 30 日合計淨賣超 5,874 張（自營商累計淨額 +278 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
+    "foreign_30d_net": -6219,
+    "trust_30d_net": 1599,
+    "dealers_30d_net": 426,
+    "total_30d_net": -4194,
+    "foreign_consecutive_days": 2,
+    "trust_consecutive_days": 2,
+    "dealers_consecutive_days": 1,
+    "foreign_latest_net": 1028,
+    "trust_latest_net": 504,
+    "dealers_latest_net": 148,
+    "total_latest_net": 1680,
+    "institutional_sentiment": "三大法人同步買超（多方強烈共識）",
+    "analysis": "外資近 30 個營業日累計淨賣超 6,219 張，最新單日呈現連續 2 日買超 (1,028 張)。本土投信近 30 日累計淨買超 1,599 張，最新呈現連續 2 日買超 (504 張)。三大法人近 30 日合計淨賣超 4,194 張（自營商累計淨額 +426 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
   }
 }
