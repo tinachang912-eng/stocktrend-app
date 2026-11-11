@@ -1,6 +1,6 @@
 {
   "symbol": "8069",
-  "total_days": 26,
+  "total_days": 27,
   "history": [
     {
       "date": "2026-10-01",
@@ -287,31 +287,42 @@
       "dealers": 0,
       "institutional_total": -1,
       "ma60": 148.79
+    },
+    {
+      "date": "2026-11-11",
+      "close_price": 145.0,
+      "change": 3.0,
+      "volume": 4676.0,
+      "foreign_investors": 0,
+      "investment_trust": 0,
+      "dealers": 0,
+      "institutional_total": 0,
+      "ma60": 148.65
     }
   ],
   "indicators": {
-    "ma5": 142.8,
-    "ma20": 149.82,
-    "ma60": 148.79,
+    "ma5": 142.9,
+    "ma20": 149.62,
+    "ma60": 148.65,
     "high_30": 157.0,
     "low_30": 141.0,
-    "bias_5": -0.56,
-    "bias_20": -5.22,
-    "bias_60": -4.56
+    "bias_5": 1.47,
+    "bias_20": -3.09,
+    "bias_60": -2.46
   },
   "institutional": {
     "foreign_30d_net": 1,
     "trust_30d_net": 0,
     "dealers_30d_net": 0,
     "total_30d_net": 1,
-    "foreign_consecutive_days": -1,
+    "foreign_consecutive_days": 0,
     "trust_consecutive_days": 0,
     "dealers_consecutive_days": 0,
-    "foreign_latest_net": -1,
+    "foreign_latest_net": 0,
     "trust_latest_net": 0,
     "dealers_latest_net": 0,
-    "total_latest_net": -1,
+    "total_latest_net": 0,
     "institutional_sentiment": "主力籌碼多空分歧（震盪洗盤）",
-    "analysis": "外資近 30 個營業日累計淨買超 1 張，最新單日呈現連續 1 日賣超 (1 張)。本土投信近 30 日累計淨買超 0 張，最新呈現單日買賣平衡 (0 張)。三大法人近 30 日合計淨買超 1 張（自營商累計淨額 +0 張）。法人買賣力道互有消長，籌碼集中度適中，預期股價維持於均線區間震盪整理。"
+    "analysis": "外資近 30 個營業日累計淨買超 1 張，最新單日呈現單日買賣平衡 (0 張)。本土投信近 30 日累計淨買超 0 張，最新呈現單日買賣平衡 (0 張)。三大法人近 30 日合計淨買超 1 張（自營商累計淨額 +0 張）。法人買賣力道互有消長，籌碼集中度適中，預期股價維持於均線區間震盪整理。"
   }
 }

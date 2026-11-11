@@ -1,6 +1,6 @@
 {
   "symbol": "0056",
-  "total_days": 26,
+  "total_days": 27,
   "history": [
     {
       "date": "2026-10-01",
@@ -287,31 +287,42 @@
       "dealers": 247,
       "institutional_total": 4195,
       "ma60": 56.36
+    },
+    {
+      "date": "2026-11-11",
+      "close_price": 53.15,
+      "change": 0.85,
+      "volume": 34822027.0,
+      "foreign_investors": 164,
+      "investment_trust": 924,
+      "dealers": -428,
+      "institutional_total": 660,
+      "ma60": 56.24
     }
   ],
   "indicators": {
-    "ma5": 51.71,
-    "ma20": 55.93,
-    "ma60": 56.36,
+    "ma5": 51.73,
+    "ma20": 55.66,
+    "ma60": 56.24,
     "high_30": 59.6,
     "low_30": 49.91,
-    "bias_5": 1.14,
-    "bias_20": -6.49,
-    "bias_60": -7.2
+    "bias_5": 2.75,
+    "bias_20": -4.51,
+    "bias_60": -5.49
   },
   "institutional": {
-    "foreign_30d_net": -23306,
-    "trust_30d_net": -7685,
-    "dealers_30d_net": 4002,
-    "total_30d_net": -26989,
-    "foreign_consecutive_days": 2,
-    "trust_consecutive_days": 2,
-    "dealers_consecutive_days": 1,
-    "foreign_latest_net": 3444,
-    "trust_latest_net": 504,
-    "dealers_latest_net": 247,
-    "total_latest_net": 4195,
-    "institutional_sentiment": "三大法人同步買超（多方強烈共識）",
-    "analysis": "外資近 30 個營業日累計淨賣超 23,306 張，最新單日呈現連續 2 日買超 (3,444 張)。本土投信近 30 日累計淨賣超 7,685 張，最新呈現連續 2 日買超 (504 張)。三大法人近 30 日合計淨賣超 26,989 張（自營商累計淨額 +4,002 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
+    "foreign_30d_net": -23142,
+    "trust_30d_net": -6761,
+    "dealers_30d_net": 3574,
+    "total_30d_net": -26329,
+    "foreign_consecutive_days": 3,
+    "trust_consecutive_days": 3,
+    "dealers_consecutive_days": -1,
+    "foreign_latest_net": 164,
+    "trust_latest_net": 924,
+    "dealers_latest_net": -428,
+    "total_latest_net": 660,
+    "institutional_sentiment": "波段主力籌碼持續外流",
+    "analysis": "外資近 30 個營業日累計淨賣超 23,142 張，最新單日呈現連續 3 日買超 (164 張)。本土投信近 30 日累計淨賣超 6,761 張，最新呈現連續 3 日買超 (924 張)。三大法人近 30 日合計淨賣超 26,329 張（自營商累計淨額 +3,574 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
   }
 }

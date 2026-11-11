@@ -1,6 +1,6 @@
 {
   "symbol": "2603",
-  "total_days": 26,
+  "total_days": 27,
   "history": [
     {
       "date": "2026-10-01",
@@ -287,31 +287,42 @@
       "dealers": 180,
       "institutional_total": 1565,
       "ma60": 255.02
+    },
+    {
+      "date": "2026-11-11",
+      "close_price": 257.5,
+      "change": 2.0,
+      "volume": 8703167.0,
+      "foreign_investors": -181,
+      "investment_trust": 273,
+      "dealers": -13,
+      "institutional_total": 79,
+      "ma60": 255.11
     }
   ],
   "indicators": {
-    "ma5": 254.9,
-    "ma20": 260.82,
-    "ma60": 255.02,
+    "ma5": 252.8,
+    "ma20": 260.93,
+    "ma60": 255.11,
     "high_30": 274.5,
     "low_30": 232.5,
-    "bias_5": 0.24,
-    "bias_20": -2.04,
-    "bias_60": 0.19
+    "bias_5": 1.86,
+    "bias_20": -1.31,
+    "bias_60": 0.94
   },
   "institutional": {
-    "foreign_30d_net": 11042,
-    "trust_30d_net": 5016,
-    "dealers_30d_net": 2492,
-    "total_30d_net": 18550,
-    "foreign_consecutive_days": 2,
-    "trust_consecutive_days": 1,
-    "dealers_consecutive_days": 1,
-    "foreign_latest_net": 741,
-    "trust_latest_net": 644,
-    "dealers_latest_net": 180,
-    "total_latest_net": 1565,
-    "institutional_sentiment": "三大法人同步買超（多方強烈共識）",
-    "analysis": "外資近 30 個營業日累計淨買超 11,042 張，最新單日呈現連續 2 日買超 (741 張)。本土投信近 30 日累計淨買超 5,016 張，最新呈現連續 1 日買超 (644 張)。三大法人近 30 日合計淨買超 18,550 張（自營商累計淨額 +2,492 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
+    "foreign_30d_net": 10861,
+    "trust_30d_net": 5289,
+    "dealers_30d_net": 2479,
+    "total_30d_net": 18629,
+    "foreign_consecutive_days": -1,
+    "trust_consecutive_days": 2,
+    "dealers_consecutive_days": -1,
+    "foreign_latest_net": -181,
+    "trust_latest_net": 273,
+    "dealers_latest_net": -13,
+    "total_latest_net": 79,
+    "institutional_sentiment": "土洋對作（投信積極護盤承接）",
+    "analysis": "外資近 30 個營業日累計淨買超 10,861 張，最新單日呈現連續 1 日賣超 (181 張)。本土投信近 30 日累計淨買超 5,289 張，最新呈現連續 2 日買超 (273 張)。三大法人近 30 日合計淨買超 18,629 張（自營商累計淨額 +2,479 張）。呈現典型「土洋對作」格局，外資調節賣壓由內資投信逢低承接，短線震盪劇烈，宜以月線作為關鍵防守點。"
   }
 }
