@@ -1,6 +1,6 @@
 {
   "symbol": "2002",
-  "total_days": 27,
+  "total_days": 28,
   "history": [
     {
       "date": "2026-10-01",
@@ -298,31 +298,42 @@
       "dealers": 432,
       "institutional_total": 5910,
       "ma60": 19.19
+    },
+    {
+      "date": "2026-11-12",
+      "close_price": 18.6,
+      "change": -0.2,
+      "volume": 34111105.0,
+      "foreign_investors": -799,
+      "investment_trust": -625,
+      "dealers": 739,
+      "institutional_total": -685,
+      "ma60": 19.17
     }
   ],
   "indicators": {
-    "ma5": 18.7,
-    "ma20": 19.27,
-    "ma60": 19.19,
+    "ma5": 18.63,
+    "ma20": 19.24,
+    "ma60": 19.17,
     "high_30": 19.75,
     "low_30": 18.55,
-    "bias_5": 0.53,
-    "bias_20": -2.44,
-    "bias_60": -2.03
+    "bias_5": -0.16,
+    "bias_20": -3.33,
+    "bias_60": -2.97
   },
   "institutional": {
-    "foreign_30d_net": 6255,
-    "trust_30d_net": 12877,
-    "dealers_30d_net": 941,
-    "total_30d_net": 20073,
-    "foreign_consecutive_days": 1,
-    "trust_consecutive_days": 1,
-    "dealers_consecutive_days": 2,
-    "foreign_latest_net": 4002,
-    "trust_latest_net": 1476,
-    "dealers_latest_net": 432,
-    "total_latest_net": 5910,
-    "institutional_sentiment": "三大法人同步買超（多方強烈共識）",
-    "analysis": "外資近 30 個營業日累計淨買超 6,255 張，最新單日呈現連續 1 日買超 (4,002 張)。本土投信近 30 日累計淨買超 12,877 張，最新呈現連續 1 日買超 (1,476 張)。三大法人近 30 日合計淨買超 20,073 張（自營商累計淨額 +941 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
+    "foreign_30d_net": 5456,
+    "trust_30d_net": 12252,
+    "dealers_30d_net": 1680,
+    "total_30d_net": 19388,
+    "foreign_consecutive_days": -1,
+    "trust_consecutive_days": -1,
+    "dealers_consecutive_days": 3,
+    "foreign_latest_net": -799,
+    "trust_latest_net": -625,
+    "dealers_latest_net": 739,
+    "total_latest_net": -685,
+    "institutional_sentiment": "波段主力持續偏多布局",
+    "analysis": "外資近 30 個營業日累計淨買超 5,456 張，最新單日呈現連續 1 日賣超 (799 張)。本土投信近 30 日累計淨買超 12,252 張，最新呈現連續 1 日賣超 (625 張)。三大法人近 30 日合計淨買超 19,388 張（自營商累計淨額 +1,680 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
   }
 }

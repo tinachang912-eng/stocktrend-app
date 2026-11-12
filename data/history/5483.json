@@ -1,6 +1,6 @@
 {
   "symbol": "5483",
-  "total_days": 27,
+  "total_days": 28,
   "history": [
     {
       "date": "2026-10-01",
@@ -298,17 +298,28 @@
       "dealers": 0,
       "institutional_total": 0,
       "ma60": 188.61
+    },
+    {
+      "date": "2026-11-12",
+      "close_price": 161.0,
+      "change": 0.0,
+      "volume": 9738.0,
+      "foreign_investors": 0,
+      "investment_trust": 0,
+      "dealers": 0,
+      "institutional_total": 0,
+      "ma60": 187.62
     }
   ],
   "indicators": {
-    "ma5": 153.3,
-    "ma20": 178.8,
-    "ma60": 188.61,
+    "ma5": 155.9,
+    "ma20": 176.5,
+    "ma60": 187.62,
     "high_30": 224.0,
     "low_30": 144.5,
-    "bias_5": 5.02,
-    "bias_20": -9.96,
-    "bias_60": -14.64
+    "bias_5": 3.27,
+    "bias_20": -8.78,
+    "bias_60": -14.19
   },
   "institutional": {
     "foreign_30d_net": 8,

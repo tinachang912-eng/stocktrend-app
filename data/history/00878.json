@@ -1,6 +1,6 @@
 {
   "symbol": "00878",
-  "total_days": 27,
+  "total_days": 28,
   "history": [
     {
       "date": "2026-10-01",
@@ -298,31 +298,42 @@
       "dealers": 1285,
       "institutional_total": 5301,
       "ma60": 34.64
+    },
+    {
+      "date": "2026-11-12",
+      "close_price": 33.0,
+      "change": -0.5,
+      "volume": 95396547.0,
+      "foreign_investors": 1050,
+      "investment_trust": -400,
+      "dealers": -1772,
+      "institutional_total": -1122,
+      "ma60": 34.58
     }
   ],
   "indicators": {
-    "ma5": 32.85,
-    "ma20": 34.49,
-    "ma60": 34.64,
+    "ma5": 32.84,
+    "ma20": 34.37,
+    "ma60": 34.58,
     "high_30": 35.65,
     "low_30": 31.99,
-    "bias_5": 1.98,
-    "bias_20": -2.87,
-    "bias_60": -3.29
+    "bias_5": 0.49,
+    "bias_20": -3.99,
+    "bias_60": -4.57
   },
   "institutional": {
-    "foreign_30d_net": -49427,
-    "trust_30d_net": -12550,
-    "dealers_30d_net": 3342,
-    "total_30d_net": -58635,
-    "foreign_consecutive_days": 1,
-    "trust_consecutive_days": 1,
-    "dealers_consecutive_days": 3,
-    "foreign_latest_net": 1285,
-    "trust_latest_net": 2731,
-    "dealers_latest_net": 1285,
-    "total_latest_net": 5301,
-    "institutional_sentiment": "三大法人同步買超（多方強烈共識）",
-    "analysis": "外資近 30 個營業日累計淨賣超 49,427 張，最新單日呈現連續 1 日買超 (1,285 張)。本土投信近 30 日累計淨賣超 12,550 張，最新呈現連續 1 日買超 (2,731 張)。三大法人近 30 日合計淨賣超 58,635 張（自營商累計淨額 +3,342 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
+    "foreign_30d_net": -48377,
+    "trust_30d_net": -12950,
+    "dealers_30d_net": 1570,
+    "total_30d_net": -59757,
+    "foreign_consecutive_days": 2,
+    "trust_consecutive_days": -1,
+    "dealers_consecutive_days": -1,
+    "foreign_latest_net": 1050,
+    "trust_latest_net": -400,
+    "dealers_latest_net": -1772,
+    "total_latest_net": -1122,
+    "institutional_sentiment": "外資主導回補（投信高檔獲利調節）",
+    "analysis": "外資近 30 個營業日累計淨賣超 48,377 張，最新單日呈現連續 2 日買超 (1,050 張)。本土投信近 30 日累計淨賣超 12,950 張，最新呈現連續 1 日賣超 (400 張)。三大法人近 30 日合計淨賣超 59,757 張（自營商累計淨額 +1,570 張）。法人買賣力道互有消長，籌碼集中度適中，預期股價維持於均線區間震盪整理。"
   }
 }

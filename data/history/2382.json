@@ -1,6 +1,6 @@
 {
   "symbol": "2382",
-  "total_days": 27,
+  "total_days": 28,
   "history": [
     {
       "date": "2026-10-01",
@@ -298,31 +298,42 @@
       "dealers": -192,
       "institutional_total": -482,
       "ma60": 318.22
+    },
+    {
+      "date": "2026-11-12",
+      "close_price": 278.5,
+      "change": -19.5,
+      "volume": 32912447.0,
+      "foreign_investors": -5377,
+      "investment_trust": -1509,
+      "dealers": -932,
+      "institutional_total": -7818,
+      "ma60": 316.8
     }
   ],
   "indicators": {
-    "ma5": 296.7,
-    "ma20": 313.95,
-    "ma60": 318.22,
+    "ma5": 292.4,
+    "ma20": 311.73,
+    "ma60": 316.8,
     "high_30": 335.0,
-    "low_30": 290.5,
-    "bias_5": 0.44,
-    "bias_20": -5.08,
-    "bias_60": -6.35
+    "low_30": 278.5,
+    "bias_5": -4.75,
+    "bias_20": -10.66,
+    "bias_60": -12.09
   },
   "institutional": {
-    "foreign_30d_net": -6282,
-    "trust_30d_net": 1372,
-    "dealers_30d_net": 234,
-    "total_30d_net": -4676,
-    "foreign_consecutive_days": -1,
-    "trust_consecutive_days": -1,
-    "dealers_consecutive_days": -1,
-    "foreign_latest_net": -63,
-    "trust_latest_net": -227,
-    "dealers_latest_net": -192,
-    "total_latest_net": -482,
+    "foreign_30d_net": -11659,
+    "trust_30d_net": -137,
+    "dealers_30d_net": -698,
+    "total_30d_net": -12494,
+    "foreign_consecutive_days": -2,
+    "trust_consecutive_days": -2,
+    "dealers_consecutive_days": -2,
+    "foreign_latest_net": -5377,
+    "trust_latest_net": -1509,
+    "dealers_latest_net": -932,
+    "total_latest_net": -7818,
     "institutional_sentiment": "三大法人同步賣超（短線沉重調節）",
-    "analysis": "外資近 30 個營業日累計淨賣超 6,282 張，最新單日呈現連續 1 日賣超 (63 張)。本土投信近 30 日累計淨買超 1,372 張，最新呈現連續 1 日賣超 (227 張)。三大法人近 30 日合計淨賣超 4,676 張（自營商累計淨額 +234 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
+    "analysis": "外資近 30 個營業日累計淨賣超 11,659 張，最新單日呈現連續 2 日賣超 (5,377 張)。本土投信近 30 日累計淨賣超 137 張，最新呈現連續 2 日賣超 (1,509 張)。三大法人近 30 日合計淨賣超 12,494 張（自營商累計淨額 -698 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
   }
 }
