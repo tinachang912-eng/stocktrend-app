@@ -1,6 +1,6 @@
 {
   "symbol": "3008",
-  "total_days": 28,
+  "total_days": 29,
   "history": [
     {
       "date": "2026-10-01",
@@ -309,31 +309,42 @@
       "dealers": -72,
       "institutional_total": -473,
       "ma60": 5965.54
+    },
+    {
+      "date": "2026-11-13",
+      "close_price": 5310.0,
+      "change": 255.0,
+      "volume": 2097894.0,
+      "foreign_investors": 161,
+      "investment_trust": 145,
+      "dealers": 37,
+      "institutional_total": 343,
+      "ma60": 5942.93
     }
   ],
   "indicators": {
-    "ma5": 4970.0,
-    "ma20": 5642.5,
-    "ma60": 5965.54,
+    "ma5": 5136.0,
+    "ma20": 5564.0,
+    "ma60": 5942.93,
     "high_30": 7325.0,
     "low_30": 4480.0,
-    "bias_5": 1.71,
-    "bias_20": -10.41,
-    "bias_60": -15.26
+    "bias_5": 3.39,
+    "bias_20": -4.57,
+    "bias_60": -10.65
   },
   "institutional": {
-    "foreign_30d_net": -988,
-    "trust_30d_net": -133,
-    "dealers_30d_net": -245,
-    "total_30d_net": -1366,
-    "foreign_consecutive_days": -1,
-    "trust_consecutive_days": -1,
-    "dealers_consecutive_days": -1,
-    "foreign_latest_net": -284,
-    "trust_latest_net": -117,
-    "dealers_latest_net": -72,
-    "total_latest_net": -473,
-    "institutional_sentiment": "三大法人同步賣超（短線沉重調節）",
-    "analysis": "外資近 30 個營業日累計淨賣超 988 張，最新單日呈現連續 1 日賣超 (284 張)。本土投信近 30 日累計淨賣超 133 張，最新呈現連續 1 日賣超 (117 張)。三大法人近 30 日合計淨賣超 1,366 張（自營商累計淨額 -245 張）。外資與投信同步調節持股，短線籌碼面承受實質賣壓，建議提高防守警覺，嚴控資金水位。"
+    "foreign_30d_net": -827,
+    "trust_30d_net": 12,
+    "dealers_30d_net": -208,
+    "total_30d_net": -1023,
+    "foreign_consecutive_days": 1,
+    "trust_consecutive_days": 1,
+    "dealers_consecutive_days": 1,
+    "foreign_latest_net": 161,
+    "trust_latest_net": 145,
+    "dealers_latest_net": 37,
+    "total_latest_net": 343,
+    "institutional_sentiment": "三大法人同步買超（多方強烈共識）",
+    "analysis": "外資近 30 個營業日累計淨賣超 827 張，最新單日呈現連續 1 日買超 (161 張)。本土投信近 30 日累計淨買超 12 張，最新呈現連續 1 日買超 (145 張)。三大法人近 30 日合計淨賣超 1,023 張（自營商累計淨額 -208 張）。外資與投信形成同步買超共識，主力鎖碼推升意願強烈，有利於延續短期均線多頭架構。"
   }
 }
